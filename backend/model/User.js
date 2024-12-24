@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const verifyRoles = require('../middleware/verifyRoles');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -11,7 +10,6 @@ const userSchema = new Schema({
         User: {
             type: Number,
             default: 2001
-
         },
         Editor: Number,
         Admin: Number
@@ -20,7 +18,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    refreshToken: String
+    refreshToken: [String]
 });
 
 module.exports = mongoose.model('User', userSchema);
