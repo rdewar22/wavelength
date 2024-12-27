@@ -1,7 +1,8 @@
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import { selectPostIds } from "./postsSlice";
 import PostsExcerpt from "./PostsExcerpt";
 import { useGetPostsQuery } from "./postsSlice";
+import Navbar from "../../components/Navbar";
 
 
 const PostsList = () => {
@@ -17,17 +18,24 @@ const PostsList = () => {
 
     let content;
     if (isLoading) {
+        console.log("content:", content)
         content = <p>"Loading..."</p>;
     } else if (isSuccess) {
-        content = orderedPostIds.map(postId => <PostsExcerpt key={postId} postId={postId} />)
+        console.log("content:", content)
+        content = orderedPostIds.map(postId => <PostsExcerpt key={postId} postId={postId} />);
     } else if (isError) {
-        content = <p>{error}</p>
+        console.log("content:", content)
+        content = <p>Error: {error.originalStatus} {error.status}</p>  //JSON.stringify()
     }
 
     return (
-        <section>
-            {content}
-        </section>
+        <>
+            <Navbar />
+            <section>
+                {content || <p>No posts available.</p>}
+            </section>
+        </>
+
     )
 }
 

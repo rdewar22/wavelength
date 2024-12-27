@@ -32,7 +32,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             },
             providesTags: (result, error, arg) => [
                 { type: 'Post', id: "LIST" },
-                ...result?.ids.map(id => ({ type: 'Post', id }))
+                ...(result?.ids ? result.ids.map(id => ({ type: 'Post', id })) : [])
             ]
         }),
         getPostsByUserId: builder.query({
