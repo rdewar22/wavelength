@@ -1,4 +1,3 @@
-// import 'dotenv/config'; // uncomment to use production db and .env
 import * as dotenv from 'dotenv';
 import express from 'express';
 import path from 'path';
@@ -22,6 +21,7 @@ import apiEmployeesRoute from './routes/api/employees.js';
 import apiUsersRoute from './routes/api/users.js';
 
 dotenv.config({ path: './.env.test'}); //uncomment to use test db and .env
+//dotenv.config({ path: '.env'}) //uncomment to use production db and .env
 
 
 const __filename = fileURLToPath(import.meta.url);
