@@ -1,3 +1,5 @@
+// import 'dotenv/config'; // uncomment to use production db and .env
+import * as dotenv from 'dotenv';
 import express from 'express';
 import path from 'path';
 import cors from 'cors';
@@ -19,6 +21,7 @@ import logoutRoute from './routes/logout.js';
 import apiEmployeesRoute from './routes/api/employees.js';
 import apiUsersRoute from './routes/api/users.js';
 
+dotenv.config({ path: './.env.test'}); //uncomment to use test db and .env
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -71,7 +74,7 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 // routes
 //Welcome test route
 app.get("/test", (req,res) => {
-    res.status(200).send({message: "Welcome to the MEN-REST-API"});
+    res.status(200).send({message: "Welcome to the WAVELENGTH-REST-API"});
   }); 
 app.use('/', rootRoute);
 app.use('/register', registerRoute);
@@ -98,9 +101,9 @@ app.all('*', (req, res) => {
 });
 
 app.use(errorHandler);
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 mongoose.connection.once('open', () => {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     console.log('Connected to MongoDB');
 });
 
