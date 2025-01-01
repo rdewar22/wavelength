@@ -18,7 +18,8 @@ const Public = () => {
                 </address>
             </main>
             <footer>
-                <Link to="/login">Employee Login</Link>
+                <Link to="/login">Login</Link>
+                <Link to="/register">Register</Link>
             </footer>
         </section>
 

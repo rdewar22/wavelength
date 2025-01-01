@@ -1,27 +1,9 @@
 import { should, expect, use } from 'chai';
 import { default as chaiHttp, request } from 'chai-http';
 import server from '../server.mjs'
-import User from '../model/User.js';
+
 
 use(chaiHttp);
-
-before(async () => {
-  try {
-    await User.deleteMany({});
-  } catch (err) {
-    console.error(err);
-    throw err;  // Re-throw the error to fail the test
-  }
-});
-
-after(async () => {
-  try {
-    
-  } catch (err) {
-    console.error(err);
-    throw err;  // Re-throw the error to fail the test
-  }
-});
 
 // const req = request.execute(server);
 
