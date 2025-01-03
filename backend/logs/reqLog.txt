@@ -1039,3 +1039,12 @@
 20250101	17:29:48	1ed2c970-3f68-4601-9da8-d4e4bc20918d	POST	http://localhost:3000	/auth
 20250101	17:29:48	ad3c08d7-e313-4eb4-a665-dbe4674af538	OPTIONS	http://localhost:3000	/posts
 20250101	17:29:48	846e1306-b12a-4343-a912-a5f8fc59bdf8	GET	http://localhost:3000	/posts
+20250103	12:32:15	ac3df91c-6ed1-46f7-b844-0304ed2a0377	POST	undefined	/auth
+20250103	12:33:32	69814e1c-f9d9-44ea-b92c-046eb26cdfbd	GET	undefined	/test
+20250103	12:33:32	b871f03c-fa7d-4763-9664-f6f4307c8cfa	POST	undefined	/register
+20250103	12:33:51	8dab9696-0247-4381-be39-b857cf34a59a	GET	undefined	/test
+20250103	12:33:51	7d4927dd-3233-4655-8a3b-9945bb067ffa	POST	undefined	/register
+20250103	12:33:51	a00a3e1e-490d-495d-889b-829513d798cf	POST	undefined	/auth
+20250103	12:34:29	85c53085-bdc0-4eb1-a140-5aa474a2f19e	GET	undefined	/test
+20250103	12:34:29	e3219af4-152c-44af-ac5a-bdba8a9420a5	POST	undefined	/register
+20250103	12:34:29	5d9c070e-27bc-4df6-b2b6-200a0e7ccffb	POST	undefined	/auth

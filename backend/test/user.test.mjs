@@ -34,7 +34,21 @@ describe('/First Test Collection', () => {
         done();
       });
   });      
+  
+  it('verify that we can log in the user we just registered', (done) => {
+    const user = {
+      user: "Robby",
+      pwd: "Newyorkmets1!" 
+    }
 
+    request.execute(server).post('/auth')
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });      
+  
   it('should test two values....', () => {
     let expectedVal = 10;
     let actualVal = 10;
