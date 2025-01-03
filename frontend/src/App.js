@@ -1,6 +1,7 @@
 import { Navigate, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Public from "./components/Public";
+import Register from "./features/registration/Register";
 import Login from "./features/auth/Login";
 import Welcome from "./features/auth/Welcome";
 import RequireAuth from "./features/auth/RequireAuth";
@@ -15,6 +16,7 @@ function App() {
         {/* public routes */}
         <Route index element={<Public />} />
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
 
         {/* protected routes */}
         <Route element={<RequireAuth />}>
