@@ -29,10 +29,6 @@ input, button {
   padding: 1rem;
 }
 
-section {
-  width: min(100%, 500px);
-}
-
 a, a:visited {
   color: whitesmoke;
 }
@@ -57,7 +53,7 @@ a:hover, a:focus {
 
 /* || PAGES */
 
-.public, .welcome, .users {
+.welcome, .users {
   display: flex;
   flex-direction: column;
   gap: 1rem;

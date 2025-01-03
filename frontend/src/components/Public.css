@@ -1,0 +1,12 @@
+footer a {
+    padding-right: 1rem;
+}
+
+.public {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;    /* Centers vertically */
+    height: 100vh;          /* Full viewport height for demonstration */
+    flex-direction: column;
+  }
+
