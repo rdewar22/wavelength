@@ -11,6 +11,18 @@
     margin: auto;
 }
 
+.registerSuccess {
+    max-width: 420px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: #00000066;
+    margin: auto;
+    align-items: center;
+    
+}
+
 form {
     display: flex;
     flex-direction: column;

@@ -31,8 +31,6 @@ const Register = () => {
     const [success, setSuccess] = useState(false);
 
     const [register, { isLoading }] = useRegisterMutation();
-    const dispatch = useDispatch();
-
     useEffect(() => {
         userRef.current.focus();
     }, [])
@@ -75,7 +73,7 @@ const Register = () => {
             setSuccess(true);
             //clear state and controlled inputs
             //need value attrib on inputs for this
-            setUser('');
+            // setUser('');
             setPwd('');
             setMatchPwd('');
         } catch (err) {
@@ -93,10 +91,11 @@ const Register = () => {
     return (
         <>
             {success ? (
-                <section className="registerSection">
-                    <h1>Success!</h1>
+                <section className="registerSuccess">
+                    <h1>Thank you for registering {user}, welcome to Wavelength.</h1>
                     <p>
-                        <a href="#">Sign In</a>
+                        <br />
+                        <a href="/login">Sign In</a>
                     </p>
                 </section>
             ) : (
