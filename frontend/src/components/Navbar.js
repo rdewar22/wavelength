@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { logOut } from "../features/auth/authSlice"
+import { Link } from "react-router-dom"
 import { useLogoutQuery } from "../features/auth/authApiSlice"
 
 export default function Navbar() {
@@ -38,10 +39,10 @@ export default function Navbar() {
         <a href="/" className="site-title">Wavelength</a>
         <ul>
             <li>
-                <a href="/messages">Messages</a>
+                <Link to="/messages">Messages</Link>
             </li>
             <li>
-                <a href="/newpost">New Post</a>
+                <Link to="/addpostform">New Post</Link>
             </li>
             <li>
                 <a onClick={handleLogout}>Logout</a>

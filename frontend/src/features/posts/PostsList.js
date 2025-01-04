@@ -3,6 +3,7 @@ import { selectPostIds } from "./postsSlice";
 import PostsExcerpt from "./PostsExcerpt";
 import { useGetPostsQuery } from "./postsSlice";
 import Navbar from "../../components/Navbar";
+import { selectCurrentToken } from "../auth/authSlice";
 
 
 const PostsList = () => {
@@ -15,17 +16,16 @@ const PostsList = () => {
     } = useGetPostsQuery()
 
     const orderedPostIds = useSelector(selectPostIds);
+    const token = useSelector(selectCurrentToken);
+    
 
     let content;
     if (isLoading) {
-        console.log("content:", content)
         content = <p>"Loading..."</p>;
     } else if (isSuccess) {
-        console.log("content:", content)
         content = orderedPostIds.map(postId => <PostsExcerpt key={postId} postId={postId} />);
     } else if (isError) {
-        console.log("content:", content)
-        content = <p>Error: {error.originalStatus} {error.status}</p>  //JSON.stringify()
+        content = <p>Error: {error.originalStatus} {error.status} token:{token}</p>  //JSON.stringify()
     }
 
     return (

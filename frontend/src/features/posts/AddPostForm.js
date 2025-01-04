@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddNewPostMutation } from "./postsSlice";
-import { useGetUsersQuery } from "../users/usersSlice";
+import { useGetUsersQuery } from "../users/usersApiSlice";
+import { useSelector } from "react-redux";
 
 const AddPostForm = () => {
     const [addNewPost, { isLoading }] = useAddNewPostMutation()
@@ -38,7 +39,7 @@ const AddPostForm = () => {
 
     let usersOptions
     if (isSuccess) {
-        usersOptions = users.ids.map(id => (
+        usersOptions = users?.ids?.map(id => (
             <option key={id} value={id}>
                 {users.entities[id].name}
             </option>
