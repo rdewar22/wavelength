@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRegisterMutation } from "./registrationApiSlice";
+import { Link } from "react-router-dom";
 // import { setCredentials } from "../auth/authSlice";
 // import axios from './api/axios';
 import { useDispatch } from "react-redux";
@@ -180,7 +181,7 @@ const Register = () => {
                         Already registered?<br />
                         <span className="line">
                             {/*put router link here*/}
-                            <a href="#">Sign In</a>
+                            <Link to='/login'>Sign In</Link>
                         </span>
                     </p>
                 </section>

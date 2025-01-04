@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { useDispatch } from "react-redux"
 import { setCredentials } from "./authSlice"
@@ -59,7 +59,6 @@ const Login = () => {
         <section className="login">
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 
-            <h1>Login</h1>
 
             <form onSubmit={handleSubmit}>
                 <label htmlFor="username">Username:</label>
@@ -81,6 +80,8 @@ const Login = () => {
                     value={pwd}
                     required
                 />
+                <Link to='/register'>Don't have an account?</Link>
+                <Link to='/register'>Forgot Password?</Link>
                 <button>Sign In</button>
             </form>
         </section>

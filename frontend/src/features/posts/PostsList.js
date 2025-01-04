@@ -25,7 +25,7 @@ const PostsList = () => {
     } else if (isSuccess) {
         content = orderedPostIds.map(postId => <PostsExcerpt key={postId} postId={postId} />);
     } else if (isError) {
-        content = <p>Error: {error.originalStatus} {error.status} token:{token}</p>  //JSON.stringify()
+        content = <p>Error: {error.originalStatus} {error.status}</p>  //JSON.stringify()
     }
 
     return (

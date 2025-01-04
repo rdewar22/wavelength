@@ -39,11 +39,13 @@ a:hover, a:focus {
 
 /* || LOGIN */
 
+
 .login form {
   display: flex;
   flex-flow: column nowrap;
   gap: 1rem;
   margin-top: 1rem;
+  align-items: center;
 }
 
 .login input, .login button {
