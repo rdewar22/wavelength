@@ -9,6 +9,8 @@ const handleNewUser = async (req, res) => {
     const duplicate = await User.findOne({ username: user }).exec();
     if (duplicate) return res.sendStatus(409); //Conflict
 
+    const userCount = await User.countDocuments();
+    
     try {
         //encrypt the password
         const hashedPwd = await bcrypt.hash(pwd, 10);
@@ -16,7 +18,8 @@ const handleNewUser = async (req, res) => {
         //create and store the new user
         const result = await User.create({ 
             "username": user,
-            "password": hashedPwd 
+            "password": hashedPwd,
+            "userId": userCount + 1 
         });
 
         console.log(result);
