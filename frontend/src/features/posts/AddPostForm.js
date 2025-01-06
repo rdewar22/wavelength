@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAddNewPostMutation } from "./postsSlice";
 import { useGetUsersQuery } from "../users/usersApiSlice";
 import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../auth/authSlice";
 
 const AddPostForm = () => {
     const [addNewPost, { isLoading }] = useAddNewPostMutation()
@@ -11,40 +12,38 @@ const AddPostForm = () => {
 
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    const [userId, setUserId] = useState('')
-
-    const { data: users, isSuccess } = useGetUsersQuery('getUsers')
+    
+    const user = useSelector(selectCurrentUser)
+    const userId = user._id;
 
     const onTitleChanged = e => setTitle(e.target.value)
     const onContentChanged = e => setContent(e.target.value)
-    const onAuthorChanged = e => setUserId(e.target.value)
 
-
-    const canSave = [title, content, userId].every(Boolean) && !isLoading;
+    const canSave = [title, content].every(Boolean) && !isLoading;
 
     const onSavePostClicked = async () => {
         if (canSave) {
             try {
-                await addNewPost({ title, body: content, userId }).unwrap()
+                await addNewPost({ title, content, userId }).unwrap()
 
                 setTitle('')
                 setContent('')
-                setUserId('')
-                navigate('/')
+                navigate('/postslist')
+                console.log('New post added!')
             } catch (err) {
                 console.error('Failed to save the post', err)
             }
         }
     }
 
-    let usersOptions
-    if (isSuccess) {
-        usersOptions = users?.ids?.map(id => (
-            <option key={id} value={id}>
-                {users.entities[id].name}
-            </option>
-        ))
-    }
+    // let usersOptions
+    // if (isSuccess) {
+    //     usersOptions = users?.ids?.map(id => (
+    //         <option key={id} value={id}>
+    //             {users.entities[id].name}
+    //         </option>
+    //     ))
+    // }
 
     return (
         <section>

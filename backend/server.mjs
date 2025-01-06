@@ -19,28 +19,13 @@ import refreshRoute from './routes/refresh.js';
 import logoutRoute from './routes/logout.js';
 import apiEmployeesRoute from './routes/api/employees.js';
 import apiUsersRoute from './routes/api/users.js';
+import apiPostsRoute from './routes/api/posts.js'
 
-// dotenv.config({ path: './.env.test'}); //uncomment to use test db and .env
 dotenv.config({ path: '.env'}) //uncomment to use production db and .env
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-
-// const express = require('express');
-// require('dotenv').config();
-
-// const path = require('path');
-// const cors = require('cors');
-// const corsOptions = require('./config/corsOptions');
-// const { logger } = require('./middleware/logEvents');
-// const errorHandler = require('./middleware/errorHandler');
-// const verifyJWT = require('./middleware/verifyJWT');
-// const cookieParser = require('cookie-parser');
-// const credentials = require('./middleware/credentials');
-// const mongoose = require('mongoose');
-// const connectDB = require('./config/dbConn');
 
 
 const PORT = process.env.PORT || 3500;
@@ -82,9 +67,12 @@ app.use('/auth', authRoute);
 app.use('/refresh', refreshRoute);
 app.use('/logout', logoutRoute);
 
+
 app.use(verifyJWT);
 app.use('/employees', apiEmployeesRoute);
 app.use('/users', apiUsersRoute);
+app.use('/posts', apiPostsRoute);
+
 
 
 // catch-all 404
