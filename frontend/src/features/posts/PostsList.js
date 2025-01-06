@@ -16,9 +16,8 @@ const PostsList = () => {
     } = useGetPostsQuery()
 
     const orderedPostIds = useSelector(selectPostIds);
-    const token = useSelector(selectCurrentToken);
+    console.log("orderedPostIds:", orderedPostIds);
     
-
     let content;
     if (isLoading) {
         content = <p>"Loading..."</p>;

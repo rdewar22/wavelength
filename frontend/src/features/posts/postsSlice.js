@@ -6,7 +6,8 @@ import { sub } from 'date-fns';
 import { apiSlice } from "../../app/api/apiSlice";
 
 const postsAdapter = createEntityAdapter({
-    sortComparer: (a, b) => b.date.localeCompare(a.date)
+    sortComparer: (a, b) => b.date.localeCompare(a.date),
+    selectId: (post) => post._id,
 })
 
 const initialState = postsAdapter.getInitialState()
@@ -65,7 +66,6 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: {
                     ...initialPost,
-                    userId: Number(initialPost.userId),
                     date: new Date().toISOString(),
                     reactions: {
                         thumbsUp: 0,

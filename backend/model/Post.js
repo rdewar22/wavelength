@@ -9,6 +9,10 @@ const postSchema = new Schema({
     content: {
         type: String,
         required: true
+    },
+    authorId: {
+        type: Number,
+        required: true
     }
 });
 
