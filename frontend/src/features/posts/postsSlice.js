@@ -108,7 +108,12 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
                     extendedApiSlice.util.updateQueryData('getPosts', undefined, draft => {
                         // The `draft` is Immer=wrapped and can be "mutated" like in createSlice
                         const post = draft.entities[postId]
-                        if (post) post.reactions = reactions
+                        const now = new Date();
+                        const isoStringWithOffset = now.toISOString().replace('Z', '+00:00')
+                        if (post) {
+                            post.reactions = reactions
+                            post.updatedAt = isoStringWithOffset
+                        } 
                     })
                 )
                 try {
