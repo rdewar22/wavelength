@@ -44,10 +44,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
                     if (!post?.date) post.date = sub(new Date(), { minutes: min++ }).toISOString();
                     if (!post?.reactions) post.reactions = {
                         thumbsUp: 0,
-                        wow: 0,
-                        heart: 0,
-                        rocket: 0,
-                        coffee: 0
+                        thumbsDown: 0,
                     }
                     return post;
                 });
@@ -69,10 +66,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
                     date: new Date().toISOString(),
                     reactions: {
                         thumbsUp: 0,
-                        wow: 0,
-                        heart: 0,
-                        rocket: 0,
-                        coffee: 0
+                        thumbsDown: 0,
                     }
                 }
             }),

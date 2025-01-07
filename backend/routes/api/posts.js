@@ -10,7 +10,9 @@ router.route('/')
     // .put(verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Editor), employeesController.updateEmployee)
     // .delete(verifyRoles(ROLES_LIST.Admin), employeesController.deleteEmployee);
 
-// router.route('/:id')
-//     .get(verifyRoles(ROLES_LIST.Admin), usersController.getUser);
+router.route('/:id')
+    .get(postsController.getPostById)
+    .patch(postsController.addReaction)
+
 
 module.exports = router;

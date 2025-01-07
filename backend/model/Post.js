@@ -10,10 +10,14 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
-    authorId: {
-        type: Number,
+    author: {
+        type: String,
         required: true
-    }
-});
+    },
+    reactions: {
+        thumbsUp: { type: Number, default: 0 },
+        thumbsDown: { type: Number, default: 0 },  
+    },
+}, { timestamps: true });
 
 module.exports = mongoose.model('Post', postSchema);

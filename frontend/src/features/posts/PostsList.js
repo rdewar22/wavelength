@@ -16,13 +16,12 @@ const PostsList = () => {
     } = useGetPostsQuery()
 
     const orderedPostIds = useSelector(selectPostIds);
-    console.log("orderedPostIds:", orderedPostIds);
-    
+
     let content;
     if (isLoading) {
         content = <p>"Loading..."</p>;
     } else if (isSuccess) {
-        content = orderedPostIds.map(postId => <PostsExcerpt key={postId} postId={postId} />);
+        content = [...orderedPostIds].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
     } else if (isError) {
         content = <p>Error: {error.originalStatus} {error.status}</p>  //JSON.stringify()
     }

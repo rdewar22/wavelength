@@ -1,14 +1,15 @@
 const Post = require('../model/Post');
 
 const addNewPost = async (req, res) => {
-    const { title, content } = req.body;
+    const { title, content, currentUser } = req.body;
     if (!title || !content) return res.status(400).json({ 'message': 'Title and content are required.'});
 
     try {
         //create and store the new post
         const result = await Post.create({ 
             "title": title,
-            "content": content 
+            "content": content,
+            "author": currentUser, 
         });
 
         console.log(result);
@@ -25,7 +26,31 @@ const getAllPosts = async (req, res) => {
     res.json(posts);
 }
 
+const getPostById = async (req, res) => {
+    if (!req?.params?.id) return res.status(400).json({ "message": 'Post ID required' });
+    const post = await Post.findOne({ _id: req.params.id }).exec();
+    if (!post) {
+        return res.status(404).json({ message: `Post ID ${req.params.id} not found` });
+    }
+    res.json(post);
+}
+
+const addReaction = async (req, res) => {
+    if (!req?.params?.id) return res.status(400).json({ message: 'Post ID required' });
+    const post = await Post.findOne({ _id: req.params.id }).exec();
+    console.log("req.body:", req.body)
+    if (!post) {
+        return res.status(204).json({ message: `Post ID ${req.params.id} not found` });
+    }
+    
+    if (!req?.body?.reactions) return res.status(400).json({ message: 'reactions required' });
+    const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body)
+    return res.status(200).json({ success: `Reactions updated`});
+}
+
 module.exports = { 
     addNewPost,
-    getAllPosts 
+    getAllPosts,
+    getPostById,
+    addReaction 
 }

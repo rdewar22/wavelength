@@ -13,9 +13,8 @@ const AddPostForm = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     
-    const user = useSelector(selectCurrentUser)
-    const authorId = user._id;
-    console.log("authorId:", authorId);
+    const currentUser = useSelector(selectCurrentUser)
+    
 
     const onTitleChanged = e => setTitle(e.target.value)
     const onContentChanged = e => setContent(e.target.value)
@@ -25,7 +24,7 @@ const AddPostForm = () => {
     const onSavePostClicked = async () => {
         if (canSave) {
             try {
-                await addNewPost({ title, content, authorId }).unwrap()
+                await addNewPost({ title, content, currentUser }).unwrap()
 
                 setTitle('')
                 setContent('')
