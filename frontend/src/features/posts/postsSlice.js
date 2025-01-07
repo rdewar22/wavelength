@@ -6,7 +6,7 @@ import { sub } from 'date-fns';
 import { apiSlice } from "../../app/api/apiSlice";
 
 const postsAdapter = createEntityAdapter({
-    sortComparer: (a, b) => b.date.localeCompare(a.date),
+    // sortComparer: (a, b) => b.date.localeCompare(a.date),
     selectId: (post) => post._id,
 })
 
@@ -19,13 +19,9 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             transformResponse: responseData => {
                 let min = 1;
                 const loadedPosts = responseData.map(post => {
-                    if (!post?.date) post.date = sub(new Date(), { minutes: min++ }).toISOString();
                     if (!post?.reactions) post.reactions = {
                         thumbsUp: 0,
-                        wow: 0,
-                        heart: 0,
-                        rocket: 0,
-                        coffee: 0
+                        thumbsDown: 0,
                     }
                     return post;
                 });

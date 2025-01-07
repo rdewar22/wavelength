@@ -1,16 +1,18 @@
 import { parseISO, formatDistanceToNow } from 'date-fns';
 
 
-const TimeAgo = ({ timestamp }) => {
+const TimeAgo = ({ created, lastEdited }) => {
     let timeAgo = ''
-    if (timestamp) {
-        const date = parseISO(timestamp)
+    if (created) {
+        const date = parseISO(created)
+        const editedDate = parseISO(lastEdited)
         const timePeriod = formatDistanceToNow(date)
-        timeAgo = `${timePeriod} ago`
+        const editPeriod = formatDistanceToNow(editedDate)
+        timeAgo = `created ${timePeriod} ago. last interacted with ${editPeriod} ago.`
     }
 
     return (
-        <span title={timestamp}>
+        <span title={created}>
             &nbsp; <i>{timeAgo}</i>
         </span>
     )
