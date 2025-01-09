@@ -19,19 +19,19 @@ import refreshRoute from './routes/refresh.js';
 import logoutRoute from './routes/logout.js';
 import apiEmployeesRoute from './routes/api/employees.js';
 import apiUsersRoute from './routes/api/users.js';
-import apiPostsRoute from './routes/api/posts.js'
+import apiPostsRoute from './routes/api/posts.js';
 
 dotenv.config({ path: '.env'}) //uncomment to use production db and .env
+
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-
 const PORT = process.env.PORT || 3500;
 const app = express();
 
-// Connect to MogoDB
+// Connect to MongoDB
 connectDB();
 
 // custom middleware logger

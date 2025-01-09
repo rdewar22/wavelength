@@ -10,6 +10,7 @@ router.route('/')
     .delete(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser);
 
 router.route('/:id')
-    .get(verifyRoles(ROLES_LIST.Admin), usersController.getUser);
+    .get(verifyRoles(ROLES_LIST.User), usersController.getUser)
+    .post(verifyRoles(ROLES_LIST.User), usersController.newProfilePic)
 
 module.exports = router;

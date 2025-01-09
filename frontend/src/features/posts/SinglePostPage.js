@@ -3,7 +3,7 @@ import TimeAgo from "./TimeAgo";
 import ReactionButtons from "./ReactionButtons";
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { useGetPostsQuery } from "./postsSlice";
+import { useGetPostsQuery } from "./postsApiSlice";
 
 const SinglePostPage = () => {
     const { postId } = useParams()

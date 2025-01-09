@@ -1,4 +1,6 @@
 const User = require('../model/User');
+const uploadImageAWS = require('../aws/upload.js')
+const multer = require('multer')
 
 const getAllUsers = async (req, res) => {
     const users = await User.find();
@@ -25,8 +27,39 @@ const getUser = async (req, res) => {
     res.json(user);
 }
 
+const singleUpload = uploadImageAWS.single('image');
+
+const newProfilePic = async (req, res) => {
+    // Wrap singleUpload in a Promise to properly handle async/await
+    return new Promise((resolve, reject) => {
+        singleUpload(req, res, function (err) {
+            console.log("body:", req.body)
+            console.log("file:", req.file)
+            if (err) {
+                return res.status(422).json({ 
+                    errors: [{ 
+                        title: 'Image Upload Error', 
+                        detail: err.message 
+                    }] 
+                });
+            }
+            
+            if (!req.file) {
+                return res.status(400).json({ 
+                    error: 'No file uploaded' 
+                });
+            }
+
+            return res.json({ 
+                imageUrl: req.file.location 
+            });
+        });
+    });
+};
+
 module.exports = {
     getAllUsers,
     deleteUser,
-    getUser
+    getUser,
+    newProfilePic
 }

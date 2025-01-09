@@ -8,4 +8,12 @@ const connectDB = async () => {
     }
 }
 
+const connectS3Db = async () => {
+    try {
+        
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 module.exports = connectDB;

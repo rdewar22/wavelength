@@ -39,7 +39,7 @@ export default function Navbar() {
         <a href="/" className="site-title">Wavelength</a>
         <ul>
             <li>
-                <Link to="/messages">Messages</Link>
+                <Link to="/profile">Profile</Link>
             </li>
             <li>
                 <Link to="/addpostform">New Post</Link>

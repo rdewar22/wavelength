@@ -9,6 +9,7 @@ import UsersList from "./features/users/UsersList";
 import PostsList from "./features/posts/PostsList";
 import NotFound from "./components/404";
 import AddPostForm from "./features/posts/AddPostForm";
+import Profile from "./features/profiles/Profile";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="userslist" element={<UsersList />} />
           <Route path="postslist" element={<PostsList />} />
           <Route path="addpostform" element={<AddPostForm />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
 
         {/* Catch all - replace with 404 component if you want */}

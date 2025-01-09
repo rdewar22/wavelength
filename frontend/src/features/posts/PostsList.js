@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
-import { selectPostIds } from "./postsSlice";
 import PostsExcerpt from "./PostsExcerpt";
-import { useGetPostsQuery } from "./postsSlice";
+import { useGetPostsQuery, selectPostIds } from "./postsApiSlice";
 import Navbar from "../../components/Navbar";
 import { selectCurrentToken } from "../auth/authSlice";
 

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useGetPostsQuery } from './postsSlice';
-import { useUpdatePostMutation, useDeletePostMutation } from "./postsSlice";
+import { useUpdatePostMutation, useDeletePostMutation, useGetPostsQuery } from './postsApiSlice';
 import { useGetUsersQuery } from '../users/usersSlice';
 
 const EditPostForm = () => {

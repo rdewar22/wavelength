@@ -22,6 +22,9 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    profilePicUri: {
+        type: String,
+    },
     refreshToken: [String]
 });
 
