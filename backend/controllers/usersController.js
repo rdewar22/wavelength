@@ -27,38 +27,75 @@ const getUser = async (req, res) => {
     res.json(user);
 }
 
-const singleUpload = uploadImageAWS.single('image');
+const singleUpload = uploadImageAWS.single('imageFile');
 
 const newProfilePic = async (req, res) => {
-    if (!req?.params?.username) return res.status(400).json({ "message": 'Username required' });
-    const user = await User.findOne({ username: req.params.username });
+    try {
+        console.log("req.params:", req.params)
+        console.log("req.body:", req.body)
+        console.log("req.file:", req.file)
+        console.log("req.files:", req.files)
+        console.log("req.imageFile:", req.imageFile)
+        console.log("form data:", req.formData)
+        if (!req?.params?.username) {
+            return res.status(400).json({ message: 'Username required' });
+        }
 
-    // Wrap singleUpload in a Promise to properly handle async/await
-    return new Promise((resolve, reject) => {
-        singleUpload(req, res, function (err) {
-            if (err) {
-                return res.status(422).json({
-                    errors: [{
-                        title: 'Image Upload Error',
-                        detail: err.message
-                    }]
-                });
-            }
-            if (!req.file) {
-                return res.status(400).json({
-                    error: 'No file uploaded'
-                });
-            }
+        // Find the user
+        const user = await User.findOne({ username: req.params.username });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
-            user.profilePicUri = req.file.location;
-            user.save();
-
-            return res.json({
-                imageUrl: req.file.location
+        // Process the image upload using Multer
+        await new Promise((resolve, reject) => {
+            singleUpload(req, res, function (err) {
+                if (err) {
+                    return reject({
+                        status: 422,
+                        message: 'Image Upload Error',
+                        detail: err.message,
+                    });
+                }
+                if (!req.body) {
+                    return reject({
+                        status: 400,
+                        message: 'No file uploaded',
+                    });
+                }
+                resolve();
             });
         });
-    });
+
+        if (!req?.body) {
+            return res.status(400).json({ message: 'Image file required' });
+        }
+        console.log("req.body:", req.body);
+        console.log("req.body.image:", req.body.image);
+        console.log("req.file:", req.file);
+        console.log("req.files:", req.files);
+        console.log("req.imageFile:", req.imageFile);
+        console.log("form data:", req.formData)
+       
+
+        // Update user's profile picture
+        // user.profilePicUri = req.file.location; // Assuming `req.file.location` has the S3 URL
+        // await user.save();
+
+        // Respond with the image URL
+        return res.json({ imageUrl: req.files});
+    } catch (error) {
+        // Centralized error handling
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const detail = error.detail || null;
+
+        return res.status(status).json({
+            error: { message, detail },
+        });
+    }
 };
+
 
 module.exports = {
     getAllUsers,

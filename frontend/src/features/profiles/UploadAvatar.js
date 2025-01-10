@@ -76,9 +76,7 @@ const UploadAvatar = ({
     }
 
     try {
-      const files = new FormData();
-      files.append("files", file);
-      files.append("name", `${username} avatar`);
+
 
       // const {
       //   data: [{ id, url }],
@@ -89,7 +87,11 @@ const UploadAvatar = ({
       //   },
       // });
 
-      const result = await newProfPic({ userName, imageUri: files });
+      const formData = file;
+      // formData.append('file', file); // Append the file (key should match backend expectation)
+      // formData.append('name', userName); // Append additional fields
+
+      const result = await newProfPic({ userName, formData });
       // updateUserAvatarId(id, url);
       setFile(null);
       setModal(false);
@@ -104,9 +106,8 @@ const UploadAvatar = ({
         {`${avatarUrl ? "Change" : "Upload"} picture`}
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>{`${
-          avatarUrl ? "Change" : "Upload"
-        } your avatar`}</ModalHeader>
+        <ModalHeader toggle={toggle}>{`${avatarUrl ? "Change" : "Upload"
+          } your avatar`}</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>

@@ -1,0 +1,34 @@
+{
+    "version": "0.2.0",
+    "compounds": [
+        {
+            "name": "Frontend and Backend",
+            "configurations": [
+                "Launch Chrome against localhost",
+                "Launch Backend"
+            ]
+        }
+    ],
+    "configurations": [
+        {
+            "name": "Launch Chrome against localhost",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/frontend",
+            
+        },
+        {
+            "name": "Launch Backend",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "dev"
+            ], // Adjust based on your backend entry file
+            "cwd": "${workspaceFolder}/backend",
+            "console": "integratedTerminal"
+        }
+    ]
+}
