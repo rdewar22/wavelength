@@ -9,8 +9,8 @@ router.route('/')
     //.get(verifyRoles(ROLES_LIST.Admin), usersController.getAllUsers)
     .delete(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser);
 
-router.route('/:id')
+router.route('/:username')
     .get(verifyRoles(ROLES_LIST.User), usersController.getUser)
-    .post(verifyRoles(ROLES_LIST.User), usersController.newProfilePic)
+    .put(verifyRoles(ROLES_LIST.User), usersController.newProfilePic)
 
 module.exports = router;

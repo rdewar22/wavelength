@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { selectCurrentUser } from "../auth/authSlice";
 import {
   Form,
   Button,
@@ -12,6 +14,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "reactstrap";
+import { useNewProfPicMutation } from "../users/usersApiSlice";
 
 const UploadAvatar = ({
   userId,
@@ -22,6 +25,11 @@ const UploadAvatar = ({
 }) => {
   const [modal, setModal] = useState(false);
   const [file, setFile] = useState(null);
+  const [newProfPic, { isLoading, error }] = useNewProfPicMutation();
+  const userName = useSelector(selectCurrentUser);
+  console.assert(userName !== null, "%o", "User can't be null in UploadAvatar")
+  console.log("user:", userName)
+
 
   const toggle = () => {
     setModal(!modal);
@@ -72,15 +80,17 @@ const UploadAvatar = ({
       files.append("files", file);
       files.append("name", `${username} avatar`);
 
-      const {
-        data: [{ id, url }],
-      } = await axios.post(`http://localhost:1337/api/upload`, files, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `bearer ${token}`,
-        },
-      });
-      updateUserAvatarId(id, url);
+      // const {
+      //   data: [{ id, url }],
+      // } = await axios.post(`http://localhost:1337/api/upload`, files, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //     Authorization: `bearer ${token}`,
+      //   },
+      // });
+
+      const result = await newProfPic({ userName, imageUri: files });
+      // updateUserAvatarId(id, url);
       setFile(null);
       setModal(false);
     } catch (error) {

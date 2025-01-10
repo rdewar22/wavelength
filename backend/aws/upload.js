@@ -35,7 +35,8 @@ const uploadImageAWS = multer({
         key: function (req, file, cb) {
             // Add file extension to the key
             const fileExtension = file.originalname.split('.').pop();
-            cb(null, `${Date.now().toString()}.${fileExtension}`);
+            const userName= req?.params?.username
+            cb(null, `${userName.toString()}_profPic.${fileExtension}`);
         },
         contentType: multerS3.AUTO_CONTENT_TYPE // Add this to automatically set the correct content type
     }),

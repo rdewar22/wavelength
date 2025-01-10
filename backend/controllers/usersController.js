@@ -30,28 +30,31 @@ const getUser = async (req, res) => {
 const singleUpload = uploadImageAWS.single('image');
 
 const newProfilePic = async (req, res) => {
+    if (!req?.params?.username) return res.status(400).json({ "message": 'Username required' });
+    const user = await User.findOne({ username: req.params.username });
+
     // Wrap singleUpload in a Promise to properly handle async/await
     return new Promise((resolve, reject) => {
         singleUpload(req, res, function (err) {
-            console.log("body:", req.body)
-            console.log("file:", req.file)
             if (err) {
-                return res.status(422).json({ 
-                    errors: [{ 
-                        title: 'Image Upload Error', 
-                        detail: err.message 
-                    }] 
+                return res.status(422).json({
+                    errors: [{
+                        title: 'Image Upload Error',
+                        detail: err.message
+                    }]
                 });
             }
-            
             if (!req.file) {
-                return res.status(400).json({ 
-                    error: 'No file uploaded' 
+                return res.status(400).json({
+                    error: 'No file uploaded'
                 });
             }
 
-            return res.json({ 
-                imageUrl: req.file.location 
+            user.profilePicUri = req.file.location;
+            user.save();
+
+            return res.json({
+                imageUrl: req.file.location
             });
         });
     });
