@@ -27,16 +27,10 @@ const getUser = async (req, res) => {
     res.json(user);
 }
 
-const singleUpload = uploadImageAWS.single('imageFile');
+const singleUpload = uploadImageAWS.single('file');
 
 const newProfilePic = async (req, res) => {
     try {
-        console.log("req.params:", req.params)
-        console.log("req.body:", req.body)
-        console.log("req.file:", req.file)
-        console.log("req.files:", req.files)
-        console.log("req.imageFile:", req.imageFile)
-        console.log("form data:", req.formData)
         if (!req?.params?.username) {
             return res.status(400).json({ message: 'Username required' });
         }
@@ -70,20 +64,13 @@ const newProfilePic = async (req, res) => {
         if (!req?.body) {
             return res.status(400).json({ message: 'Image file required' });
         }
-        console.log("req.body:", req.body);
-        console.log("req.body.image:", req.body.image);
-        console.log("req.file:", req.file);
-        console.log("req.files:", req.files);
-        console.log("req.imageFile:", req.imageFile);
-        console.log("form data:", req.formData)
-       
 
         // Update user's profile picture
         // user.profilePicUri = req.file.location; // Assuming `req.file.location` has the S3 URL
         // await user.save();
 
         // Respond with the image URL
-        return res.json({ imageUrl: req.files});
+        return res.json({ imageUrl: req.file});
     } catch (error) {
         // Centralized error handling
         const status = error.status || 500;

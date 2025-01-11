@@ -87,8 +87,8 @@ const UploadAvatar = ({
       //   },
       // });
 
-      const formData = file;
-      // formData.append('file', file); // Append the file (key should match backend expectation)
+      const formData = new FormData();
+      formData.append('file', file); // Append the file (key should match backend expectation)
       // formData.append('name', userName); // Append additional fields
 
       const result = await newProfPic({ userName, formData });
