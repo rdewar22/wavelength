@@ -1,0 +1,13 @@
+20250111	11:44:06	7febb5ca-92b1-46f3-bef5-70b4939ebe17	Error: No file uploaded
+20250111	12:09:16	2d58c985-b7e8-401e-9dd7-9206b38058b2	ReferenceError: sharp is not defined
+20250111	13:12:56	1ea5e251-e40e-432c-9bd0-dc2f10d7a5c9	Error: No file uploaded
+20250111	13:17:08	6c2dc896-0fad-4e8c-b800-a4d72dd9d665	TypeError: uploadImageAWS is not a function
+20250111	13:18:16	04b7a211-8d20-4af2-b722-6839437ee618	undefined: Image Upload Error
+20250111	13:18:57	9e74d28b-a071-4b2c-962c-36fbfdf80ac9	TypeError: uploadImageAWS is not a function
+20250111	13:20:41	8af1dcdd-931a-43d2-a660-0c201ce5c056	TypeError: uploadImageAWS is not a function
+20250111	13:21:15	16927a9f-1d15-4bbd-9a4c-ef6a431d69d0	undefined: Image Upload Error
+20250111	13:22:25	e7176d6f-975b-42d8-8fb1-3d6aefad5603	Error: Unexpected end of form
+20250111	13:22:41	562d0695-6801-4300-b323-fd280a5ac2d2	Error: Unexpected end of form
+20250111	13:27:28	c18ae346-ee83-44ea-857f-d8bcbd41f115	ReferenceError: s3 is not defined
+20250111	13:35:32	c25111fa-04c1-461d-8a50-d436f0be017d	TypeError: s3.putObject is not a function
+20250111	13:44:05	bf649595-4d21-481a-9931-d440b77f3b5a	AccessControlListNotSupported: The bucket does not allow ACLs

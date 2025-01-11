@@ -1,6 +1,7 @@
 const User = require('../model/User');
-const uploadImageAWS = require('../aws/upload.js')
-const multer = require('multer')
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const { S3Client } = require('@aws-sdk/client-s3');
 
 const getAllUsers = async (req, res) => {
     const users = await User.find();
@@ -27,61 +28,27 @@ const getUser = async (req, res) => {
     res.json(user);
 }
 
-const singleUpload = uploadImageAWS.single('file');
+
 
 const newProfilePic = async (req, res) => {
     try {
-        if (!req?.params?.username) {
-            return res.status(400).json({ message: 'Username required' });
+        const { username } = req.params;
+        const s3Key = req.s3Key;
+
+        if (!s3Key) {
+            return res.status(400).json({ message: 'No S3 key available' });
         }
 
-        // Find the user
-        const user = await User.findOne({ username: req.params.username });
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        // Process the image upload using Multer
-        await new Promise((resolve, reject) => {
-            singleUpload(req, res, function (err) {
-                if (err) {
-                    return reject({
-                        status: 422,
-                        message: 'Image Upload Error',
-                        detail: err.message,
-                    });
-                }
-                if (!req.body) {
-                    return reject({
-                        status: 400,
-                        message: 'No file uploaded',
-                    });
-                }
-                resolve();
-            });
+        // Perform additional logic if needed (e.g., save S3 key to the database)
+        res.status(200).json({
+            message: 'Profile picture uploaded successfully',
+            s3Key,
         });
-
-        if (!req?.body) {
-            return res.status(400).json({ message: 'Image file required' });
-        }
-
-        // Update user's profile picture
-        // user.profilePicUri = req.file.location; // Assuming `req.file.location` has the S3 URL
-        // await user.save();
-
-        // Respond with the image URL
-        return res.json({ imageUrl: req.file});
     } catch (error) {
-        // Centralized error handling
-        const status = error.status || 500;
-        const message = error.message || 'Internal Server Error';
-        const detail = error.detail || null;
-
-        return res.status(status).json({
-            error: { message, detail },
-        });
+        res.status(500).json({ message: 'Error updating profile picture', error: error.message });
     }
 };
+
 
 
 module.exports = {
