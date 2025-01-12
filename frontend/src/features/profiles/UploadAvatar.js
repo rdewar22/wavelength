@@ -17,11 +17,8 @@ import {
 import { useNewProfPicMutation } from "../users/usersApiSlice";
 
 const UploadAvatar = ({
-  userId,
-  token,
-  username,
   avatarUrl,
-  setisUserUpdated,
+  reloadParent
 }) => {
   const [modal, setModal] = useState(false);
   const [file, setFile] = useState(null);
@@ -49,24 +46,6 @@ const UploadAvatar = ({
     }
   };
 
-  const updateUserAvatarId = async (avatarId, avatarUrl) => {
-    try {
-      await axios.put(
-        `http://localhost:1337/api/users/${userId}`,
-        { avatarId, avatarUrl },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `bearer ${token}`,
-          },
-        }
-      );
-      setisUserUpdated(true);
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-
   const handleSubmit = async () => {
     if (!file) {
       toast.error("File is required*", {
@@ -84,6 +63,7 @@ const UploadAvatar = ({
       // updateUserAvatarId(id, url);
       setFile(null);
       setModal(false);
+      reloadParent();
     } catch (error) {
       console.log({ error });
     }
