@@ -21,7 +21,7 @@ const deleteUser = async (req, res) => {
 
 const getUser = async (req, res) => {
     if (!req?.params?.id) return res.status(400).json({ "message": 'User ID required' });
-    const user = await User.findOne({ _id: req.params.id }).exec();
+    const user = await User.findOne({ _id: req.params.id });
     if (!user) {
         return res.status(204).json({ 'message': `User ID ${req.params.id} not found` });
     }
@@ -31,6 +31,12 @@ const getUser = async (req, res) => {
 
 
 const newProfilePic = async (req, res) => {
+    const username = req?.params?.username;
+    if (!username) return res.status(400).json({ "message": 'User name required' });
+    const user = await User.findOne({ username: username});
+    user.profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${username}_profPic.jpeg`;
+    user.save();
+    
     try {
         const { username } = req.params;
         const s3Key = req.s3Key;
@@ -38,7 +44,6 @@ const newProfilePic = async (req, res) => {
         if (!s3Key) {
             return res.status(400).json({ message: 'No S3 key available' });
         }
-
         // Perform additional logic if needed (e.g., save S3 key to the database)
         res.status(200).json({
             message: 'Profile picture uploaded successfully',

@@ -76,17 +76,6 @@ const UploadAvatar = ({
     }
 
     try {
-
-
-      // const {
-      //   data: [{ id, url }],
-      // } = await axios.post(`http://localhost:1337/api/upload`, files, {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //     Authorization: `bearer ${token}`,
-      //   },
-      // });
-
       const formData = new FormData();
       formData.append('file', file); // Append the file (key should match backend expectation)
       // formData.append('name', userName); // Append additional fields

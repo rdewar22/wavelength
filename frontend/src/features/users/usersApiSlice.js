@@ -12,9 +12,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         }),
         newProfPic: builder.mutation({
             query: ({ userName, formData }) => {
-                
-                console.log("formdata:", formData);
-                console.log("formdata.file:", formData.file);
                 return {
                     url: `/users/${userName}`,
                     method: 'PUT',

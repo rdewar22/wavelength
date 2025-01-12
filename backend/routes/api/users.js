@@ -40,7 +40,7 @@ router.route('/')
 
                 req.s3Key = s3Key; // Pass the S3 key to the next middleware/controller
 
-                return response;
+                next();
             } catch (error) {
                 console.error('Upload failed:', error);
                 next(error);
