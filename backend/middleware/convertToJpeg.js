@@ -8,6 +8,7 @@ const convertToJpegMiddleware = async (req, res, next) => {
 
         // Read the file buffer and process with Sharp
         const imageBuffer = await sharp(req.file.buffer)
+            .resize(100,100)
             .jpeg({ quality: 90 }) // Convert to JPEG with quality settings
             .toBuffer();
 

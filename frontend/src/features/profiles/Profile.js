@@ -1,9 +1,10 @@
-import axios from "axios";
+import './Profile.css'
 import React, { useState, useEffect } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import UpoloadAvatar from "./UploadAvatar";
 import { selectCurrentUser, selectisProfPicInDb } from "../auth/authSlice";
 import { useSelector } from "react-redux";
+import Navbar from '../../components/Navbar';
 
 const Profile = ({ token }) => {
   const userName = useSelector(selectCurrentUser);
@@ -15,30 +16,33 @@ const Profile = ({ token }) => {
 
   const reloadParent = () => {
     setCounter(prev => prev + 1); // Incrementing state triggers a re-render
-};
+  };
 
   return (
-    <div className="profile">
-      <div className="avatar">
-        <div className="avatar-wrapper">
-          {isProfPicInDb ? (
-            <img
-              src={imageSrc}
-              alt={`${userName} avatar`}
+    <>
+      <Navbar />
+      <div className="profile">
+        <div className="avatar">
+          <div className="avatar-wrapper">
+            {isProfPicInDb ? (
+              <img
+                src={imageSrc}
+                alt={`${userName} avatar`}
+              />
+            ) : (
+              <IoPersonCircleOutline />
+            )}
+            <UpoloadAvatar
+              avatarUrl={profilePicUri}
+              reloadParent={reloadParent}
             />
-          ) : (
-            <IoPersonCircleOutline />
-          )}
-          <UpoloadAvatar
-            avatarUrl={profilePicUri}
-            reloadParent={reloadParent}
-          />
+          </div>
+        </div>
+        <div className="body">
+          <p>{userName}</p>
         </div>
       </div>
-      <div className="body">
-        <p>Name: {userName}</p>
-      </div>
-    </div>
+    </>
   );
 };
 

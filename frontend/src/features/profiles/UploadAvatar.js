@@ -1,4 +1,4 @@
-import axios from "axios";
+import './UploadAvatar.css'
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -76,7 +76,7 @@ const UploadAvatar = ({
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>{`${avatarUrl ? "Change" : "Upload"
-          } your avatar`}</ModalHeader>
+          } your photo`}</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
