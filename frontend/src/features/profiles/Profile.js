@@ -11,7 +11,6 @@ const Profile = ({ token }) => {
   const isProfPicInDb = useSelector(selectisProfPicInDb);
   const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`
   const imageSrc = profilePicUri + "?" + Math.random().toString(36);
-  const [isUserUpdated, setisUserUpdated] = useState(false);
   const [counter, setCounter] = useState(0);
 
   const reloadParent = () => {

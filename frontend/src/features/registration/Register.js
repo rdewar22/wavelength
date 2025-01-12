@@ -3,14 +3,10 @@ import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRegisterMutation } from "./registrationApiSlice";
 import { Link } from "react-router-dom";
-// import { setCredentials } from "../auth/authSlice";
-// import axios from './api/axios';
-import { useDispatch } from "react-redux";
 import "./Register.css";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const REGISTER_URL = '/register';
 
 const Register = () => {
     const userRef = useRef();

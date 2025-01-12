@@ -1,7 +1,4 @@
 const User = require('../model/User');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
-const { S3Client } = require('@aws-sdk/client-s3');
 
 const getAllUsers = async (req, res) => {
     const users = await User.find();
@@ -28,8 +25,6 @@ const getUser = async (req, res) => {
     res.json(user);
 }
 
-
-
 const newProfilePic = async (req, res) => {
     const username = req?.params?.username;
     if (!username) return res.status(400).json({ "message": 'User name required' });
@@ -53,8 +48,6 @@ const newProfilePic = async (req, res) => {
         res.status(500).json({ message: 'Error updating profile picture', error: error.message });
     }
 };
-
-
 
 module.exports = {
     getAllUsers,
