@@ -5,8 +5,32 @@ footer a {
 .public {
     display: flex;
     justify-content: center; /* Centers horizontally */
-    align-items: center;    /* Centers vertically */
-    height: 100vh;          /* Full viewport height for demonstration */
+    align-items: center; /* Centers vertically */
+    margin: 10% auto;
     flex-direction: column;
-  }
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 3rem;
+}
 
+.public-footer {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.button {
+    padding: 5%;
+    background-color: #007bff; /* Button color */
+    color: white; /* Text color */
+    text-align: center;
+    text-decoration: none; /* Remove underline */
+    border: none;
+    border-radius: 200px;/* Rounded corners */
+    cursor: pointer;
+    font-size: 2rem;
+    margin: 0 auto;
+    margin-right: 0.5rem;
+    min-width: 12rem;   
+}
+
+.button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}

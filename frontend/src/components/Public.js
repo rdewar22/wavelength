@@ -8,9 +8,10 @@ const Public = () => {
             <header>
                 <h1>Welcome to Wavelength!</h1>
             </header>
-            <footer>
-                <Link to="/login">Login</Link>
-                <Link to="/register">Register</Link>
+            <br />
+            <footer className="public-footer">
+                <Link to="/register" className="button">Register</Link>
+                <Link to="/login" className="button">Login</Link>
             </footer>
         </section>
 
