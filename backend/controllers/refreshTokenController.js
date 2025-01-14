@@ -63,11 +63,12 @@ const handleRefreshToken = async (req, res) => {
             // Saving refreshToken with current user
             foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
             const result = await foundUser.save();
+            const userName = decoded.username
 
             // Creates Secure Cookie with refresh token
             res.cookie('jwt', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
 
-            res.json({ accessToken })
+            res.json({ accessToken, userName })
         }
     );
 }

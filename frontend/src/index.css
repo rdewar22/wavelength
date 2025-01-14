@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Major Mono Display", serif;
 }
 
 /* || UTILITY CLASSES */
@@ -14,9 +15,9 @@
 /* || GENERAL STYLES */
 
 body {
-  font: 1.5rem 'Nunito', sans-serif;;
+  font: 1.5rem ;
   min-height: 100vh;
-  background-color: #0F172A;
+  background-color: #68ce24;
   color: #fff;
 }
 
@@ -29,13 +30,13 @@ input, button {
   padding: 1rem;
 }
 
-a, a:visited {
+/* a, a:visited {
   color: whitesmoke;
 }
 
 a:hover, a:focus {
   color: rgba(245, 245, 245, 0.9);
-}
+} */
 
 /* || LOGIN */
 

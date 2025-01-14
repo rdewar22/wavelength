@@ -80,6 +80,7 @@ const Register = () => {
 
     return (
         <>
+            <Link to='/' className="logo">Wavelength</Link>
             {success ? (
                 <section className="registerSuccess">
                     <h1>Thank you for registering {user}, welcome to Wavelength.</h1>

@@ -10,6 +10,7 @@ import PostsList from "./features/posts/PostsList";
 import NotFound from "./components/404";
 import AddPostForm from "./features/posts/AddPostForm";
 import Profile from "./features/profiles/Profile";
+import PersistLogin from "./features/auth/PersistLogin";
 
 
 function App() {
@@ -22,12 +23,14 @@ function App() {
         <Route path="register" element={<Register />} />
 
         {/* protected routes */}
-        <Route element={<RequireAuth />}>
-          <Route path="welcome" element={<Welcome />} />
-          <Route path="userslist" element={<UsersList />} />
-          <Route path="postslist" element={<PostsList />} />
-          <Route path="addpostform" element={<AddPostForm />} />
-          <Route path="profile" element={<Profile />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth />}>
+            <Route path="welcome" element={<Welcome />} />
+            <Route path="userslist" element={<UsersList />} />
+            <Route path="postslist" element={<PostsList />} />
+            <Route path="addpostform" element={<AddPostForm />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
         </Route>
 
         {/* Catch all - replace with 404 component if you want */}
@@ -36,7 +39,7 @@ function App() {
       </Route>
     </Routes>
   )
-  
+
 }
 
 export default App;

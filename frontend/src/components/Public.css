@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
 footer a {
     padding-right: 1rem;
 }
@@ -8,29 +10,34 @@ footer a {
     align-items: center; /* Centers vertically */
     margin: 10% auto;
     flex-direction: column;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: "Major Mono Display", serif;
     font-size: 3rem;
 }
 
+
+.title {
+    letter-spacing: 0.5em;
+    font-family: "Major Mono Display", serif;
+    margin-bottom: 10%;
+}
+
 .public-footer {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0 auto;
 }
 
 .button {
     padding: 5%;
-    background-color: #007bff; /* Button color */
-    color: white; /* Text color */
+    background-color: #b7f8f8; /* Button color */
+    color: black; /* Text color */
     text-align: center;
     text-decoration: none; /* Remove underline */
     border: none;
-    border-radius: 200px;/* Rounded corners */
+    border-radius: 50%;/* Rounded corners */
     cursor: pointer;
-    font-size: 2rem;
-    margin: 0 auto;
-    margin-right: 0.5rem;
-    min-width: 12rem;   
+    font-size: 1.6rem;
+    margin-right: 7%; 
 }
 
 .button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #a63a84; /* Darker shade on hover */
 }

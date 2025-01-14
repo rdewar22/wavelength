@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { setCredentials } from "./authSlice"
 import { useLoginMutation } from "./authApiSlice"
+import './Login.css'
 
 
 const Login = () => {
@@ -58,6 +59,8 @@ const Login = () => {
     const content = isLoading ? <h1>Loading...</h1> : (
         <section className="login">
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+
+            <Link to='/' className="logo">Wavelength</Link>
 
 
             <form onSubmit={handleSubmit}>
