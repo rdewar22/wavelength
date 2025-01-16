@@ -13,6 +13,7 @@ export default function Navbar() {
 
     const [errMsg, setErrMsg] = useState('')
     const errRef = useRef()
+    const { logout } = useLogoutQuery();
 
 
 
@@ -21,6 +22,7 @@ export default function Navbar() {
 
         try {
             dispatch(logOut());
+            await logout();
             navigate('/login')
         } catch (err) {
             if (!err?.originalStatus) {

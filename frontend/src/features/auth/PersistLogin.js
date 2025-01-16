@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { setCredentials, selectCurrentToken, logOut } from './authSlice'; 
-import { usePersistQuery } from './authApiSlice';
+import { useRefreshQuery } from './authApiSlice';
 
 const PersistLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { refetch } = usePersistQuery();
+  const { refetch } = useRefreshQuery();
   const [isLoading, setIsLoading] = useState(true);
-  const accessToken = useSelector(selectCurrentToken);
+  let accessToken = useSelector(selectCurrentToken);
 
   useEffect(() => {
     let isMounted = true;
@@ -17,9 +17,8 @@ const PersistLogin = () => {
     const verifyRefreshToken = async () => {
       try {
         const response = await refetch();
-        console.log("response.data.accessToken", response.data.accessToken)
-        console.log("response.data.userName", response.data.userName)
-        
+        console.log("response:", response);
+        accessToken = 1;
         if (isMounted) {
           if (response?.data?.accessToken) {
             dispatch(setCredentials({ 
@@ -50,7 +49,7 @@ const PersistLogin = () => {
     return () => {
       isMounted = false;
     };
-  }, [accessToken, dispatch, refetch, navigate]);
+  }, []);
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
