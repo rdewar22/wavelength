@@ -38,7 +38,7 @@ export default function Navbar() {
         }
     }
     return <nav className="nav">
-        <a href="/postslist" className="site-title">Wavelength</a>
+        <Link to="/postslist" className="site-title">Wavelength</Link>
         <ul>
             <li>
                 <Link to="/profile">Profile</Link>

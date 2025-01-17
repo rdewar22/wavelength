@@ -25,7 +25,6 @@ const PostsList = () => {
 
     return (
         <>
-            <Navbar />
             <section>
                 {content || <p>No posts available.</p>}
             </section>

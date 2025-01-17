@@ -17,7 +17,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
         refresh: builder.query({
             query: () => ({
-                url: '/refresh',
+                url: '/',
                 method: 'GET',  
             })
         }),

@@ -19,7 +19,6 @@ const Profile = ({ token }) => {
 
   return (
     <>
-      <Navbar />
       <div className="profile">
         <div className="avatar">
           <div className="avatar-wrapper">
