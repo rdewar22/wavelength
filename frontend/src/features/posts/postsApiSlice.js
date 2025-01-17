@@ -32,8 +32,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
                 ...(result?.ids ? result.ids.map(id => ({ type: 'Post', id })) : [])
             ]
         }),
-        getPostsByUserId: builder.query({
-            query: id => `/posts/?userId=${id}`,
+        getPostsByUserName: builder.query({
+            query: username => `/posts/?${username}`,
             transformResponse: responseData => {
                 let min = 1;
                 const loadedPosts = responseData.map(post => {
@@ -129,7 +129,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
 
 export const {
     useGetPostsQuery,
-    useGetPostsByUserIdQuery,
+    useGetPostsByUserNameQuery,
     useAddNewPostMutation,
     useUpdatePostMutation,
     useDeletePostMutation,

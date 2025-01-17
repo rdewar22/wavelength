@@ -1,16 +1,24 @@
 .profile {
     margin: 20px 0;
-    display: flex;
     padding: 20px;
     align-items: center;
-    border-radius: 15px;
-    box-shadow: 3px 10px 15px hsl(0deg 0% 0% / 0.31);
+    
   }
   .profile .avatar {
     width: 125px;
     height: 125px;
     margin-right: 15px;
     margin-bottom: 10px;
+  }
+
+  .profile-page-header {
+    display: inline-flex;
+  }
+
+  .profile-name {
+    display: inline-block;
+    font-weight: 1000;
+    font-size: 3em;
   }
   
   .profile .avatar img {
@@ -22,6 +30,8 @@
   
   .profile .body {
     text-align: left;
+    border-radius: 15px;
+    box-shadow: 3px 10px 15px hsl(0deg 0% 0% / 0.31);
   }
   
   .profile .avatar .avatar-wrapper {

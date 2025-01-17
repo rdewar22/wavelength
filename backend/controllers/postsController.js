@@ -26,13 +26,13 @@ const getAllPosts = async (req, res) => {
     res.json(posts);
 }
 
-const getPostById = async (req, res) => {
-    if (!req?.params?.id) return res.status(400).json({ "message": 'Post ID required' });
-    const post = await Post.findOne({ _id: req.params.id }).exec();
-    if (!post) {
-        return res.status(404).json({ message: `Post ID ${req.params.id} not found` });
+const getPostsByUserName = async (req, res) => {
+    if (!req?.params?.username) return res.status(400).json({ "message": 'username required' });
+    const posts = await Post.find({ author: req.params.username });
+    if (!posts) {
+        return res.status(404).json({ message: `Username: ${req.params.username} posts not found` });
     }
-    res.json(post);
+    res.json(posts);
 }
 
 const addReaction = async (req, res) => {
@@ -51,6 +51,6 @@ const addReaction = async (req, res) => {
 module.exports = { 
     addNewPost,
     getAllPosts,
-    getPostById,
+    getPostsByUserName,
     addReaction 
 }

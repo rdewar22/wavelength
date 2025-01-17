@@ -4,7 +4,8 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import UpoloadAvatar from "./UploadAvatar";
 import { selectCurrentUser, selectisProfPicInDb } from "../auth/authSlice";
 import { useSelector } from "react-redux";
-import Navbar from '../../components/Navbar';
+import { useGetPostsByUserNameQuery, selectPostIds } from '../posts/postsApiSlice';
+import PostsExcerpt from '../posts/PostsExcerpt';
 
 const Profile = ({ token }) => {
   const userName = useSelector(selectCurrentUser);
@@ -13,31 +14,54 @@ const Profile = ({ token }) => {
   const imageSrc = profilePicUri + "?" + Math.random().toString(36);
   const [counter, setCounter] = useState(0);
 
+  const {
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  } = useGetPostsByUserNameQuery(userName)
+
+  const orderedPostIds = useSelector(selectPostIds);
+
+  let content;
+  if (isLoading) {
+    content = <p>"Loading..."</p>;
+  } else if (isSuccess) {
+    content = [...orderedPostIds].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
+  } else if (isError) {
+    content = <p>Error: {error.originalStatus} {error.status}</p>  //JSON.stringify()
+  }
+
   const reloadParent = () => {
     setCounter(prev => prev + 1); // Incrementing state triggers a re-render
   };
 
+
+
   return (
     <>
       <div className="profile">
-        <div className="avatar">
-          <div className="avatar-wrapper">
-            {isProfPicInDb ? (
-              <img
-                src={imageSrc}
-                alt={`${userName} avatar`}
+        <div className='profile-page-header'>
+          <div className="avatar">
+            <div className="avatar-wrapper">
+              {isProfPicInDb ? (
+                <img
+                  src={imageSrc}
+                  alt={`${userName} avatar`}
+                />
+              ) : (
+                <IoPersonCircleOutline />
+              )}
+              <UpoloadAvatar
+                avatarUrl={profilePicUri}
+                reloadParent={reloadParent}
               />
-            ) : (
-              <IoPersonCircleOutline />
-            )}
-            <UpoloadAvatar
-              avatarUrl={profilePicUri}
-              reloadParent={reloadParent}
-            />
+            </div>
           </div>
+          <p className='profile-name'>{userName}</p>
         </div>
         <div className="body">
-          <p>{userName}</p>
+          {content}
         </div>
       </div>
     </>

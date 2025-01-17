@@ -10,8 +10,10 @@ router.route('/')
     // .put(verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Editor), employeesController.updateEmployee)
     // .delete(verifyRoles(ROLES_LIST.Admin), employeesController.deleteEmployee);
 
+router.route('/:username')
+    .get(postsController.getPostsByUserName)    
+
 router.route('/:id')
-    .get(postsController.getPostById)
     .patch(postsController.addReaction)
 
 
