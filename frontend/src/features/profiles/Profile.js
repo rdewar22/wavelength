@@ -15,19 +15,19 @@ const Profile = ({ token }) => {
   const [counter, setCounter] = useState(0);
 
   const {
+    data: posts,
     isLoading,
     isSuccess,
     isError,
     error
   } = useGetPostsByUserNameQuery(userName)
 
-  const orderedPostIds = useSelector(selectPostIds);
-
+  
   let content;
   if (isLoading) {
     content = <p>"Loading..."</p>;
   } else if (isSuccess) {
-    content = [...orderedPostIds].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
+    content = [...posts.ids].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
   } else if (isError) {
     content = <p>Error: {error.originalStatus} {error.status}</p>  //JSON.stringify()
   }

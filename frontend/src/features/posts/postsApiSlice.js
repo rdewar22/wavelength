@@ -33,7 +33,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             ]
         }),
         getPostsByUserName: builder.query({
-            query: username => `/posts/?${username}`,
+            query: username => `/posts/${username}`,
             transformResponse: responseData => {
                 let min = 1;
                 const loadedPosts = responseData.map(post => {
