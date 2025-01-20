@@ -3144,3 +3144,17 @@
 20250120	11:31:50	0c3e6541-80bd-4fb7-b2c1-204027a929ac	OPTIONS	http://localhost:3000	/posts
 20250120	11:31:50	9b37859f-1887-4222-991a-33e067be224b	GET	http://localhost:3000	/posts
 20250120	11:31:50	24335ccd-b0e9-4732-9d64-6d73a4761e82	GET	http://localhost:3000	/
+20250120	12:30:08	cffdd72c-d154-497d-93d1-40b798fc59ea	GET	undefined	/
+20250120	12:30:37	33e6b5bd-49ed-4b80-8d22-4a67f6507b54	GET	undefined	/
+20250120	12:30:46	be3d0e08-57c9-4fe7-b116-149c6164c224	GET	undefined	/users
+20250120	12:31:16	2bc09fd1-f25d-4df5-8826-3ad6cc719a12	POST	undefined	/auth
+20250120	12:31:36	0c53bd15-4035-4a8e-874c-2a3d9f4948ca	GET	undefined	/users
+20250120	12:34:49	d19f0808-bb71-458a-a555-8245a92ef00e	GET	undefined	/users
+20250120	12:39:41	13c07c48-7ecd-48ac-a76b-98ca5c7f0f03	GET	undefined	/users
+20250120	12:39:50	a747fc8f-1196-4ad1-8c97-8d947b8737cc	POST	undefined	/auth
+20250120	12:40:25	e4e34b75-186d-4c28-b665-d5f3e66b1593	GET	undefined	/users
+20250120	12:41:08	e00fc3d6-250e-46be-8d83-360b5cdac0fb	GET	undefined	/users
+20250120	12:41:32	7cd85d5b-e4cf-494d-8708-52df35b875dd	GET	undefined	/users
+20250120	12:41:50	2d793e55-7c15-4bab-a933-29ca907e2e9d	GET	undefined	/users
+20250120	12:43:27	2ddbac13-cd61-473c-9979-50e0629c61c8	GET	undefined	/users
+20250120	12:44:28	13ec2d44-4a2b-40ba-a917-684d68bdb42c	GET	undefined	/users

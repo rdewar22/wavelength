@@ -9,7 +9,7 @@ const { PutObjectCommand } = require('@aws-sdk/client-s3');
 
 
 router.route('/')
-    .get(usersController.getAllUsers)
+    .get(usersController.findUsers)
     //.get(verifyRoles(ROLES_LIST.Admin), usersController.getAllUsers)
     .delete(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser);
 

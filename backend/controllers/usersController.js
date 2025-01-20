@@ -25,6 +25,16 @@ const getUser = async (req, res) => {
     res.json(user);
 }
 
+const findUsers = async (req, res) => {
+    const input  = req.body.input;
+    const regex = new RegExp(input, 'i') // i for case insensitive
+    const users = await User.find({ username: regex });
+    if (!users) {
+        return res.json({ 'message': `no matching users found` });
+    }
+    res.json(users);
+}
+
 const newProfilePic = async (req, res) => {
     const username = req?.params?.username;
     if (!username) return res.status(400).json({ "message": 'User name required' });
@@ -53,5 +63,6 @@ module.exports = {
     getAllUsers,
     deleteUser,
     getUser,
-    newProfilePic
+    newProfilePic,
+    findUsers
 }
