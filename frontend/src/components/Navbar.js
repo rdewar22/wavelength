@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { logOut } from "../features/auth/authSlice"
 import { Link } from "react-router-dom"
 import { useLogoutQuery } from "../features/auth/authApiSlice"
+import { SearchBar } from "./SearchBar"
 
 export default function Navbar() {
 
@@ -39,6 +40,7 @@ export default function Navbar() {
     }
     return <nav className="nav">
         <Link to="/postslist" className="site-title">Wavelength</Link>
+        <SearchBar />
         <ul>
             <li>
                 <Link to="/profile">Profile</Link>

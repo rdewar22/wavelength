@@ -36,8 +36,6 @@ const Profile = ({ token }) => {
     setCounter(prev => prev + 1); // Incrementing state triggers a re-render
   };
 
-
-
   return (
     <>
       <div className="profile">
