@@ -8,7 +8,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 params: { searchString },
                 method: 'GET'
             }),
-            keepUnusedDataFor: 5,
         }),
         getUser: builder.query({
             query: id => `/users/?userId=${id}`,

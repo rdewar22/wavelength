@@ -10,7 +10,7 @@ export const SearchBar = () => {
 
 
     let { data, isLoading, error } = useFindUsersQuery(debouncedInput, {
-        skip: !debouncedInput,  // Skip query if input is empty
+        //skip: !debouncedInput,  // Skip query if input is empty
     });
 
     
@@ -20,7 +20,8 @@ export const SearchBar = () => {
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             setDebouncedInput(input);
-        }, 200); // Wait 200ms after last keystroke before updating
+        }, 50); // Wait 200ms after last keystroke before updating
+
 
         // Cleanup timeout
         return () => clearTimeout(timeoutId);
@@ -29,7 +30,6 @@ export const SearchBar = () => {
     const handleChange = (value) => {
         data = []
         setInput(value);
-        
     }
 
     return (

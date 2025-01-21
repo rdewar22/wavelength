@@ -27,7 +27,9 @@ const getUser = async (req, res) => {
 
 const findUsers = async (req, res) => {
     const input  = req.query.searchString;
-    console.log("req.query:", req.query);
+    if (input.length === 0) {
+        return res.json();
+    }
     const regex = new RegExp(input, 'i') // i for case insensitive
     const users = await User.find({ username: regex });
     console.log("users:", users)
