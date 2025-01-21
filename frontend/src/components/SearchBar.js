@@ -8,10 +8,13 @@ export const SearchBar = () => {
     const [input, setInput] = useState("")
     const [debouncedInput, setDebouncedInput] = useState("");
 
-    console.log("debounced Input:", debouncedInput);
-    const { data, isLoading, error } = useFindUsersQuery(debouncedInput, {
+
+    let { data, isLoading, error } = useFindUsersQuery(debouncedInput, {
         skip: !debouncedInput,  // Skip query if input is empty
     });
+
+    
+    
 
     // Debounce the input value
     useEffect(() => {
@@ -24,14 +27,31 @@ export const SearchBar = () => {
     }, [input]);
 
     const handleChange = (value) => {
+        data = []
         setInput(value);
-
+        
     }
 
     return (
-        <div className="input-wrapper">
-            <FaSearch id="search-icon" />
-            <input className="search-input" placeholder="Type to search..." value={input} onChange={(e) => handleChange(e.target.value)} />
-        </div>
+        <>
+            <div className="search-container">
+                <div className="input-wrapper">
+                    <FaSearch id="search-icon" />
+                    <input type="text" className="search-input" placeholder="Search" value={input} onChange={(e) => handleChange(e.target.value)} />
+                </div>
+                <div className="dropdown">
+                    {input.length > 0 ? (
+                        data?.map((user) => (
+                            <div key={user.username} className="dropdown-row">
+                                {user.username}
+                            </div>
+                        ))
+                    ) : (
+                        !isLoading
+                    )}
+                </div>
+            </div>
+
+        </>
     )
 }
