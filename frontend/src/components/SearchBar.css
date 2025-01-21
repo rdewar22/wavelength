@@ -33,6 +33,12 @@
     min-width: 200px;
 }
 
+.prof-pic {
+    border-radius: 200px;
+    height: 2.5rem;
+    size: 0.5rem;
+}
+
 .dropdown:empty {
     border: none;
 }

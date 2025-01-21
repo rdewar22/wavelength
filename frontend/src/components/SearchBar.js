@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useFindUsersQuery } from "../features/users/usersApiSlice";
+import { IoPersonCircleOutline } from "react-icons/io5";
 import "./SearchBar.css";
 
 
@@ -13,14 +14,14 @@ export const SearchBar = () => {
         //skip: !debouncedInput,  // Skip query if input is empty
     });
 
-    
-    
+
+
 
     // Debounce the input value
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             setDebouncedInput(input);
-        }, 50); // Wait 200ms after last keystroke before updating
+        }, 50); // Wait 50ms after last keystroke before updating
 
 
         // Cleanup timeout
@@ -43,7 +44,13 @@ export const SearchBar = () => {
                     {input.length > 0 ? (
                         data?.map((user) => (
                             <div key={user.username} className="dropdown-row">
-                                {user.username}
+                                {user.profilePicUri ? (
+                                    <img src={user.profilePicUri} alt={`${user.username} avatar`} className="prof-pic" />
+                                ) : (
+                                    <IoPersonCircleOutline />
+                                )}
+                                
+                                <p>{user.username}</p>
                             </div>
                         ))
                     ) : (
