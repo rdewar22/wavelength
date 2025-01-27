@@ -34,6 +34,10 @@ export const SearchBar = () => {
         setInput(value);
     }
 
+    const handleLinkClick = () => {
+        setInput('');  // Clear the input field when a link is clicked
+    };
+
     return (
         <>
             <div className="search-container">
@@ -51,7 +55,7 @@ export const SearchBar = () => {
                                     <IoPersonCircleOutline />
                                 )}
                                 
-                                <Link to="/publicprofile" state={{username: user.username }}>{user.username}</Link>
+                                <Link to="/publicprofile" state={{username: user.username }} onClick={handleLinkClick}>{user.username}</Link>
                             </div>
                         ))
                     ) : (
