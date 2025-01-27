@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { useFindUsersQuery } from "../features/users/usersApiSlice";
 import { IoPersonCircleOutline } from "react-icons/io5";
@@ -50,7 +51,7 @@ export const SearchBar = () => {
                                     <IoPersonCircleOutline />
                                 )}
                                 
-                                <p>{user.username}</p>
+                                <Link to="/publicprofile" state={{username: user.username }}>{user.username}</Link>
                             </div>
                         ))
                     ) : (

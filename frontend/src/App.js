@@ -12,13 +12,14 @@ import AddPostForm from "./features/posts/AddPostForm";
 import Profile from "./features/profiles/Profile";
 import PersistLogin from "./features/auth/PersistLogin";
 import Navbar from "./components/Navbar";
+import PublicProfile from "./features/profiles/PublicProfile";
 
 
 function App() {
   const location = useLocation();
 
   // Define the paths where the navigation bar should be displayed
-  const showNavBarPaths = ['/welcome', '/userslist', '/postslist', '/addpostform', '/profile'];
+  const showNavBarPaths = ['/welcome', '/userslist', '/postslist', '/addpostform', '/profile', '/publicprofile'];
 
   // Check if the current path matches one of the allowed paths
   const showNavBar = showNavBarPaths.includes(location.pathname);
@@ -42,6 +43,7 @@ function App() {
               <Route path="postslist" element={<PostsList />} />
               <Route path="addpostform" element={<AddPostForm />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="publicprofile" element={<PublicProfile />} />
             </Route>
           </Route>
 
