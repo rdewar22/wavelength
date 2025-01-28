@@ -11,12 +11,13 @@ export const MessageTab = () => {
     return (
         <div className="messages-container">
             {/* Messages Tab */}
-            <button className="messages-tab" onClick={toggleMessages}>
-                Messages
-            </button>
+
 
             {/* Overlay */}
             <div className={`messages-overlay ${isOpen ? "open" : ""}`}>
+                <button className="messages-tab" onClick={toggleMessages}>
+                    Messages
+                </button>
                 <div className="messages-content">
                     <h2>Conversations</h2>
                     <ul>
