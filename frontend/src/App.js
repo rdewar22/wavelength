@@ -12,6 +12,7 @@ import AddPostForm from "./features/posts/AddPostForm";
 import Profile from "./features/profiles/Profile";
 import PersistLogin from "./features/auth/PersistLogin";
 import Navbar from "./components/Navbar";
+import { MessageTab } from "./components/MessagesTab";
 import PublicProfile from "./features/profiles/PublicProfile";
 
 
@@ -20,9 +21,11 @@ function App() {
 
   // Define the paths where the navigation bar should be displayed
   const showNavBarPaths = ['/welcome', '/userslist', '/postslist', '/addpostform', '/profile', '/publicprofile'];
+  const showMessageTabPaths = ['/welcome', '/userslist', '/postslist', '/addpostform', '/profile', '/publicprofile'];
 
   // Check if the current path matches one of the allowed paths
   const showNavBar = showNavBarPaths.includes(location.pathname);
+  const showMessageTab = showMessageTabPaths.includes(location.pathname);
 
   return (
     <>
@@ -52,6 +55,7 @@ function App() {
 
         </Route>
       </Routes>
+      {showMessageTab && <MessageTab />}
     </>
   )
 

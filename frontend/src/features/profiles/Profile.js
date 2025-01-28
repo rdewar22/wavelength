@@ -9,7 +9,7 @@ import PostsExcerpt from '../posts/PostsExcerpt';
 
 const Profile = ({ token }) => {
   const userName = useSelector(selectCurrentUser);
-  const isProfPicInDb = useSelector(selectisProfPicInDb);
+  const [isProfPic, setProfPic] = useState(true);
   const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`
   const imageSrc = profilePicUri + "?" + Math.random().toString(36);
   const [counter, setCounter] = useState(0);
@@ -22,7 +22,7 @@ const Profile = ({ token }) => {
     error
   } = useGetPostsByUserNameQuery(userName)
 
-  
+
   let content;
   if (isLoading) {
     content = <p>"Loading..."</p>;
@@ -42,13 +42,15 @@ const Profile = ({ token }) => {
         <div className='profile-page-header'>
           <div className="avatar">
             <div className="avatar-wrapper">
-              {isProfPicInDb ? (
+              {isProfPic ? (
                 <img
                   src={imageSrc}
                   alt={`${userName} avatar`}
+                  onError={() => setProfPic(false)}
                 />
+
               ) : (
-                <IoPersonCircleOutline />
+                <IoPersonCircleOutline size={40} />
               )}
               <UpoloadAvatar
                 avatarUrl={profilePicUri}

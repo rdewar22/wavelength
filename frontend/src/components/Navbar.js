@@ -6,6 +6,7 @@ import { logOut } from "../features/auth/authSlice"
 import { Link } from "react-router-dom"
 import { useLogoutQuery } from "../features/auth/authApiSlice"
 import { SearchBar } from "./SearchBar"
+import { MessageTab } from "./MessagesTab"
 
 export default function Navbar() {
 
@@ -38,19 +39,23 @@ export default function Navbar() {
             }
         }
     }
-    return <nav className="nav">
-        <Link to="/postslist" className="site-title">Wavelength</Link>
-        <SearchBar />
-        <ul>
-            <li>
-                <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-                <Link to="/addpostform">New Post</Link>
-            </li>
-            <li>
-                <a onClick={handleLogout}>Logout</a>
-            </li>
-        </ul>
-    </nav>
+    return (
+        <>
+            <nav className="nav">
+                <Link to="/postslist" className="site-title">Wavelength</Link>
+                <SearchBar />
+                <ul>
+                    <li>
+                        <Link to="/profile">Profile</Link>
+                    </li>
+                    <li>
+                        <Link to="/addpostform">New Post</Link>
+                    </li>
+                    <li>
+                        <a onClick={handleLogout}>Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </>
+    )
 }
