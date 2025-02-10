@@ -19,7 +19,7 @@ export const MessageTab = () => {
                     Messages
                 </button>
                 <div className="messages-content">
-                    <h2>Conversations</h2>
+                    <button className='new-convo-button'>+</button>
                     <ul>
                         <li>Conversation 1</li>
                         <li>Conversation 2</li>

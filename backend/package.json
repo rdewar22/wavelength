@@ -5,7 +5,8 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha --exit",
     "start": "node server",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "build": "node server.mjs"
   },
   "author": "",
   "license": "ISC",
@@ -31,6 +32,7 @@
     "mongoose": "^8.9.0",
     "multer": "^1.4.5-lts.1",
     "multer-s3": "^3.0.1",
+    "node": "^23.7.0",
     "sharp": "^0.33.5",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",

@@ -30,7 +30,7 @@
   }
   
   .messages-content {
-    padding: 20px;
+    padding: 0 20px;
   }
   
   .messages-content h2 {
@@ -45,4 +45,12 @@
   .messages-content li {
     padding: 10px;
     border-bottom: 1px solid #eee;
+  }
+
+  .new-convo-button {
+    padding: 0;
+    margin-left: 90%;
+    margin-top: 0;
+    background-color: black;
+    color: white;
   }
