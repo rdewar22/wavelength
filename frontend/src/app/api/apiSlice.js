@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials, logOut } from '../../features/auth/authSlice'
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://wavelength-72dv.onrender.com',
+    baseUrl: 'https://wavelength-backend-eq3t.onrender.com',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = getState().auth.token
