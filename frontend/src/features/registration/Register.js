@@ -86,7 +86,7 @@ const Register = () => {
                     <h1>Thank you for registering {user}, welcome to Wavelength.</h1>
                     <p>
                         <br />
-                        <a href="/login">Sign In</a>
+                        <Link to='/login'>Sign In</Link>
                     </p>
                 </section>
             ) : (

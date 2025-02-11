@@ -1,15 +1,17 @@
 import './Profile.css'
 import React, { useState, useEffect } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
-import UpoloadAvatar from "./UploadAvatar";
+import UploadAvatar from "./UploadAvatar";
 import { selectCurrentUser, selectisProfPicInDb } from "../auth/authSlice";
 import { useSelector } from "react-redux";
 import { useGetPostsByUserNameQuery, selectPostIds } from '../posts/postsApiSlice';
 import PostsExcerpt from '../posts/PostsExcerpt';
+import { Spinner } from 'reactstrap';
 
 const Profile = ({ token }) => {
   const userName = useSelector(selectCurrentUser);
   const [isProfPic, setProfPic] = useState(true);
+  const [isProfPicLoading, setIsProfPicLoading] = useState(true); // State to track loading
   const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`
   const imageSrc = profilePicUri + "?" + Math.random().toString(36);
   const [counter, setCounter] = useState(0);
@@ -34,6 +36,7 @@ const Profile = ({ token }) => {
 
   const reloadParent = () => {
     setCounter(prev => prev + 1); // Incrementing state triggers a re-render
+    setProfPic(true)
   };
 
   return (
@@ -43,16 +46,26 @@ const Profile = ({ token }) => {
           <div className="avatar">
             <div className="avatar-wrapper">
               {isProfPic ? (
-                <img
-                  src={imageSrc}
-                  alt={`${userName} avatar`}
-                  onError={() => setProfPic(false)}
-                />
+                <>
+                  {/* Show loader while image is loading */}
+                  {isProfPicLoading && <Spinner />}
 
+                  {/* Image element */}
+                  <img
+                    src={imageSrc}
+                    alt={`${userName} avatar`}
+                    onLoad={() => setIsProfPicLoading(false)} // Hide loader when image loads
+                    onError={() => {
+                      setProfPic(false); // Hide image on error
+                      setIsProfPicLoading(false); // Hide loader on error
+                    }}
+                    style={{ display: isLoading ? 'none' : 'block' }} // Hide image while loading
+                  />
+                </>
               ) : (
                 <IoPersonCircleOutline size={40} />
               )}
-              <UpoloadAvatar
+              <UploadAvatar
                 avatarUrl={profilePicUri}
                 reloadParent={reloadParent}
               />
