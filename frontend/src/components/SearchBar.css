@@ -26,11 +26,9 @@
     display: flex;
     flex-direction: column;
     border: 1px solid gray;
-    position: absolute;
     z-index: 9999;
-    top: 8%;
-    left: 39%;
     min-width: 200px;
+    margin-left: 1.5rem;
 }
 
 .prof-pic {
@@ -48,9 +46,15 @@
     text-align: start;
     margin: 2px 0;
     display: flex;
-    width: fit-content;
+    width: 100%;
     color: black;
     font-size: 1.5rem;
+}
+
+.dropdown-row:hover {
+    background-color: red;
+    cursor: pointer;
+
 }
 
 input:focus {

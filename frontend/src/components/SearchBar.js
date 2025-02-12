@@ -9,6 +9,7 @@ import "./SearchBar.css";
 export const SearchBar = () => {
     const [input, setInput] = useState("")
     const [debouncedInput, setDebouncedInput] = useState("");
+    const [isFocused, setIsFocused] = useState(false);
 
 
     let { data, isLoading, error } = useFindUsersQuery(debouncedInput, {
@@ -38,15 +39,23 @@ export const SearchBar = () => {
         setInput('');  // Clear the input field when a link is clicked
     };
 
+    const handleBlur = () => {
+        setIsFocused(false);
+    };
+    
+    const handleFocus = () => {
+        setIsFocused(true);
+    };
+
     return (
         <>
             <div className="search-container">
                 <div className="input-wrapper">
                     <FaSearch id="search-icon" />
-                    <input type="text" className="search-input" placeholder="Search" value={input} onChange={(e) => handleChange(e.target.value)} />
+                    <input onBlur={handleBlur} onFocus={handleFocus} type="text" className="search-input" placeholder="Search" value={input} onChange={(e) => handleChange(e.target.value)} />
                 </div>
                 <div className="dropdown">
-                    {input.length > 0 ? (
+                    {input.length > 0 && isFocused === true ? (
                         data?.map((user) => (
                             <div key={user.username} className="dropdown-row">
                                 {user.profilePicUri ? (
