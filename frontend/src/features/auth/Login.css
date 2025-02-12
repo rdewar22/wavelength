@@ -9,3 +9,7 @@
     margin-right: 0.5rem;
     min-width: 12rem;   
 }
+
+.loading-message {
+    font-size: 2rem;
+}
