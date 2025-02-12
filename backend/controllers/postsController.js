@@ -12,7 +12,7 @@ const addNewPost = async (req, res) => {
             "author": currentUser, 
         });
 
-        console.log(result);
+    
        
         res.status(201).json({ 'success': `New post created!`});
     } catch (err) {
@@ -38,7 +38,6 @@ const getPostsByUserName = async (req, res) => {
 const addReaction = async (req, res) => {
     if (!req?.params?.id) return res.status(400).json({ message: 'Post ID required' });
     const post = await Post.findOne({ _id: req.params.id }).exec();
-    console.log("req.body:", req.body)
     if (!post) {
         return res.status(204).json({ message: `Post ID ${req.params.id} not found` });
     }

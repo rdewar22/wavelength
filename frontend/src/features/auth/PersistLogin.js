@@ -18,7 +18,6 @@ const PersistLogin = () => {
     const verifyRefreshToken = async () => {
       try {
         const response = await refetch();
-        console.log("response:", response);
         accessToken = 1;
         if (isMounted) {
           if (response?.data?.accessToken) {

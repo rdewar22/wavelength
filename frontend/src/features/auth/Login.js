@@ -31,7 +31,6 @@ const Login = () => {
 
         try {
             const userData = await login({ user, pwd }).unwrap()
-            console.log("userdata:", userData)
             dispatch(setCredentials({ ...userData, user }))
             setUser('')
             setPwd('')

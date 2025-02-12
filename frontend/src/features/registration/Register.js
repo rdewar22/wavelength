@@ -57,9 +57,6 @@ const Register = () => {
         try {
             const response = await register({ user, pwd }).unwrap();
 
-            console.log(response?.data);
-            console.log(response?.accessToken);
-            console.log(JSON.stringify(response))
             setSuccess(true);
             //clear state and controlled inputs
             //need value attrib on inputs for this

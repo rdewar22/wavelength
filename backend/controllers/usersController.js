@@ -32,7 +32,6 @@ const findUsers = async (req, res) => {
     }
     const regex = new RegExp(input, 'i') // i for case insensitive
     const users = await User.find({ username: regex });
-    console.log("users:", users)
     if (!users) {
         return res.json({ 'message': `no matching users found` });
     }

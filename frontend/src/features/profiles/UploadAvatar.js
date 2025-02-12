@@ -25,7 +25,6 @@ const UploadAvatar = ({
   const [newProfPic, { isLoading, error }] = useNewProfPicMutation();
   const userName = useSelector(selectCurrentUser);
   console.assert(userName !== null, "%o", "User can't be null in UploadAvatar")
-  console.log("user:", userName)
 
 
   const toggle = () => {
@@ -34,7 +33,6 @@ const UploadAvatar = ({
 
   const handleFileChange = ({ target: { files } }) => {
     if (files?.length) {
-      console.log("files", files);
       const { type } = files[0];
       if (type === "image/png" || type === "image/jpeg") {
         setFile(files[0]);
