@@ -12,3 +12,4 @@
 20250111	13:35:32	c25111fa-04c1-461d-8a50-d436f0be017d	TypeError: s3.putObject is not a function
 20250111	13:44:05	bf649595-4d21-481a-9931-d440b77f3b5a	AccessControlListNotSupported: The bucket does not allow ACLs
 20250111	21:52:16	1fa16c45-42e9-4f8b-a82a-106b331d3d62	MulterError: File too large
+20250316	11:28:04	23b1beaf-94e9-4a80-bc5f-18979b2aa0f8	Error: Not allowed by CORS

@@ -6,7 +6,7 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import "./SearchBar.css";
 
 
-export const SearchBar = () => {
+export const MessagesSearchBar = ( { toggleMessages, toggleOverlay}) => {
     const [input, setInput] = useState("")
     const [debouncedInput, setDebouncedInput] = useState("");
     const [isFocused, setIsFocused] = useState(false);
@@ -15,6 +15,8 @@ export const SearchBar = () => {
     let { data, isLoading, error } = useFindUsersQuery(debouncedInput, {
         //skip: !debouncedInput,  // Skip query if input is empty
     });
+
+
 
 
     // Debounce the input value
@@ -33,8 +35,10 @@ export const SearchBar = () => {
         setInput(value);
     }
 
-    const handleLinkClick = () => {
+    const handleLinkClick = (user) => {
         setInput('');  // Clear the input field when a link is clicked
+        toggleOverlay();
+        console.log('skibbidy')
     };
 
     const handleBlur = () => {
@@ -65,7 +69,7 @@ export const SearchBar = () => {
                                     <IoPersonCircleOutline />
                                 )}
                                 
-                                <Link to="/publicprofile" state={{username: user.username }} onClick={handleLinkClick}>{user.username}</Link>
+                                <Link onClick={() => handleLinkClick(user)}>{user.username}</Link>
                             </div>
                         ))
                     ) : (
