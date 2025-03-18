@@ -6,7 +6,7 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import "./SearchBar.css";
 
 
-export const MessagesSearchBar = ( { toggleMessages, toggleOverlay}) => {
+export const MessagesSearchBar = ( { toggleConversation, toggleOverlay}) => {
     const [input, setInput] = useState("")
     const [debouncedInput, setDebouncedInput] = useState("");
     const [isFocused, setIsFocused] = useState(false);
@@ -35,10 +35,10 @@ export const MessagesSearchBar = ( { toggleMessages, toggleOverlay}) => {
         setInput(value);
     }
 
-    const handleLinkClick = (user) => {
+    const handleLinkClick = (username) => {
         setInput('');  // Clear the input field when a link is clicked
         toggleOverlay();
-        console.log('skibbidy')
+        toggleConversation(username);
     };
 
     const handleBlur = () => {
@@ -69,7 +69,7 @@ export const MessagesSearchBar = ( { toggleMessages, toggleOverlay}) => {
                                     <IoPersonCircleOutline />
                                 )}
                                 
-                                <Link onClick={() => handleLinkClick(user)}>{user.username}</Link>
+                                <Link onClick={() => handleLinkClick(user.username)}>{user.username}</Link>
                             </div>
                         ))
                     ) : (

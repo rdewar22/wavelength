@@ -47,9 +47,21 @@
     border-bottom: 1px solid #eee;
   }
 
+  .message-input {
+    margin-top: 25vh;
+    width: 30vh;
+  }
+
   .new-convo-button {
     padding: 0;
     margin-left: 90%;
+    margin-top: 0;
+    background-color: black;
+    color: white;
+  }
+
+  .back-button {
+    padding: 0;
     margin-top: 0;
     background-color: black;
     color: white;

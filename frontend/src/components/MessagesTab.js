@@ -3,9 +3,11 @@ import { MessagesSearchBar } from "./MessagesSearchBar"
 import './MessagesTab.css'
 
 export const MessageTab = () => {
+    const [message, setMessage] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
-    const [showMessages, setShowMessages] = useState(false);
+    const [showConversation, setShowConversation] = useState(false);
+    const [currentConversation, setcurrentConversation] = useState('');
 
     const toggleMessagesTab = () => {
         setIsOpen(!isOpen);
@@ -15,8 +17,13 @@ export const MessageTab = () => {
         setShowOverlay(!showOverlay);
     };
 
-    const toggleMessages = () => {
-        setShowMessages(!showMessages);
+    const toggleConversation = (username = null) => {
+        setcurrentConversation(username);
+        setShowConversation(!showConversation);
+    }
+
+    const handleChange = (value) => {
+        setMessage(value);
     }
 
     return (
@@ -27,19 +34,29 @@ export const MessageTab = () => {
                 <button className="messages-tab" onClick={toggleMessagesTab}>
                     Messages
                 </button>
-                <div className="messages-content">
-                    <button onClick={toggleOverlay} className='new-convo-button'>+</button>
-                    <ul>
-                        <li>Conversation 1</li>
-                    </ul>
-                </div>
+                {currentConversation ? (
+                    <div className="messages-content">
+                        <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
+                        <h3>{currentConversation}</h3>
+                        <input type="text" className="message-input" placeholder="Message" value={message} onChange={(e) => handleChange(e.target.value)} />
+                        
+                    </div>
+                ) : (
+                    <div className="messages-content">
+                        <button onClick={toggleOverlay} className='new-convo-button'>+</button>
+                        <ul>
+                            <li>Conversation 1</li>
+                        </ul>
+                    </div>
+                )}
+
             </div>
 
             {/* Overlay */}
             {showOverlay && (
                 <div className="overlay">
                     <div className="overlay-content">
-                        <MessagesSearchBar toggleMessages={toggleMessages} toggleOverlay={toggleOverlay} />
+                        <MessagesSearchBar toggleConversation={toggleConversation} toggleOverlay={toggleOverlay} />
                         <h2>New Conversation</h2>
                         <p>Start a new conversation here.</p>
                         <button onClick={toggleOverlay} className="close-button">Close</button>
@@ -47,15 +64,15 @@ export const MessageTab = () => {
                 </div>
             )}
 
-            {showMessages && (
+            {/* {showConversation && (
                 <div className="new-div">
                     <h2>This is the New Div</h2>
                     <p>This div replaces the messages overlay.</p>
-                    <button onClick={toggleMessages} className="close-button">
+                    <button onClick={toggleConversation} className="close-button">
                         Close
                     </button>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };
