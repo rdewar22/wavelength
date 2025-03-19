@@ -18,6 +18,14 @@ const sendMessage = async (req, res) => {
 
 }
 
+const getMessagesForUserName = async (req, res) => {
+    if (!req.params?.username) return res.status(400).json({ "message": 'username required'});
+    const messages = await Message.find({ recipient: req.params.username });
+    
+    res.json(messages)
+}
+
 module.exports = {
-    sendMessage
+    sendMessage,
+    getMessagesForUserName
 }

@@ -20,6 +20,8 @@ import logoutRoute from './routes/logout.js';
 import apiEmployeesRoute from './routes/api/employees.js';
 import apiUsersRoute from './routes/api/users.js';
 import apiPostsRoute from './routes/api/posts.js';
+import apiMessagesRoute from './routes/api/messages.js';
+
 
 dotenv.config({ path: '.env'}) //uncomment to use production db and .env
 
@@ -72,8 +74,7 @@ app.use(verifyJWT);
 app.use('/employees', apiEmployeesRoute);
 app.use('/users', apiUsersRoute);
 app.use('/posts', apiPostsRoute);
-
-
+app.use('/messages', apiMessagesRoute);
 
 // catch-all 404
 app.all('*', (req, res) => {
