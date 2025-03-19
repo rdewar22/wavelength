@@ -48,7 +48,7 @@
   }
 
   .message-input {
-    margin-top: 25vh;
+    margin-top: 30vh;
     width: 30vh;
   }
 
@@ -61,10 +61,16 @@
   }
 
   .back-button {
+    display: inline-block;
     padding: 0;
     margin-top: 0;
+    margin-right: 15px;
     background-color: black;
     color: white;
+  }
+
+  .message-recipient {
+    display: inline-block;
   }
 
   .overlay {

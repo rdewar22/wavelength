@@ -11,8 +11,6 @@ const addNewPost = async (req, res) => {
             "content": content,
             "author": currentUser, 
         });
-
-    
        
         res.status(201).json({ 'success': `New post created!`});
     } catch (err) {

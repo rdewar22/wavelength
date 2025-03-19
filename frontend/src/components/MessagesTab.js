@@ -37,7 +37,7 @@ export const MessageTab = () => {
                 {currentConversation ? (
                     <div className="messages-content">
                         <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
-                        <h3>{currentConversation}</h3>
+                        <h3 className='message-recipient'>{currentConversation}</h3>
                         <input type="text" className="message-input" placeholder="Message" value={message} onChange={(e) => handleChange(e.target.value)} />
                         
                     </div>
