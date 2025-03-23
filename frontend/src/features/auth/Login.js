@@ -34,7 +34,7 @@ const Login = () => {
             dispatch(setCredentials({ ...userData, user }))
             setUser('')
             setPwd('')
-            navigate('/postslist')
+            navigate('/')
         } catch (err) {
             if (!err?.originalStatus) {
                 setErrMsg('No Server Response');
@@ -64,6 +64,8 @@ const Login = () => {
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 
             <Link to='/' className="logo">Wavelength</Link>
+
+            <h1 className="login-header">Login</h1>
 
 
             <form onSubmit={handleSubmit}>

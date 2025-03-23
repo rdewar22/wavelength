@@ -20,8 +20,8 @@ function App() {
   const location = useLocation();
 
   // Define the paths where the navigation bar should be displayed
-  const showNavBarPaths = ['/welcome', '/userslist', '/postslist', '/addpostform', '/profile', '/publicprofile'];
-  const showMessageTabPaths = ['/welcome', '/userslist', '/postslist', '/addpostform', '/profile', '/publicprofile'];
+  const showNavBarPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile', '/publicprofile'];
+  const showMessageTabPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile', '/publicprofile'];
 
   // Check if the current path matches one of the allowed paths
   const showNavBar = showNavBarPaths.includes(location.pathname);
@@ -34,7 +34,8 @@ function App() {
       <Routes>
         <Route path="/" element={< Layout />}>
           {/* public routes */}
-          <Route index element={<Public />} />
+          <Route index element={<PostsList />} />
+          {/* <Route index element={<Public />} /> */}
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
 
@@ -43,7 +44,6 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route path="welcome" element={<Welcome />} />
               <Route path="userslist" element={<UsersList />} />
-              <Route path="postslist" element={<PostsList />} />
               <Route path="addpostform" element={<AddPostForm />} />
               <Route path="profile" element={<Profile />} />
               <Route path="publicprofile" element={<PublicProfile />} />

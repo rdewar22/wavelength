@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
+import { selectCurrentUser } from '../features/auth/authSlice';
 import { MessagesSearchBar } from "./MessagesSearchBar"
 import './MessagesTab.css'
 
 export const MessageTab = () => {
+    const user = useSelector(selectCurrentUser)
     const [message, setMessage] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
@@ -30,25 +34,41 @@ export const MessageTab = () => {
         <div className="messages-container">
             {/* Messages Tab */}
 
+
+
+
             <div className={`messages-overlay ${isOpen ? "open" : ""}`}>
                 <button className="messages-tab" onClick={toggleMessagesTab}>
                     Messages
                 </button>
-                {currentConversation ? (
-                    <div className="messages-content">
-                        <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
-                        <h3 className='message-recipient'>{currentConversation}</h3>
-                        <input type="text" className="message-input" placeholder="Message" value={message} onChange={(e) => handleChange(e.target.value)} />
-                        
-                    </div>
+                {user ? (
+                    <>
+                        {currentConversation ? (
+                            <div className="messages-content">
+                                <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
+                                <h3 className='message-recipient'>{currentConversation}</h3>
+                                <input type="text" className="message-input" placeholder="Message" value={message} onChange={(e) => handleChange(e.target.value)} />
+
+                            </div>
+                        ) : (
+                            <div className="messages-content">
+                                <button onClick={toggleOverlay} className='new-convo-button'>+</button>
+                                <ul>
+                                    <li>Conversation 1</li>
+                                </ul>
+                            </div>
+                        )}
+                    </>
                 ) : (
-                    <div className="messages-content">
-                        <button onClick={toggleOverlay} className='new-convo-button'>+</button>
-                        <ul>
-                            <li>Conversation 1</li>
-                        </ul>
-                    </div>
+                    <>
+                        <div className="no-user-message">
+                            <p>
+                                Please <Link to="/login" className='login-link'>login</Link> or <Link className='register-link'to="/register">register</Link> to use messages.
+                            </p>
+                        </div>
+                    </>
                 )}
+
 
             </div>
 

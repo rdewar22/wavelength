@@ -6,15 +6,18 @@ import { logOut } from "../features/auth/authSlice"
 import { Link } from "react-router-dom"
 import { useLogoutQuery } from "../features/auth/authApiSlice"
 import { SearchBar } from "./SearchBar"
+import { selectCurrentUser } from "../features/auth/authSlice"
 import { MessageTab } from "./MessagesTab"
 
 export default function Navbar() {
 
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const [errMsg, setErrMsg] = useState('')
-    const errRef = useRef()
+    const user = useSelector(selectCurrentUser);
+
+    const [errMsg, setErrMsg] = useState('');
+    const errRef = useRef();
     const { logout } = useLogoutQuery();
 
 
@@ -42,7 +45,7 @@ export default function Navbar() {
     return (
         <>
             <nav className="nav">
-                <Link to="/postslist" className="site-title">Wavelength</Link>
+                <Link to="/" className="site-title">Wavelength</Link>
                 <SearchBar />
                 <ul>
                     <li>
@@ -51,9 +54,23 @@ export default function Navbar() {
                     <li>
                         <Link to="/addpostform">New Post</Link>
                     </li>
-                    <li>
-                        <a onClick={handleLogout}>Logout</a>
-                    </li>
+                    {user ? (
+                        <>
+                            <li>
+                                <a onClick={handleLogout}>Logout</a>
+                            </li>
+                        </>
+                    ) : (
+                        // Show Login and Register if no user is logged in
+                        <>
+                            <li>
+                                <Link to="/login">Login</Link>
+                            </li>
+                            <li>
+                                <Link to="/register">Register</Link>
+                            </li>
+                        </>
+                    )}
                 </ul>
             </nav>
         </>

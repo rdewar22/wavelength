@@ -10,6 +10,11 @@
     min-width: 12rem;   
 }
 
+.login-header {
+    text-align: center;
+    font-size: 4em;
+}
+
 .loading-message {
     font-size: 2rem;
 }

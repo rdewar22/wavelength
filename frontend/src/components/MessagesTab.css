@@ -28,6 +28,18 @@
   .messages-overlay.open {
     bottom: 0; /* Slide up to reveal */
   }
+
+  .no-user-message {
+    padding: 20px 20px;
+  }
+
+  .login-link {
+    color: white;
+  }
+
+  .register-link {
+    color: white;
+  }
   
   .messages-content {
     padding: 0 20px;
