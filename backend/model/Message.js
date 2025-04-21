@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
-    recipient: {
+    to: {
         type: String,
         required: true
     },
-    sender: {
+    from: {
         type: String,
         required: true
     },
-    content: {
+    message: {
         type: String,
         required: true
     },

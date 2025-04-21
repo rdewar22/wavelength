@@ -32,9 +32,10 @@ export const MessageTab = () => {
         setMessage(value);
     }
 
-    const handleSubmit = async () => {
+    const handleSendMessage = async (to, from) => {
         try {
-          await sendMessage(message).unwrap(); // ✅ Call the mutation
+          console.log(to, from, message);  
+          await sendMessage({ to, from, message }).unwrap(); // ✅ Call the mutation
           setMessage(''); // Clear input after sending
         } catch (err) {
           console.error('Failed to send message:', err);
@@ -66,7 +67,7 @@ export const MessageTab = () => {
                                     onChange={(e) => handleChange(e.target.value)}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') {
-                                            handleSubmit();
+                                            handleSendMessage(currentConversation, user);
                                             handleChange('');
                                         }
                                     }}

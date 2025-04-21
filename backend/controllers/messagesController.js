@@ -1,14 +1,14 @@
 const Message = require('../model/Message');
 
 const sendMessage = async (req, res) => {
-    const { recipient, sender, content } = req.body;
-    if (!recipient || !sender || !content) return res.status(400).json({ 'message': 'sender, recipient, and content are required'});
+    const { to, from, message } = req.body;
+    if (!to || !from || !message) return res.status(400).json({ 'message': 'sender, recipient, and content are required'});
 
     try {
         const result = await Message.create({
-            "recipient": recipient,
-            "sender": sender,
-            "content": content,
+            "to": to,
+            "from": from,
+            "message": message,
         });
 
         res.status(201).json({ 'success': 'Message sent!'});
