@@ -3,11 +3,13 @@ import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { MessagesSearchBar } from "./MessagesSearchBar"
+import { useSendMessageMutation } from '../features/messages/messagesApiSlice';
 import './MessagesTab.css'
 
 export const MessageTab = () => {
     const user = useSelector(selectCurrentUser)
     const [message, setMessage] = useState("");
+    const [sendMessage] = useSendMessageMutation(); 
     const [isOpen, setIsOpen] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
     const [showConversation, setShowConversation] = useState(false);
@@ -30,6 +32,15 @@ export const MessageTab = () => {
         setMessage(value);
     }
 
+    const handleSubmit = async () => {
+        try {
+          await sendMessage(message).unwrap(); // ✅ Call the mutation
+          setMessage(''); // Clear input after sending
+        } catch (err) {
+          console.error('Failed to send message:', err);
+        }
+    };
+
     return (
         <div className="messages-container">
             {/* Messages Tab */}
@@ -47,7 +58,19 @@ export const MessageTab = () => {
                             <div className="messages-content">
                                 <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
                                 <h3 className='message-recipient'>{currentConversation}</h3>
-                                <input type="text" className="message-input" placeholder="Message" value={message} onChange={(e) => handleChange(e.target.value)} />
+                                <input 
+                                    type="text" 
+                                    className="message-input" 
+                                    placeholder="Message" 
+                                    value={message} 
+                                    onChange={(e) => handleChange(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            handleSubmit();
+                                            handleChange('');
+                                        }
+                                    }}
+                                    />
 
                             </div>
                         ) : (
