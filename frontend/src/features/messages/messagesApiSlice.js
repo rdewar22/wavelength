@@ -37,22 +37,17 @@ export const {
     useSendMessageMutation,
 } = messagesApiSlice
 
-// Corrected selector - now takes username parameter
-export const selectMessagesResult = (username) =>
-    messagesApiSlice.endpoints.getMessagesForUserName.select(username);
-
-// In messagesApiSlice.js
 export const makeSelectMessages = (username) => {
+    // Directly create adapter selectors for a username
     const selectMessagesForUser = createSelector(
-        [state => selectMessagesResult(username)(state)],
-        messagesResult => messagesResult?.data ?? initialState
+      (state) => messagesApiSlice.endpoints.getMessagesForUserName.select(username)(state),
+      (messagesResult) => messagesResult?.data ?? initialState
     );
-
+    
     return messagesAdapter.getSelectors(selectMessagesForUser);
-};
+  };
 
 const selectMessagesData = createSelector(
-    selectMessagesResult,
     messagesResult => messagesResult?.data ?? initialState // normalized state object with ids and entities
 )
 
