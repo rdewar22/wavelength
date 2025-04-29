@@ -43,7 +43,6 @@ function App() {
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth />}>
               <Route path="welcome" element={<Welcome />} />
-              <Route path="userslist" element={<UsersList />} />
               <Route path="addpostform" element={<AddPostForm />} />
               <Route path="profile" element={<Profile />} />
               <Route path="publicprofile" element={<PublicProfile />} />

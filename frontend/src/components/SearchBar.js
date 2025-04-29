@@ -13,7 +13,7 @@ export const SearchBar = () => {
 
 
     let { data, isLoading, error } = useFindUsersQuery(debouncedInput, {
-        //skip: !debouncedInput,  // Skip query if input is empty
+        skip: !debouncedInput,  // Skip query if input is empty
     });
 
 

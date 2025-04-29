@@ -20,9 +20,28 @@ const sendMessage = async (req, res) => {
 
 const getMessagesForUserName = async (req, res) => {
     if (!req.params?.username) return res.status(400).json({ "message": 'username required'});
-    const messages = await Message.find({ recipient: req.params.username });
     
-    res.json(messages)
+    const username = req.params.username;
+
+    const [messagesSent, messagesReceived] = await Promise.all([
+        Message.find({ from: username }),
+        Message.find({ to: username })
+    ]);
+    
+    // Get unique users
+    const userSet = new Set();
+    
+    messagesSent.forEach(msg => userSet.add(msg.to));
+    messagesReceived.forEach(msg => userSet.add(msg.from));
+    
+    // Remove the original username if it somehow got added
+    userSet.delete(username);
+    
+    res.json({
+        sent: messagesSent,
+        received: messagesReceived,
+        uniqueUsers: Array.from(userSet)
+    });
 }
 
 module.exports = {

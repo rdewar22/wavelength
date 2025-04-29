@@ -3,17 +3,38 @@ import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { MessagesSearchBar } from "./MessagesSearchBar"
-import { useSendMessageMutation } from '../features/messages/messagesApiSlice';
+import { selectMessageIds, useGetMessagesForUserNameQuery, useSendMessageMutation } from '../features/messages/messagesApiSlice';
 import './MessagesTab.css'
+import ConversationPreview from '../features/messages/ConversationPreview';
 
 export const MessageTab = () => {
     const user = useSelector(selectCurrentUser)
     const [message, setMessage] = useState("");
-    const [sendMessage] = useSendMessageMutation(); 
+    const [sendMessage] = useSendMessageMutation();
     const [isOpen, setIsOpen] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
     const [showConversation, setShowConversation] = useState(false);
     const [currentConversation, setcurrentConversation] = useState('');
+
+    const {
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetMessagesForUserNameQuery(user, {
+        skip: !user
+    });
+
+    const orderedMessageIds = useSelector(selectMessageIds);
+
+    let content;
+    if (isLoading) {
+        content = <p>Loading...</p>;
+    } else if (isSuccess) {
+        content = [...orderedMessageIds].reverse().map(messageId => <ConversationPreview key={messageId} messageId={messageId} />);
+    } else if (isError) {
+        content = <p>Error: {error.originalStatus} {error.status}</p>  //JSON.stringify()
+    }
 
     const toggleMessagesTab = () => {
         setIsOpen(!isOpen);
@@ -34,11 +55,11 @@ export const MessageTab = () => {
 
     const handleSendMessage = async (to, from) => {
         try {
-          console.log(to, from, message);  
-          await sendMessage({ to, from, message }).unwrap(); // ✅ Call the mutation
-          setMessage(''); // Clear input after sending
+            console.log(to, from, message);
+            await sendMessage({ to, from, message }).unwrap(); // ✅ Call the mutation
+            setMessage(''); // Clear input after sending
         } catch (err) {
-          console.error('Failed to send message:', err);
+            console.error('Failed to send message:', err);
         }
     };
 
@@ -59,11 +80,11 @@ export const MessageTab = () => {
                             <div className="messages-content">
                                 <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
                                 <h3 className='message-recipient'>{currentConversation}</h3>
-                                <input 
-                                    type="text" 
-                                    className="message-input" 
-                                    placeholder="Message" 
-                                    value={message} 
+                                <input
+                                    type="text"
+                                    className="message-input"
+                                    placeholder="Message"
+                                    value={message}
                                     onChange={(e) => handleChange(e.target.value)}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') {
@@ -71,14 +92,16 @@ export const MessageTab = () => {
                                             handleChange('');
                                         }
                                     }}
-                                    />
+                                />
 
                             </div>
                         ) : (
                             <div className="messages-content">
                                 <button onClick={toggleOverlay} className='new-convo-button'>+</button>
                                 <ul>
-                                    <li>Conversation 1</li>
+                                    <section>
+                                        {content || <p>Start a new conversation with the '+' button!</p>}
+                                    </section>
                                 </ul>
                             </div>
                         )}
@@ -87,7 +110,7 @@ export const MessageTab = () => {
                     <>
                         <div className="no-user-message">
                             <p>
-                                Please <Link to="/login" className='login-link'>login</Link> or <Link className='register-link'to="/register">register</Link> to use messages.
+                                Please <Link to="/login" className='login-link'>login</Link> or <Link className='register-link' to="/register">register</Link> to use messages.
                             </p>
                         </div>
                     </>

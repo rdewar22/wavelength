@@ -1,4 +1,4 @@
-import { createEntityAdapter } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { apiSlice } from "../../app/api/apiSlice";
 
 const messagesAdapter = createEntityAdapter({
@@ -11,12 +11,12 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getMessagesForUserName: builder.query({
             query: username => `/messages/${username}`,
-            transformResponse: responseData => {
-                let min = 1;
-                const loadedMessages = responseData.map(message => {
-                    return message;
-                });
-                return messagesAdapter.setAll(initialState, loadedMessages)
+            transformResponse: (responseData) => {
+                return {
+                    messagesSent: responseData.sent,
+                    messagesReceived: responseData.received,
+                    uniqueUsers: responseData.uniqueUsers,
+                };
             },
             providesTags: (result, error, arg) => [
                 { type: 'Message', id: "LIST" },
@@ -40,3 +40,19 @@ export const {
     useGetMessagesForUserNameQuery,
     useSendMessageMutation,
 } = messagesApiSlice
+
+// Corrected selector - now takes username parameter
+export const selectMessagesResult = (username) => 
+    messagesApiSlice.endpoints.getMessagesForUserName.select(username);
+
+const selectMessagesData = createSelector(
+    selectMessagesResult,
+    messagesResult => messagesResult.data // normalized state object with ids and entities
+)
+
+//getSelectors creates these selectors and we rename them with aliases using destructuring
+export const {
+    selectAll: selectAllMessages,
+    selectById: selectMessageById,
+    selectIds: selectMessageIds
+} = messagesAdapter.getSelectors(state => selectMessagesData(state) ?? initialState)
