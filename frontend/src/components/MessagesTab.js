@@ -5,7 +5,7 @@ import { selectCurrentUser } from '../features/auth/authSlice';
 import { MessagesSearchBar } from "./MessagesSearchBar"
 import { selectMessageIds, useGetMessagesForUserNameQuery, useSendMessageMutation } from '../features/messages/messagesApiSlice';
 import './MessagesTab.css'
-import ConversationPreview from '../features/messages/ConversationPreview';
+import MsgPreview from '../features/messages/MsgPreview';
 
 export const MessageTab = () => {
     const user = useSelector(selectCurrentUser)
@@ -17,6 +17,7 @@ export const MessageTab = () => {
     const [currentConversation, setcurrentConversation] = useState('');
 
     const {
+        data,
         isLoading,
         isSuccess,
         isError,
@@ -25,13 +26,15 @@ export const MessageTab = () => {
         skip: !user
     });
 
-    const orderedMessageIds = useSelector(selectMessageIds);
+    console.log('Query results:', { data, isLoading, isSuccess });
+
+    //const orderedMessageIds = useSelector(selectMessageIds);
 
     let content;
     if (isLoading) {
         content = <p>Loading...</p>;
     } else if (isSuccess) {
-        content = [...orderedMessageIds].reverse().map(messageId => <ConversationPreview key={messageId} messageId={messageId} />);
+        content = [...data.ids].reverse().map(messageId => <MsgPreview key={messageId} messageId={messageId} username={user} />);
     } else if (isError) {
         content = <p>Error: {error.originalStatus} {error.status}</p>  //JSON.stringify()
     }

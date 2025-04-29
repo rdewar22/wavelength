@@ -12,17 +12,13 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
         getMessagesForUserName: builder.query({
             query: username => `/messages/${username}`,
             transformResponse: (responseData) => {
-                return {
-                    messagesSent: responseData.sent,
-                    messagesReceived: responseData.received,
-                    uniqueUsers: responseData.uniqueUsers,
-                };
+                const allMessages = [...responseData.sent, ...responseData.received];
+                return messagesAdapter.setAll(initialState, allMessages);
             },
-            providesTags: (result, error, arg) => [
-                { type: 'Message', id: "LIST" },
+            providesTags: (result) => [
+                { type: 'Message', id: 'LIST' },
                 ...(result?.ids ? result.ids.map(id => ({ type: 'Message', id })) : [])
             ]
-
         }),
         sendMessage: builder.mutation({
             query: initialMessage => ({
@@ -42,12 +38,22 @@ export const {
 } = messagesApiSlice
 
 // Corrected selector - now takes username parameter
-export const selectMessagesResult = (username) => 
+export const selectMessagesResult = (username) =>
     messagesApiSlice.endpoints.getMessagesForUserName.select(username);
+
+// In messagesApiSlice.js
+export const makeSelectMessages = (username) => {
+    const selectMessagesForUser = createSelector(
+        [state => selectMessagesResult(username)(state)],
+        messagesResult => messagesResult?.data ?? initialState
+    );
+
+    return messagesAdapter.getSelectors(selectMessagesForUser);
+};
 
 const selectMessagesData = createSelector(
     selectMessagesResult,
-    messagesResult => messagesResult.data // normalized state object with ids and entities
+    messagesResult => messagesResult?.data ?? initialState // normalized state object with ids and entities
 )
 
 //getSelectors creates these selectors and we rename them with aliases using destructuring
