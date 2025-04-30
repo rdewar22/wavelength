@@ -5387,3 +5387,13 @@
 20250429	17:51:44	4c08e2aa-e3fa-402d-8a2e-d58a7cf3be96	POST	http://localhost:3000	/auth
 20250429	17:51:45	81099d04-c3ce-4dad-8c34-e05e83364eae	OPTIONS	http://localhost:3000	/messages/chris
 20250429	17:51:45	16f0e3fc-5c62-4a9c-881c-9c7440a30ed3	GET	http://localhost:3000	/messages/chris
+20250429	22:08:59	99ed9f60-1001-4652-9cf1-d880fcd20fa4	GET	http://localhost:3000	/logout
+20250429	22:08:59	47f25dc7-6461-46f6-a6aa-383f8f886ce4	GET	http://localhost:3000	/posts
+20250429	22:09:06	9d34c4ce-c007-4397-8889-4092da0dd3f8	OPTIONS	http://localhost:3000	/auth
+20250429	22:09:06	340b6859-d3d5-4339-89d0-82757c611314	POST	http://localhost:3000	/auth
+20250429	22:09:06	cb67e6da-5849-4559-a954-a25ac59d17ce	OPTIONS	http://localhost:3000	/messages/chris
+20250429	22:09:06	e813cc31-e625-4c40-be40-7b9781f84223	GET	http://localhost:3000	/messages/chris
+20250429	22:09:10	3314a8ee-23ac-4aae-9fcf-5f6710f66866	OPTIONS	http://localhost:3000	/users?searchString=
+20250429	22:09:10	7bba445a-a6b9-471a-9425-07c7476ce7b7	GET	http://localhost:3000	/users?searchString=
+20250429	22:09:12	90a94ffe-2bf2-4169-92c0-acf64947a16c	OPTIONS	http://localhost:3000	/users?searchString=r
+20250429	22:09:12	32f58f8e-83d1-4d29-8206-b49b9dbb0a9c	GET	http://localhost:3000	/users?searchString=r

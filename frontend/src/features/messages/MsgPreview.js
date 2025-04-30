@@ -2,14 +2,18 @@ import { useSelector } from "react-redux"
 import { makeSelectMessages } from "./messagesApiSlice"
 import "./MsgPreview.css"
 
-const MsgPreview = ({ messageId, username }) => {
+const MsgPreview = ({ messageId, username, toggleConversation }) => {
     const { selectById } = makeSelectMessages(username);
     const message = useSelector(state => selectById(state, messageId));
     
     const convoPartner = message?.from === username ? message?.to : message?.from;
 
+    const handleClick = () => {
+        toggleConversation(convoPartner);
+    };
+
     return (
-        <button className="message-preview">
+        <button className="message-preview" onClick={handleClick}>
           <div className="avatar-wrapper">
             {/* Replace with actual avatar component or icon */}
             <div className="avatar-placeholder"></div>

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { MessagesSearchBar } from "./MessagesSearchBar"
-import { selectMessageIds, useGetMessagesForUserNameQuery, useSendMessageMutation } from '../features/messages/messagesApiSlice';
+import { useGetMessagesForUserNameQuery, useSendMessageMutation } from '../features/messages/messagesApiSlice';
 import './MessagesTab.css'
 import MsgPreview from '../features/messages/MsgPreview';
 
@@ -25,19 +25,6 @@ export const MessageTab = () => {
     } = useGetMessagesForUserNameQuery(user, {
         skip: !user
     });
-
-    console.log('Query results:', { data, isLoading, isSuccess });
-
-    //const orderedMessageIds = useSelector(selectMessageIds);
-
-    let content;
-    if (isLoading) {
-        content = <p>Loading...</p>;
-    } else if (isSuccess) {
-        content = [...data.ids].reverse().map(messageId => <MsgPreview key={messageId} messageId={messageId} username={user} />);
-    } else if (isError) {
-        content = <p>Error: {error.originalStatus} {error.status}</p>  //JSON.stringify()
-    }
 
     const toggleMessagesTab = () => {
         setIsOpen(!isOpen);
@@ -65,6 +52,22 @@ export const MessageTab = () => {
             console.error('Failed to send message:', err);
         }
     };
+
+    let content;
+    if (isLoading) {
+        content = <p>Loading...</p>;
+    } else if (isSuccess) {
+        content = [...data.ids].reverse().map(messageId => (
+            <MsgPreview
+                key={messageId}
+                messageId={messageId}
+                username={user}
+                toggleConversation={toggleConversation}
+            />
+        ));
+    } else if (isError) {
+        content = <p>Error: {error.originalStatus} {error.status}</p>  //JSON.stringify()
+    }
 
     return (
         <div className="messages-container">
@@ -133,16 +136,6 @@ export const MessageTab = () => {
                     </div>
                 </div>
             )}
-
-            {/* {showConversation && (
-                <div className="new-div">
-                    <h2>This is the New Div</h2>
-                    <p>This div replaces the messages overlay.</p>
-                    <button onClick={toggleConversation} className="close-button">
-                        Close
-                    </button>
-                </div>
-            )} */}
         </div>
     );
 };
