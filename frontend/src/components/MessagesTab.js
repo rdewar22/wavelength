@@ -73,9 +73,6 @@ export const MessageTab = () => {
         <div className="messages-container">
             {/* Messages Tab */}
 
-
-
-
             <div className={`messages-overlay ${isOpen ? "open" : ""}`}>
                 <button className="messages-tab" onClick={toggleMessagesTab}>
                     Messages
@@ -86,6 +83,7 @@ export const MessageTab = () => {
                             <div className="messages-content">
                                 <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
                                 <h3 className='message-recipient'>{currentConversation}</h3>
+                                
                                 <input
                                     type="text"
                                     className="message-input"

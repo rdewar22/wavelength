@@ -1,5 +1,5 @@
 import "./Navbar.css"
-import { useRef, useState, useEffect } from "react"
+import { useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { logOut } from "../features/auth/authSlice"
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 import { useLogoutQuery } from "../features/auth/authApiSlice"
 import { SearchBar } from "./SearchBar"
 import { selectCurrentUser } from "../features/auth/authSlice"
-import { MessageTab } from "./MessagesTab"
+
 
 export default function Navbar() {
 
@@ -16,7 +16,6 @@ export default function Navbar() {
 
     const user = useSelector(selectCurrentUser);
 
-    const [errMsg, setErrMsg] = useState('');
     const errRef = useRef();
     const { logout } = useLogoutQuery();
 
@@ -30,13 +29,6 @@ export default function Navbar() {
             await logout();
             navigate('/login')
         } catch (err) {
-            if (!err?.originalStatus) {
-                setErrMsg('No Server Response');
-            } else if (err.originalStatus === 401) {
-                setErrMsg('Unauthorized');
-            } else {
-                setErrMsg('Logout Failed')
-            }
             if (errRef.current) {
                 errRef.current.focus();
             }
@@ -57,7 +49,7 @@ export default function Navbar() {
                     {user ? (
                         <>
                             <li>
-                                <a onClick={handleLogout}>Logout</a>
+                                <button onClick={handleLogout}>Logout</button>
                             </li>
                         </>
                     ) : (
