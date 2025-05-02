@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { MessagesSearchBar } from "./MessagesSearchBar"
 import { useGetMessagesForUserNameQuery, useSendMessageMutation } from '../features/messages/messagesApiSlice';
+import { makeSelectMessages } from "../features/messages/messagesApiSlice"
 import './MessagesTab.css'
 import MsgPreview from '../features/messages/MsgPreview';
 
@@ -14,7 +15,8 @@ export const MessageTab = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
     const [showConversation, setShowConversation] = useState(false);
-    const [currentConversation, setcurrentConversation] = useState('');
+    const [currentConversation, setCurrentConversation] = useState('');
+    const [currentMsgs, setCurrentMsgs] = useState([]);
 
     const {
         data,
@@ -26,6 +28,7 @@ export const MessageTab = () => {
         skip: !user
     });
 
+
     const toggleMessagesTab = () => {
         setIsOpen(!isOpen);
     };
@@ -35,7 +38,23 @@ export const MessageTab = () => {
     };
 
     const toggleConversation = (username = null) => {
-        setcurrentConversation(username);
+        const conversationMsgMap = new Map();
+
+        if (data?.entities) {
+            Object.values(data.entities).forEach(msg => {
+                const convoPartner = msg.to === user ? msg.from : msg.to;
+                const existing = recentMsgMap.get(convoPartner);
+
+                if (!existing || new Date(msg.updatedAt) > new Date(existing.updatedAt)) {
+                    recentMsgMap.set(convoPartner, msg);
+                }
+            });
+        }
+
+        const conversationMsgList = Array.from(recentMsgMap.values());
+
+        setCurrentMsgs(conversationMsgList);
+        setCurrentConversation(username);
         setShowConversation(!showConversation);
     }
 
@@ -54,13 +73,32 @@ export const MessageTab = () => {
     };
 
     let content;
+
+
+    const recentMsgMap = new Map();
+
+    if (data?.entities) {
+        Object.values(data.entities).forEach(msg => {
+            const convoPartner = msg.to === user ? msg.from : msg.to;
+            const existing = recentMsgMap.get(convoPartner);
+
+            if (!existing || new Date(msg.updatedAt) > new Date(existing.updatedAt)) {
+                recentMsgMap.set(convoPartner, msg);
+            }
+        });
+    }
+
+    const recentMsgList = Array.from(recentMsgMap.values());
+
+
+
     if (isLoading) {
         content = <p>Loading...</p>;
     } else if (isSuccess) {
-        content = [...data.ids].reverse().map(messageId => (
+        content = [...recentMsgList].reverse().map(message => (
             <MsgPreview
-                key={messageId}
-                messageId={messageId}
+                key={message._id}
+                message={message}
                 username={user}
                 toggleConversation={toggleConversation}
             />
@@ -83,7 +121,16 @@ export const MessageTab = () => {
                             <div className="messages-content">
                                 <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
                                 <h3 className='message-recipient'>{currentConversation}</h3>
-                                
+
+                                <div className="full-conversation">
+                                    {currentMsgs.map((msg, index) => (
+                                        <div key={index} className={`message ${msg.from === user ? 'sent' : 'received'}`}>
+                                            <p>{msg.message}</p>
+                                            <small>{new Date(msg.updatedAt).toLocaleString()}</small>
+                                        </div>
+                                    ))}
+                                </div>
+
                                 <input
                                     type="text"
                                     className="message-input"

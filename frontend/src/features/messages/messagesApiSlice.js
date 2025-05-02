@@ -12,8 +12,7 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
         getMessagesForUserName: builder.query({
             query: username => `/messages/${username}`,
             transformResponse: (responseData) => {
-                const allMessages = [...responseData.sent, ...responseData.received];
-                return messagesAdapter.setAll(initialState, allMessages);
+                return messagesAdapter.setAll(initialState, responseData.messages);
             },
             providesTags: (result) => [
                 { type: 'Message', id: 'LIST' },
@@ -28,7 +27,7 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
                     ...initialMessage
                 }
             })
-        })
+        }),
     })
 })
 

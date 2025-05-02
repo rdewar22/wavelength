@@ -2,9 +2,7 @@ import { useSelector } from "react-redux"
 import { makeSelectMessages } from "./messagesApiSlice"
 import "./MsgPreview.css"
 
-const MsgPreview = ({ messageId, username, toggleConversation }) => {
-    const { selectById } = makeSelectMessages(username);
-    const message = useSelector(state => selectById(state, messageId));
+const MsgPreview = ({ message, username, toggleConversation }) => {
     
     const convoPartner = message?.from === username ? message?.to : message?.from;
 
