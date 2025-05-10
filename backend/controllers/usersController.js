@@ -25,7 +25,7 @@ const getUser = async (req, res) => {
     res.json(user);
 }
 
-const findUsers = async (req, res) => {
+const findUser = async (req, res) => {
     const input  = req.query.searchString;
     if (input.length === 0) {
         return res.json();
@@ -67,5 +67,5 @@ module.exports = {
     deleteUser,
     getUser,
     newProfilePic,
-    findUsers
+    findUser
 }

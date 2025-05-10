@@ -1,11 +1,9 @@
 import { useLocation, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
-import Public from "./components/Public";
 import Register from "./features/registration/Register";
 import Login from "./features/auth/Login";
 import Welcome from "./features/auth/Welcome";
 import RequireAuth from "./features/auth/RequireAuth";
-import UsersList from "./features/users/UsersList";
 import PostsList from "./features/posts/PostsList";
 import NotFound from "./components/404";
 import AddPostForm from "./features/posts/AddPostForm";

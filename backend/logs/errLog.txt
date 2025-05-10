@@ -13,3 +13,5 @@
 20250111	13:44:05	bf649595-4d21-481a-9931-d440b77f3b5a	AccessControlListNotSupported: The bucket does not allow ACLs
 20250111	21:52:16	1fa16c45-42e9-4f8b-a82a-106b331d3d62	MulterError: File too large
 20250316	11:28:04	23b1beaf-94e9-4a80-bc5f-18979b2aa0f8	Error: Not allowed by CORS
+20250510	17:50:29	d709bb86-e624-4037-8663-03a0f61387a3	SyntaxError: Expected property name or '}' in JSON at position 17 (line 2 column 16)
+20250510	17:57:36	9ccbf192-688e-46b3-be9e-05a1db9cb956	SyntaxError: Expected ',' or '}' after property value in JSON at position 19 (line 2 column 18)

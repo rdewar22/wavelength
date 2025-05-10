@@ -9,7 +9,7 @@ const handleLogin = async (req, res) => {
 
     const foundUser = await User.findOne({ username: user });
     if (!foundUser) return res.sendStatus(401); //Unauthorized
-    const isProfPicInDb = !!foundUser.profilePicUri; 
+    const isProfPicInDb = Boolean(foundUser.profilePicUri); 
     // evaluate password 
     const match = await bcrypt.compare(pwd, foundUser.password);
     if (match) {
@@ -18,7 +18,7 @@ const handleLogin = async (req, res) => {
         const accessToken = jwt.sign(
             {
                 "UserInfo": {
-                    "username": foundUser.username,
+                    "user": foundUser._id,
                     "roles": roles
                 }
             },
@@ -59,7 +59,7 @@ const handleLogin = async (req, res) => {
         }
 
         // Saving refreshToken with current user
-        foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
+        foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken].slice(-5);
         const result = await foundUser.save();
 
         // Creates Secure Cookie with refresh token
