@@ -10,7 +10,7 @@ const verifyRoles = require('../../middleware/verifyRoles');
 router.route('/')
     .post(messagesController.accessChat);
 
-router.route('/')
+router.route('/:userId')
     .get(messagesController.fetchChats);
 
 router.route('/:username')

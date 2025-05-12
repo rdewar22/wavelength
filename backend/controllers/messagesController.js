@@ -88,7 +88,8 @@ const accessChat = async (req, res) => {
 
 const fetchChats = async (req, res) => {
     try {
-        Chat.find({ users: { $elemMatch: { $eq: req.body.userId } } })
+        const { userId } = req.params;
+        Chat.find({ users: { $elemMatch: { $eq: userId } } })
             .populate("users", "-password")
             .populate("latestMessage")
             .sort({ updatedAt: -1 })

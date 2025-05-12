@@ -1,13 +1,12 @@
 import { useSelector } from "react-redux"
 import { makeSelectMessages } from "./messagesApiSlice"
-import "./MsgPreview.css"
+import "./ChatPreview.css"
 
-const MsgPreview = ({ message, username, toggleConversation }) => {
+const ChatPreview = ({ chatName, latestMessage, toggleConversation }) => {
     
-    const convoPartner = message?.from === username ? message?.to : message?.from;
 
     const handleClick = () => {
-        toggleConversation(convoPartner);
+        toggleConversation(chatName);
     };
 
     return (
@@ -18,16 +17,16 @@ const MsgPreview = ({ message, username, toggleConversation }) => {
           </div>
           <div className="message-content">
             <div className="message-header">
-              <span className="username">{convoPartner}</span>
-              <span className="timestamp">{message?.date}</span>
+              <span className="username">{chatName}</span>
+              <span className="timestamp">{latestMessage?.updatedAt}</span>
             </div>
             <div className="message-text">
-              <p className="preview-text">{message?.message}</p>
-              {message?.unread && <span className="unread-badge"></span>}
+              <p className="preview-text">{latestMessage?.message}</p>
+              {latestMessage?.read && <span className="unread-badge"></span>}
             </div>
           </div>
         </button>
       );
 }
 
-export default MsgPreview
+export default ChatPreview

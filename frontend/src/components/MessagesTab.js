@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import { selectCurrentUser } from '../features/auth/authSlice';
+import { selectCurrentUser, selectCurrentUserId } from '../features/auth/authSlice';
 import { MessagesSearchBar } from "./MessagesSearchBar"
-import { useGetMessagesForUserNameQuery, useSendMessageMutation } from '../features/messages/messagesApiSlice';
+import { useFetchChatsForUserQuery, useGetMessagesForUserNameQuery, useSendMessageMutation } from '../features/messages/messagesApiSlice';
 import { makeSelectMessages } from "../features/messages/messagesApiSlice"
 import './MessagesTab.css'
-import MsgPreview from '../features/messages/MsgPreview';
+import ChatPreview from '../features/messages/ChatPreview';
 
 export const MessageTab = () => {
-    const user = useSelector(selectCurrentUser)
+    const user = useSelector(selectCurrentUser);
+    const userId = useSelector(selectCurrentUserId);
     const [message, setMessage] = useState("");
     const [sendMessage] = useSendMessageMutation();
     const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +25,7 @@ export const MessageTab = () => {
         isSuccess,
         isError,
         error
-    } = useGetMessagesForUserNameQuery(user, {
+    } = useFetchChatsForUserQuery(userId, {
         skip: !user
     });
 
@@ -37,24 +38,17 @@ export const MessageTab = () => {
         setShowOverlay(!showOverlay);
     };
 
-    const toggleConversation = (username = null) => {
-        const conversationMsgMap = new Map();
+    const toggleConversation = (userId = null) => {
 
-        if (data?.entities) {
-            Object.values(data.entities).forEach(msg => {
-                const convoPartner = msg.to === user ? msg.from : msg.to;
-                const existing = recentMsgMap.get(convoPartner);
+        // if (data?.entities) {
+        //     Object.values(data.entities).forEach(chat => {
+        //         const chatName = chat.chatName;
+        //         const latestMessage = chat.latestMessage;
 
-                if (!existing || new Date(msg.updatedAt) > new Date(existing.updatedAt)) {
-                    recentMsgMap.set(convoPartner, msg);
-                }
-            });
-        }
+        //     });
+        // }
 
-        const conversationMsgList = Array.from(recentMsgMap.values());
-
-        setCurrentMsgs(conversationMsgList);
-        setCurrentConversation(username);
+        setCurrentConversation(userId);
         setShowConversation(!showConversation);
     }
 
@@ -75,34 +69,22 @@ export const MessageTab = () => {
     let content;
 
 
-    const recentMsgMap = new Map();
-
-    if (data?.entities) {
-        Object.values(data.entities).forEach(msg => {
-            const convoPartner = msg.to === user ? msg.from : msg.to;
-            const existing = recentMsgMap.get(convoPartner);
-
-            if (!existing || new Date(msg.updatedAt) > new Date(existing.updatedAt)) {
-                recentMsgMap.set(convoPartner, msg);
-            }
-        });
-    }
-
-    const recentMsgList = Array.from(recentMsgMap.values());
-
-
 
     if (isLoading) {
         content = <p>Loading...</p>;
     } else if (isSuccess) {
-        content = [...recentMsgList].reverse().map(message => (
-            <MsgPreview
-                key={message._id}
-                message={message}
-                username={user}
-                toggleConversation={toggleConversation}
-            />
-        ));
+        // Safely handle `data` (could be `null` or an array)
+        const chatsArray = Object.values(data.entities);
+        content = chatsArray
+            .reverse() // Reverse only if data exists
+            .map(chat => (
+                <ChatPreview
+                    key={chat._id}
+                    chatName={chat.chatName}
+                    latestMessage={chat.latestMessage}
+                    toggleConversation={toggleConversation}
+                />
+            ));
     } else if (isError) {
         content = <p>Error: {error.originalStatus} {error.status}</p>  //JSON.stringify()
     }
