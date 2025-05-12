@@ -16,7 +16,16 @@ router.route('/')
 router.route('/:username')
     .get(messagesController.getMessagesForUserName);
 
-// router.route("/group")
-//     .post(messagesController.createGroupChat);
+router.route("/group")
+    .post(messagesController.createGroupChat);
+
+router.route("/rename")
+    .put(messagesController.renameGroup);
+
+router.route("/groupadd")
+    .put(messagesController.addToGroup);
+
+router.route("/groupremove")
+    .put(messagesController.removeFromGroup);
 
 module.exports = router
