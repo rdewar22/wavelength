@@ -56,6 +56,8 @@ export const MessageTab = () => {
         setMessage(value);
     }
 
+    const handleSubmit = () => {}
+
     const handleSendMessage = async (to, from) => {
         try {
             console.log(to, from, message);
@@ -156,10 +158,10 @@ export const MessageTab = () => {
             {showOverlay && (
                 <div className="overlay">
                     <div className="overlay-content">
-                        <MessagesSearchBar toggleConversation={toggleConversation} toggleOverlay={toggleOverlay} />
                         <h2>New Conversation</h2>
                         <p>Start a new conversation here.</p>
-                        <button onClick={toggleOverlay} className="close-button">Close</button>
+                        <MessagesSearchBar toggleConversation={toggleConversation} toggleOverlay={toggleOverlay} />
+                        <button onClick={handleSubmit} className="close-button">Create Chat</button>
                     </div>
                 </div>
             )}
