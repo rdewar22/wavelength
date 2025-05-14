@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { selectCurrentUser, selectCurrentUserId } from '../features/auth/authSlice';
 import { MessagesSearchBar } from "./MessagesSearchBar"
-import { useFetchChatsForUserQuery, useGetMessagesForUserNameQuery, useSendMessageMutation } from '../features/messages/messagesApiSlice';
+import { useFetchChatsForUserQuery, useAccessChatMutation, useSendMessageMutation } from '../features/messages/messagesApiSlice';
 import { makeSelectMessages } from "../features/messages/messagesApiSlice"
 import './MessagesTab.css'
 import ChatPreview from '../features/messages/ChatPreview';
@@ -16,8 +17,12 @@ export const MessageTab = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
     const [showConversation, setShowConversation] = useState(false);
+    const [selectedUsers, setSelectedUsers] = useState([]); // Add this line
     const [currentConversation, setCurrentConversation] = useState('');
     const [currentMsgs, setCurrentMsgs] = useState([]);
+    const [groupChatName, setGroupChatName] = useState();
+    const [chats, setChats] = useState();
+
 
     const {
         data,
@@ -28,6 +33,8 @@ export const MessageTab = () => {
     } = useFetchChatsForUserQuery(userId, {
         skip: !user
     });
+
+    const [accessChat, { isLoading: isAccessingChat }] = useAccessChatMutation();
 
 
     const toggleMessagesTab = () => {
@@ -40,14 +47,6 @@ export const MessageTab = () => {
 
     const toggleConversation = (userId = null) => {
 
-        // if (data?.entities) {
-        //     Object.values(data.entities).forEach(chat => {
-        //         const chatName = chat.chatName;
-        //         const latestMessage = chat.latestMessage;
-
-        //     });
-        // }
-
         setCurrentConversation(userId);
         setShowConversation(!showConversation);
     }
@@ -56,7 +55,40 @@ export const MessageTab = () => {
         setMessage(value);
     }
 
-    const handleSubmit = () => {}
+    const handleSubmit = async () => {
+        if (!groupChatName || !selectedUsers) {
+            toast.warning("Please fill all the fields", {
+                hideProgressBar: true,
+                isClosable: true,
+                position: "top",
+            });
+            return;
+        }
+
+        try {
+            // Prepare the request data
+            const chatData = {
+                groupName: groupChatName,
+                userIds: selectedUsers.map(user => user._id) // Convert to array of user IDs
+            };
+
+            // Call the mutation
+            await accessChat(chatData).unwrap();
+
+            // On success
+            toast.success("Chat created successfully!");
+            setGroupChatName('');
+            setSelectedUsers([]);
+            toggleOverlay();
+
+
+
+
+        } catch (error) {
+            toast.error(error.data?.message || "Failed to create chat");
+            console.error("Chat creation error:", error);
+        }
+    }
 
     const handleSendMessage = async (to, from) => {
         try {
@@ -69,8 +101,6 @@ export const MessageTab = () => {
     };
 
     let content;
-
-
 
     if (isLoading) {
         content = <p>Loading...</p>;
@@ -160,7 +190,16 @@ export const MessageTab = () => {
                     <div className="overlay-content">
                         <h2>New Conversation</h2>
                         <p>Start a new conversation here.</p>
-                        <MessagesSearchBar toggleConversation={toggleConversation} toggleOverlay={toggleOverlay} />
+                        <input
+                            type="text"
+                            placeholder="Chat Name"
+                            onChange={(e) => setGroupChatName(e.target.value)} />
+                        <MessagesSearchBar
+                            toggleConversation={toggleConversation}
+                            toggleOverlay={toggleOverlay}
+                            selectedUsers={selectedUsers}
+                            setSelectedUsers={setSelectedUsers}
+                        />
                         <button onClick={handleSubmit} className="close-button">Create Chat</button>
                     </div>
                 </div>

@@ -7,12 +7,14 @@ import { store } from './app/store';
 import { Provider } from 'react-redux';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
 
 if (process.env.NODE_ENV === 'production') disableReactDevTools();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
@@ -20,6 +22,7 @@ root.render(
         </Routes>
       </BrowserRouter>
     </Provider>
+
   </React.StrictMode>
 );
 

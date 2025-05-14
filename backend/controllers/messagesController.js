@@ -1,6 +1,8 @@
 const Chat = require('../model/Chat');
 const Message = require('../model/Message');
-const User = require('../model/User')
+const User = require('../model/User');
+const mongoose = require('mongoose');
+
 
 const sendMessage = async (req, res) => {
     const { to, from, message } = req.body;
@@ -39,49 +41,109 @@ const getMessagesForUserName = async (req, res) => {
 }
 
 const accessChat = async (req, res) => {
-    const { userId } = req.body;
+    const { userIds, groupName } = req.body;
 
-    if (!userId) {
+    if (!userIds) {
         console.log("UserId param not sent with request");
         return res.sendStatus(400);
     }
 
-    var isChat = await Chat.find({
-        isgroupchat: false,
-        $and: [
-            { users: req.user },
-            { users: userId }
-        ]
-    }).populate("users", "-password")
-        .populate("latestMessage");
+    try {
+        // Parse userIds if it's a JSON string
+        const targetUserIds = userIds;
 
-    isChat = await User.populate(isChat, {
-        path: "latestMessage.sender",
-        select: "username profilePicUri",
-    });
+        
 
-    if (isChat.length > 0) {
-        res.send(isChat[0]);
-    } else {
-        var chatData = {
-            chatName: "sender",
-            isGroupChat: false,
-            users: [req.user, userId],
-        };
+        // Convert all IDs to ObjectId and validate format
+        const userIdObjects = targetUserIds.map(id => {
+            try {
+                console.log(typeof id);
+                return new mongoose.Types.ObjectId(id);
+            } catch (err) {
+                throw new Error(`Invalid user ID format: ${id}`);
+            }
+        });
 
-        try {
-            const createdChat = await Chat.create(chatData);
+        // Verify all users exist in database
+        const existingUsers = await User.find({
+            _id: { $in: userIdObjects }
+        }).select('_id');
 
-            const FullChat = await Chat.findOne({ _id: createdChat._id }).populate({
-                path: "users",
-                select: "username profilePicUri"
+        // Check if all users were found
+        if (existingUsers.length !== userIdObjects.length) {
+            const foundIds = existingUsers.map(user => user._id.toString());
+            const missingIds = userIdObjects.filter(id => !foundIds.includes(id.toString()));
+            return res.status(404).json({
+                message: "Some users not found",
+                missingUsers: missingIds
             });
-
-            res.status(200).send(FullChat);
-        } catch (error) {
-            res.status(400);
-            throw new Error(error.message);
         }
+
+        // Current user ID (assuming it's already validated by auth middleware)
+        const currentUserId = req.userId;
+
+        // Group chat logic
+        if (userIdObjects.length > 1) {
+            const existingGroup = await Chat.findOne({
+                isGroupChat: true,
+                users: {
+                    $all: [currentUserId, ...userIdObjects],
+                    $size: userIdObjects.length + 1
+                }
+            }).populate("users", "-password")
+                .populate("latestMessage");
+
+            if (existingGroup) {
+                return res.json(existingGroup);
+            }
+
+            const chatData = {
+                chatName: groupName || `Group ${Date.now()}`,
+                isGroupChat: true,
+                users: [currentUserId, ...userIdObjects],
+            };
+
+            const createdChat = await Chat.create(chatData);
+            const fullChat = await Chat.findOne({ _id: createdChat._id })
+                .populate("users", "-password");
+
+            return res.status(201).json(fullChat);
+        }
+        // 1:1 chat logic
+        else {
+            const existingChat = await Chat.findOne({
+                isGroupChat: false,
+                users: {
+                    $all: [currentUserId, userIdObjects[0]],
+                    $size: 2
+                }
+            }).populate("users", "-password");
+
+            if (existingChat) {
+                return res.json(existingChat);
+            }
+
+            const chatData = {
+                chatName: "sender",
+                isGroupChat: false,
+                users: [currentUserId, userIdObjects[0]],
+            };
+
+            const createdChat = await Chat.create(chatData);
+            const fullChat = await Chat.findOne({ _id: createdChat._id })
+                .populate("users", "-password");
+
+            return res.status(201).json(fullChat);
+        }
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: error.message.includes('ObjectId')
+                ? 'Invalid user ID format'
+                : 'Server error',
+            error: error.message
+        });
     }
 
 };

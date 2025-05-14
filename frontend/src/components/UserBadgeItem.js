@@ -1,25 +1,21 @@
-import { Badge, CloseButton } from '@chakra-ui/react'
-import React from 'react'
+import React from 'react';
+import './UserBadgeItem.css'; // Create this CSS file
 
 const UserBadgeItem = ({ user, handleFunction }) => {
     return (
-        <Badge
-            px={2}
-            py={1}
-            borderRadius="lg"
-            m={1}
-            mb={2}
-            variant="solid"
-            fontSize={12}
-            colorScheme="purple"
-            cursor="pointer"
-            onClick={handleFunction}>
-
+        <div className="user-badge" onClick={handleFunction}>
             {user.username}
-            <CloseButton p1={1} />
+            <span
+                className="badge-close"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    handleFunction();
+                }}
+            >
+                ×
+            </span>
+        </div>
+    );
+};
 
-        </Badge>
-    )
-}
-
-export default UserBadgeItem
+export default UserBadgeItem;

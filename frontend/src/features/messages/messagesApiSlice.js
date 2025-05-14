@@ -45,12 +45,21 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
                 { type: 'Chat', id: 'LIST' },
                 ...(result?.ids ? result.ids.map(id => ({ type: 'Chat', id })) : [])
             ]
+        }),
+        accessChat: builder.mutation({
+            query: (groupData) => ({
+                url:'/messages',
+                method: 'POST',
+                body: groupData
+            }),
+            invalidatesTags: ['Chat']
         })
     })
 })
 
 export const {
     useGetMessagesForUserNameQuery,
+    useAccessChatMutation,
     useSendMessageMutation,
     useFetchChatsForUserQuery
 } = messagesApiSlice

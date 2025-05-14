@@ -77,6 +77,9 @@
 
 .messages-content {
   padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Or specific height */
 }
 
 .messages-content h2 {
@@ -86,11 +89,20 @@
 .messages-content ul {
   list-style: none;
   padding: 0;
+  flex: 1; /* Takes remaining space */
+  min-height: 0; /* Fixes flexbox overflow issue */
 }
 
 .messages-content li {
   padding: 10px;
   border-bottom: 1px solid #eee;
+}
+
+.messages-content section {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;  /* Firefox */
+  padding-right: 8px;  
 }
 
 .message-input {
