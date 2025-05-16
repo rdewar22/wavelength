@@ -5,19 +5,40 @@ const mongoose = require('mongoose');
 
 
 const sendMessage = async (req, res) => {
-    const { to, from, message } = req.body;
-    if (!to || !from || !message) return res.status(400).json({ 'message': 'sender, recipient, and content are required' });
+    const { content, chatId } = req.body;
+
+    if (!content || !chatId) {
+        console.log("Invalid data passed into request");
+        return res.sendStatus(400);
+    }
+
+    var newMessage = {
+        sender: req.userId,
+        message: content,
+        chat: chatId
+    };
 
     try {
-        const result = await Message.create({
-            "to": to,
-            "from": from,
-            "message": message,
+        var message = await Message.create(newMessage);
+
+        message = await message.populate("sender", "username, profilePicUri");
+        message = await message.populate({
+            path: "chat",
+            populate: {
+                path: "users",
+                select: "username profilePicUri"
+            }
         });
 
-        res.status(201).json({ 'success': 'Message sent!' });
-    } catch (err) {
-        res.status(500).json({ 'message': err.message });
+        await Chat.findByIdAndUpdate(req.body.chatId, {
+            latestMessage: message
+        });
+
+        res.json(message);
+
+    } catch (error) {
+        res.status(400);
+        throw new Error(error.message);
     }
 
 }
@@ -40,6 +61,20 @@ const getMessagesForUserName = async (req, res) => {
     });
 }
 
+const getMessagesInChat = async (req, res) => {
+    try {
+        const messages = await Message.find({ chat: req.params.chatId })
+            .populate("sender", "username profilePicUri")
+            .populate("chat");
+
+        res.json(messages);
+    } catch (error) {
+        res.status(400);
+        throw new Error(error.message);
+    }
+
+}
+
 const accessChat = async (req, res) => {
     const { userIds, groupName } = req.body;
 
@@ -52,7 +87,7 @@ const accessChat = async (req, res) => {
         // Parse userIds if it's a JSON string
         const targetUserIds = userIds;
 
-        
+
 
         // Convert all IDs to ObjectId and validate format
         const userIdObjects = targetUserIds.map(id => {
@@ -275,5 +310,6 @@ module.exports = {
     createGroupChat,
     renameGroup,
     addToGroup,
-    removeFromGroup
+    removeFromGroup,
+    getMessagesInChat
 }

@@ -16,11 +16,11 @@
 
 .messages-overlay {
   position: fixed;
-  bottom: -40vh;
+  bottom: -55vh;
   /* Start off-screen */
   left: 60%;
-  width: 33vh;
-  height: 44vh;
+  width: 40vh;
+  height: 60vh;
   /* Adjust height as needed */
   background-color: black;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);

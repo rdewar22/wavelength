@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { selectCurrentUser, selectCurrentUserId } from '../features/auth/authSlice';
-import { MessagesSearchBar } from "./MessagesSearchBar"
-import { useFetchChatsForUserQuery, useAccessChatMutation, useSendMessageMutation } from '../features/messages/messagesApiSlice';
-import { makeSelectMessages } from "../features/messages/messagesApiSlice"
+import { selectCurrentUser, selectCurrentUserId } from '../../features/auth/authSlice';
+import { useFetchChatsForUserQuery, useAccessChatMutation, useSendMessageMutation } from '../../features/messages/messagesApiSlice';
 import './MessagesTab.css'
-import ChatPreview from '../features/messages/ChatPreview';
+import ChatPreview from '../../features/messages/ChatPreview';
+import ProfileModal from '../ProfileModal';
+import NewConvoModal from './NewConvoModal';
 
 export const MessageTab = () => {
     const user = useSelector(selectCurrentUser);
@@ -17,12 +16,7 @@ export const MessageTab = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
     const [showConversation, setShowConversation] = useState(false);
-    const [selectedUsers, setSelectedUsers] = useState([]); // Add this line
     const [currentConversation, setCurrentConversation] = useState('');
-    const [currentMsgs, setCurrentMsgs] = useState([]);
-    const [groupChatName, setGroupChatName] = useState();
-    const [chats, setChats] = useState();
-
 
     const {
         data,
@@ -33,9 +27,6 @@ export const MessageTab = () => {
     } = useFetchChatsForUserQuery(userId, {
         skip: !user
     });
-
-    const [accessChat, { isLoading: isAccessingChat }] = useAccessChatMutation();
-
 
     const toggleMessagesTab = () => {
         setIsOpen(!isOpen);
@@ -53,41 +44,6 @@ export const MessageTab = () => {
 
     const handleChange = (value) => {
         setMessage(value);
-    }
-
-    const handleSubmit = async () => {
-        if (!groupChatName || !selectedUsers) {
-            toast.warning("Please fill all the fields", {
-                hideProgressBar: true,
-                isClosable: true,
-                position: "top",
-            });
-            return;
-        }
-
-        try {
-            // Prepare the request data
-            const chatData = {
-                groupName: groupChatName,
-                userIds: selectedUsers.map(user => user._id) // Convert to array of user IDs
-            };
-
-            // Call the mutation
-            await accessChat(chatData).unwrap();
-
-            // On success
-            toast.success("Chat created successfully!");
-            setGroupChatName('');
-            setSelectedUsers([]);
-            toggleOverlay();
-
-
-
-
-        } catch (error) {
-            toast.error(error.data?.message || "Failed to create chat");
-            console.error("Chat creation error:", error);
-        }
     }
 
     const handleSendMessage = async (to, from) => {
@@ -111,7 +67,7 @@ export const MessageTab = () => {
             .reverse() // Reverse only if data exists
             .map(chat => (
                 <ChatPreview
-                    key={chat._id}
+                 key={chat._id}
                     chatName={chat.chatName}
                     latestMessage={chat.latestMessage}
                     toggleConversation={toggleConversation}
@@ -135,15 +91,8 @@ export const MessageTab = () => {
                             <div className="messages-content">
                                 <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
                                 <h3 className='message-recipient'>{currentConversation}</h3>
-
-                                <div className="full-conversation">
-                                    {currentMsgs.map((msg, index) => (
-                                        <div key={index} className={`message ${msg.from === user ? 'sent' : 'received'}`}>
-                                            <p>{msg.message}</p>
-                                            <small>{new Date(msg.updatedAt).toLocaleString()}</small>
-                                        </div>
-                                    ))}
-                                </div>
+                                <ProfileModal userName={currentConversation}  />
+                        
 
                                 <input
                                     type="text"
@@ -186,23 +135,10 @@ export const MessageTab = () => {
 
             {/* Overlay */}
             {showOverlay && (
-                <div className="overlay">
-                    <div className="overlay-content">
-                        <h2>New Conversation</h2>
-                        <p>Start a new conversation here.</p>
-                        <input
-                            type="text"
-                            placeholder="Chat Name"
-                            onChange={(e) => setGroupChatName(e.target.value)} />
-                        <MessagesSearchBar
-                            toggleConversation={toggleConversation}
-                            toggleOverlay={toggleOverlay}
-                            selectedUsers={selectedUsers}
-                            setSelectedUsers={setSelectedUsers}
-                        />
-                        <button onClick={handleSubmit} className="close-button">Create Chat</button>
-                    </div>
-                </div>
+                <NewConvoModal
+                toggleOverlay={toggleOverlay}
+                toggleConversation={toggleConversation}
+              />
             )}
         </div>
     );

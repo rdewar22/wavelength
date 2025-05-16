@@ -38,9 +38,9 @@
     margin-bottom: 2px;
   }
   
-  .username {
+  .chatname {
     font-weight: bold;
-    color: #0f1419;
+    color: white;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -10,7 +10,7 @@ import AddPostForm from "./features/posts/AddPostForm";
 import Profile from "./features/profiles/Profile";
 import PersistLogin from "./features/auth/PersistLogin";
 import Navbar from "./components/Navbar";
-import { MessageTab } from "./components/MessagesTab";
+import { MessageTab } from "./components/messagesTab/MessagesTab";
 import PublicProfile from "./features/profiles/PublicProfile";
 
 

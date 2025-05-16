@@ -28,4 +28,10 @@ router.route("/groupadd")
 router.route("/groupremove")
     .put(messagesController.removeFromGroup);
 
+router.route("/send")
+    .post(messagesController.sendMessage);
+
+router.route("/chat/:chatId")
+    .get(messagesController.getMessagesInChat);
+
 module.exports = router

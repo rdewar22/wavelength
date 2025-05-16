@@ -17,7 +17,7 @@ const ChatPreview = ({ chatName, latestMessage, toggleConversation }) => {
           </div>
           <div className="message-content">
             <div className="message-header">
-              <span className="username">{chatName}</span>
+              <span className="chatname">{chatName}</span>
               <span className="timestamp">{latestMessage?.updatedAt}</span>
             </div>
             <div className="message-text">
