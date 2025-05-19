@@ -5,18 +5,19 @@ import {
   isSameSenderMargin,
   isSameUser,
 } from "../../config/ChatLogics";
-import { ChatState } from "../../Context/ChatProvider";
+import { useSelector } from "react-redux";
+import { selectCurrentUserId } from "../../features/auth/authSlice";
 
 const ScrollableChat = ({ messages }) => {
-  const { user } = ChatState();
+  const userId = useSelector(selectCurrentUserId);
 
   return (
     <ScrollableFeed>
       {messages &&
         messages.map((m, i) => (
           <div className="message-container" key={m._id}>
-            {(isSameSender(messages, m, i, user._id) ||
-              isLastMessage(messages, i, user._id)) && (
+            {(isSameSender(messages, m, i, userId) ||
+              isLastMessage(messages, i, userId)) && (
               <div 
                 className="avatar-tooltip" 
                 title={m.sender.name}
@@ -30,11 +31,11 @@ const ScrollableChat = ({ messages }) => {
             )}
             <div
               className={`message-bubble ${
-                m.sender._id === user._id ? "sent" : "received"
+                m.sender._id === userId ? "sent" : "received"
               }`}
               style={{
-                marginLeft: isSameSenderMargin(messages, m, i, user._id),
-                marginTop: isSameUser(messages, m, i, user._id) ? "3px" : "10px",
+                marginLeft: isSameSenderMargin(messages, m, i, userId),
+                marginTop: isSameUser(messages, m, i, userId) ? "3px" : "10px",
               }}
             >
               {m.content}

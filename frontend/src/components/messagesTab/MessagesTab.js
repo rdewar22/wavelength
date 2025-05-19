@@ -7,6 +7,7 @@ import './MessagesTab.css'
 import ChatPreview from '../../features/messages/ChatPreview';
 import ProfileModal from '../ProfileModal';
 import NewConvoModal from './NewConvoModal';
+import SingleChat from './SingleChat';
 
 export const MessageTab = () => {
     const user = useSelector(selectCurrentUser);
@@ -16,7 +17,8 @@ export const MessageTab = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
     const [showConversation, setShowConversation] = useState(false);
-    const [currentConversation, setCurrentConversation] = useState('');
+    const [currentConversationTitle, setCurrentConversationTitle] = useState('');
+    const [currentConversationId, setCurrentConversationId] = useState('');
 
     const {
         data,
@@ -36,9 +38,10 @@ export const MessageTab = () => {
         setShowOverlay(!showOverlay);
     };
 
-    const toggleConversation = (userId = null) => {
+    const toggleConversation = (convoTitle = null, chatId) => {
 
-        setCurrentConversation(userId);
+        setCurrentConversationTitle(convoTitle);
+        setCurrentConversationId(chatId);
         setShowConversation(!showConversation);
     }
 
@@ -46,10 +49,9 @@ export const MessageTab = () => {
         setMessage(value);
     }
 
-    const handleSendMessage = async (to, from) => {
+    const handleSendMessage = async (chatId) => {
         try {
-            console.log(to, from, message);
-            await sendMessage({ to, from, message }).unwrap(); // ✅ Call the mutation
+            await sendMessage({ message, chatId }).unwrap(); // ✅ Call the mutation
             setMessage(''); // Clear input after sending
         } catch (err) {
             console.error('Failed to send message:', err);
@@ -67,7 +69,8 @@ export const MessageTab = () => {
             .reverse() // Reverse only if data exists
             .map(chat => (
                 <ChatPreview
-                 key={chat._id}
+                    key={chat._id}
+                    chatId={chat._id}
                     chatName={chat.chatName}
                     latestMessage={chat.latestMessage}
                     toggleConversation={toggleConversation}
@@ -87,12 +90,13 @@ export const MessageTab = () => {
                 </button>
                 {user ? (
                     <>
-                        {currentConversation ? (
+                        {currentConversationId ? (
                             <div className="messages-content">
                                 <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
-                                <h3 className='message-recipient'>{currentConversation}</h3>
-                                <ProfileModal userName={currentConversation}  />
-                        
+                                <h3 className='message-recipient'>{currentConversationTitle}</h3>
+                                <ProfileModal userName={user} />
+                                <SingleChat chatId={currentConversationId} />
+
 
                                 <input
                                     type="text"
@@ -102,7 +106,7 @@ export const MessageTab = () => {
                                     onChange={(e) => handleChange(e.target.value)}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') {
-                                            handleSendMessage(currentConversation, user);
+                                            handleSendMessage(currentConversationId);
                                             handleChange('');
                                         }
                                     }}
@@ -136,9 +140,9 @@ export const MessageTab = () => {
             {/* Overlay */}
             {showOverlay && (
                 <NewConvoModal
-                toggleOverlay={toggleOverlay}
-                toggleConversation={toggleConversation}
-              />
+                    toggleOverlay={toggleOverlay}
+                    toggleConversation={toggleConversation}
+                />
             )}
         </div>
     );

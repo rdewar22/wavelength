@@ -25,11 +25,12 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
             ]
         }),
         sendMessage: builder.mutation({
-            query: initialMessage => ({
+            query: messageData => ({
                 url: '/messages',
                 method: 'POST',
                 body: {
-                    ...initialMessage
+                    content: selectMessagesData.content,
+                    chatId: messageData.chatId
                 }
             })
         }),
@@ -48,11 +49,24 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
         }),
         accessChat: builder.mutation({
             query: (groupData) => ({
-                url:'/messages',
+                url: '/messages',
                 method: 'POST',
                 body: groupData
             }),
             invalidatesTags: ['Chat']
+        }),
+        getMessagesInChat: builder.query({
+            query: (chatId) => ({
+                url: `/chat/${chatId}`,
+                method: 'GET',
+            }),
+            transformResponse: (responseData) => {
+                return messagesAdapter.setAll(initialState, responseData.messages);
+            },
+            providesTags: (result) => [
+                { type: 'Message', id: 'LIST' },
+                ...(result?.ids ? result.ids.map(id => ({ type: 'Message', id })) : [])
+            ]
         })
     })
 })
@@ -61,7 +75,8 @@ export const {
     useGetMessagesForUserNameQuery,
     useAccessChatMutation,
     useSendMessageMutation,
-    useFetchChatsForUserQuery
+    useFetchChatsForUserQuery,
+    useGetMessagesInChatQuery,
 } = messagesApiSlice
 
 export const makeSelectMessages = (username) => {
