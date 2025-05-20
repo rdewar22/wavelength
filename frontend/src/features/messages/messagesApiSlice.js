@@ -26,10 +26,10 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
         }),
         sendMessage: builder.mutation({
             query: messageData => ({
-                url: '/messages',
+                url: '/messages/send',
                 method: 'POST',
                 body: {
-                    content: selectMessagesData.content,
+                    content: messageData.message,
                     chatId: messageData.chatId
                 }
             })

@@ -12,8 +12,6 @@ import SingleChat from './SingleChat';
 export const MessageTab = () => {
     const user = useSelector(selectCurrentUser);
     const userId = useSelector(selectCurrentUserId);
-    const [message, setMessage] = useState("");
-    const [sendMessage] = useSendMessageMutation();
     const [isOpen, setIsOpen] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
     const [showConversation, setShowConversation] = useState(false);
@@ -44,19 +42,6 @@ export const MessageTab = () => {
         setCurrentConversationId(chatId);
         setShowConversation(!showConversation);
     }
-
-    const handleChange = (value) => {
-        setMessage(value);
-    }
-
-    const handleSendMessage = async (chatId) => {
-        try {
-            await sendMessage({ message, chatId }).unwrap(); // ✅ Call the mutation
-            setMessage(''); // Clear input after sending
-        } catch (err) {
-            console.error('Failed to send message:', err);
-        }
-    };
 
     let content;
 
@@ -102,21 +87,6 @@ export const MessageTab = () => {
                                     <SingleChat chatId={currentConversationId} />
                                 </div>
 
-                                <div className="input-container">
-                                    <input
-                                        type="text"
-                                        className="message-input"
-                                        placeholder="Message"
-                                        value={message}
-                                        onChange={(e) => handleChange(e.target.value)}
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter') {
-                                                handleSendMessage(currentConversationId);
-                                                handleChange('');
-                                            }
-                                        }}
-                                    />
-                                </div>
 
                             </div>
                         ) : (
