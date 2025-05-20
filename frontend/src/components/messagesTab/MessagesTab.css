@@ -27,6 +27,12 @@
   transition: bottom 0.3s ease-in-out;
 }
 
+.chat-header {
+  display: flex;
+  align-items: center; /* Vertically center items */
+  gap: 50px; /* Space between elements */
+}
+
 .full-conversation {
   flex: 1;
   overflow-y: auto;
@@ -35,6 +41,15 @@
   background-color: white;
   border-radius: 8px;
   box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Input stays at bottom */
+.input-container {
+  position: sticky;
+  bottom: 0;
+  padding: 15px 0;
+  background: black; /* Match your background */
+  z-index: 10; /* Keep above messages */
 }
 
 /* Individual Messages */
@@ -82,6 +97,12 @@
   height: 100%; /* Or specific height */
 }
 
+.message-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 60px; /* Prevent input from covering last message */
+}
+
 .messages-content h2 {
   margin-top: 0;
 }
@@ -106,8 +127,12 @@
 }
 
 .message-input {
-  margin-top: 10vh;
-  width: 30vh;
+  width: 100%;
+  padding: 12px;
+  border-radius: 20px;
+  border: none;
+  background: #333; /* Dark input field */
+  color: white;
 }
 
 .new-convo-button {
@@ -129,6 +154,7 @@
 
 .message-recipient {
   display: inline-block;
+  width: fit-content
 }
 
 .overlay {

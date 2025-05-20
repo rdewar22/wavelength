@@ -1,6 +1,7 @@
 import { useState } from "react"; // Add this import
 import { useFindUsersQuery } from "../features/users/usersApiSlice";
 import { IoPersonCircleOutline } from "react-icons/io5";
+import "./ProfileModal.css"
 
 const ProfileModal = ({ userName }) => {
     const [showProfile, setShowProfile] = useState(false); // State to control visibility
@@ -29,8 +30,8 @@ const ProfileModal = ({ userName }) => {
     return (
         <div className="profile-modal">
             {/* Button to toggle visibility */}
-            <button onClick={() => setShowProfile(!showProfile)}>
-                {showProfile ? "Hide Profile" : "Show Profile"}
+            <button className="profile-modal-button" onClick={() => setShowProfile(!showProfile)}>
+                {showProfile ? "Hide Profile" : "Profile"}
             </button>
 
             {/* Only show profile if `showProfile` is true */}

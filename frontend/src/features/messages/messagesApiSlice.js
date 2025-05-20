@@ -57,11 +57,11 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
         }),
         getMessagesInChat: builder.query({
             query: (chatId) => ({
-                url: `/chat/${chatId}`,
+                url: `/messages/chat/${chatId}`,
                 method: 'GET',
             }),
             transformResponse: (responseData) => {
-                return messagesAdapter.setAll(initialState, responseData.messages);
+                return messagesAdapter.setAll(initialState, responseData);
             },
             providesTags: (result) => [
                 { type: 'Message', id: 'LIST' },

@@ -6,9 +6,7 @@ import animationData from "../../animations/typing.json"
 import { getSenderFull } from '../../config/ChatLogics';
 import { useGetMessagesInChatQuery } from '../../features/messages/messagesApiSlice';
 
-const SingleChat = (chatId) => {
-    const [messages, setMessages] = useState([]);
-    const [loading, setLoading] = useState(false);
+const SingleChat = ({ chatId }) => {
     const [newMessage, setNewMessage] = useState();
     const [socketConnected, setSocketConnected] = useState(false);
     const [typing, setTyping] = useState(false);
@@ -24,16 +22,12 @@ const SingleChat = (chatId) => {
     };
 
     const {
-        data,
+        data: messages = [],
         isLoading,
         isSuccess,
         isError,
         error
     } = useGetMessagesInChatQuery(chatId);
-
-    if (isSuccess) {
-        setMessages(data);
-    }
 
     return (
         <div className="chat-container">
@@ -65,7 +59,7 @@ const SingleChat = (chatId) => {
 
                 {/* Messages area */}
                 <div className="messages-container">
-                    {loading ? (
+                    {isLoading ? (
                         <div className="spinner-container">
                             <div className="spinner"></div>
                         </div>

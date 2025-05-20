@@ -92,25 +92,31 @@ export const MessageTab = () => {
                     <>
                         {currentConversationId ? (
                             <div className="messages-content">
-                                <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
-                                <h3 className='message-recipient'>{currentConversationTitle}</h3>
-                                <ProfileModal userName={user} />
-                                <SingleChat chatId={currentConversationId} />
+                                <div className='chat-header'>
+                                    <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
+                                    <h3 className='message-recipient'>{currentConversationTitle}</h3>
+                                    <ProfileModal userName={user} />
+                                </div>
 
+                                <div className="message-scroll-container">
+                                    <SingleChat chatId={currentConversationId} />
+                                </div>
 
-                                <input
-                                    type="text"
-                                    className="message-input"
-                                    placeholder="Message"
-                                    value={message}
-                                    onChange={(e) => handleChange(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            handleSendMessage(currentConversationId);
-                                            handleChange('');
-                                        }
-                                    }}
-                                />
+                                <div className="input-container">
+                                    <input
+                                        type="text"
+                                        className="message-input"
+                                        placeholder="Message"
+                                        value={message}
+                                        onChange={(e) => handleChange(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                handleSendMessage(currentConversationId);
+                                                handleChange('');
+                                            }
+                                        }}
+                                    />
+                                </div>
 
                             </div>
                         ) : (
