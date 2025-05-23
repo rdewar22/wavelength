@@ -43,6 +43,7 @@
     flex: 1; /* Takes all available space */
     overflow-y: auto; /* Allows scrolling */
     width: 100%;
+    scrollbar-width: none;
 }
 
 .spinner-container {
@@ -85,8 +86,11 @@
 
 .messages {
     overflow-y: auto;
-    flex-grow: 1;
+    flex: 1;
     width: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
     
 }
 

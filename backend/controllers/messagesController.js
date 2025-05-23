@@ -159,7 +159,6 @@ const accessChat = async (req, res) => {
             }
 
             const chatData = {
-                chatName: "sender",
                 isGroupChat: false,
                 users: [currentUserId, userIdObjects[0]],
             };

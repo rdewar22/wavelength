@@ -17,11 +17,12 @@ const NewConvoModal = ({
     const [accessChat, { isLoading: isAccessingChat }] = useAccessChatMutation();
 
     const handleSubmit = async () => {
-        if (!groupChatName || !selectedUsers) {
-            toast.warning("Please fill all the fields", {
+        if (!selectedUsers) {
+            toast.warning("Please select at least one user", {
                 hideProgressBar: true,
-                isClosable: true,
-                position: "top",
+                closeOnClick: true,
+                autoClose: 3000,
+                position: "top-center"
             });
             return;
         }
@@ -34,17 +35,30 @@ const NewConvoModal = ({
             };
 
             // Call the mutation
-            await accessChat(chatData).unwrap();
+            const response = await accessChat(chatData).unwrap();
 
             // On success
-            toast.success("Chat created successfully!");
+            toast.success("Chat created successfully!", {
+                closeOnClick: true,
+                autoClose: 3000,
+                position: "top-center"
+            });
+            
+            // Get the chat title based on whether it's a direct message or group chat
+            const chatTitle = selectedUsers.length === 1 ? selectedUsers[0].username : groupChatName;
+            // Pass both the chat title and the new chat ID to toggleConversation
+            toggleConversation(chatTitle, response._id);
+            
             setGroupChatName('');
             setSelectedUsers([]);
             toggleOverlay();
 
-
         } catch (error) {
-            toast.error(error.data?.message || "Failed to create chat");
+            toast.error(error.data?.message || "Failed to create chat", {
+                closeOnClick: true,
+                autoClose: 3000,
+                position: "top-right"
+            });
             console.error("Chat creation error:", error);
         }
     }
@@ -63,8 +77,6 @@ const NewConvoModal = ({
                 />
 
                 <MessagesSearchBar
-                    toggleConversation={toggleConversation}
-                    toggleOverlay={toggleOverlay}
                     selectedUsers={selectedUsers}
                     setSelectedUsers={setSelectedUsers}
                 />
@@ -72,7 +84,7 @@ const NewConvoModal = ({
                 <button
                     onClick={handleSubmit}
                     className="close-button"
-                    disabled={!groupChatName || selectedUsers.length === 0}
+                    disabled={selectedUsers.length === 0}
                 >
                     Create Chat
                 </button>

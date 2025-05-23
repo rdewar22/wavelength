@@ -88,9 +88,11 @@
 }
 
 .message-scroll-container {
+  display: flex;
   flex: 1;
   overflow-y: auto;
   padding-bottom: 60px; /* Prevent input from covering last message */
+  flex-direction: column-reverse;
 }
 
 .messages-content h2 {

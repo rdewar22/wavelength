@@ -1,8 +1,15 @@
 import { useSelector } from "react-redux"
+import { selectCurrentUserId } from "../../features/auth/authSlice"
 import { makeSelectMessages } from "./messagesApiSlice"
 import "./ChatPreview.css"
 
-const ChatPreview = ({ chatName, chatId, latestMessage, toggleConversation }) => {
+const ChatPreview = ({ chatName, chatId, latestMessage, toggleConversation, users, isGroupChat }) => {
+
+  const currentUserId = useSelector(selectCurrentUserId);
+
+  if (!isGroupChat) {
+    chatName = users.find(user => user._id !== currentUserId).username;
+  }
 
 
   const handleClick = () => {
@@ -37,6 +44,8 @@ const ChatPreview = ({ chatName, chatId, latestMessage, toggleConversation }) =>
       });
     }
   };
+
+  if (!latestMessage) return "use '+' to start a new conversation!\n";
 
   return (
     <button className="message-preview" onClick={handleClick}>

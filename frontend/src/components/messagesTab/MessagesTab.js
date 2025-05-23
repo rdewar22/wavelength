@@ -57,6 +57,8 @@ export const MessageTab = () => {
                     key={chat._id}
                     chatId={chat._id}
                     chatName={chat.chatName}
+                    users={chat.users}
+                    isGroupChat={chat.isGroupChat}
                     latestMessage={chat.latestMessage}
                     toggleConversation={toggleConversation}
                 />
@@ -80,21 +82,19 @@ export const MessageTab = () => {
                                 <div className='chat-header'>
                                     <button onClick={() => toggleConversation(null)} className="back-button">&lt;</button>
                                     <h3 className='message-recipient'>{currentConversationTitle}</h3>
-                                    <ProfileModal userName={user} />
+                                    <ProfileModal userName={currentConversationTitle} />
                                 </div>
 
                                 <div className="message-scroll-container">
                                     <SingleChat chatId={currentConversationId} />
                                 </div>
-
-
                             </div>
                         ) : (
                             <div className="messages-content">
                                 <button onClick={toggleOverlay} className='new-convo-button'>+</button>
                                 <ul>
                                     <section>
-                                        {content || <p>Start a new conversation with the '+' button!</p>}
+                                        {content.length > 0 && content !== null ? (content) : (<p>Start a new conversation with the '+' button!</p>)}
                                     </section>
                                 </ul>
                             </div>

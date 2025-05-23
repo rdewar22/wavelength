@@ -8,7 +8,7 @@ import UserBadgeItem from "./UserBadgeItem.js"
 import "./SearchBar.css";
 
 
-export const MessagesSearchBar = ({ toggleConversation, toggleOverlay, selectedUsers, setSelectedUsers }) => {
+export const MessagesSearchBar = ({ selectedUsers, setSelectedUsers }) => {
     const [input, setInput] = useState("") // search input
     const [debouncedInput, setDebouncedInput] = useState(""); // what does debounced mean?
     const [isFocused, setIsFocused] = useState(false); // idk what this does
@@ -32,11 +32,6 @@ export const MessagesSearchBar = ({ toggleConversation, toggleOverlay, selectedU
         setInput(value);
     }
 
-    const handleLinkClick = (username) => {
-        setInput('');  // Clear the input field when a link is clicked
-        toggleOverlay();
-        toggleConversation(username);
-    };
 
     const handleBlur = () => {
         // Delay the blur event to allow the link to be clicked
@@ -53,13 +48,16 @@ export const MessagesSearchBar = ({ toggleConversation, toggleOverlay, selectedU
         if (selectedUsers.includes(userToAdd)) {
             toast.warning("User already added", {
                 hideProgressBar: true,
-                isClosable: true,
-                position: "top",
+                closeOnClick: true,
+                autoClose: 3000,
+                position: "top-center"
             });
             return;
         }
 
         setSelectedUsers([...selectedUsers, userToAdd]);
+        setInput(''); // Clear the input after adding user
+        setIsFocused(false); // Hide dropdown
     };
 
     const handleDelete = (delUser) => {

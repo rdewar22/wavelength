@@ -12,7 +12,8 @@ import PersistLogin from "./features/auth/PersistLogin";
 import Navbar from "./components/Navbar";
 import { MessageTab } from "./components/messagesTab/MessagesTab";
 import PublicProfile from "./features/profiles/PublicProfile";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const location = useLocation();
@@ -27,6 +28,18 @@ function App() {
 
   return (
     <>
+      {/* Add ToastContainer at the root level */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick={true}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {/* Conditionally render the navigation bar */}
       {showNavBar && <Navbar />}
       <Routes>

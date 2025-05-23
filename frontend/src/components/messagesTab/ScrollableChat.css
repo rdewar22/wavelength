@@ -1,22 +1,11 @@
 /* ScrollableChat.css */
 
-/* Main container */
-.scrollable-feed-container {
-    height: 100%;
-    overflow-y: auto;
-    padding: 0;
-    background-color: #f7f9fa;
-    /* Twitter-like light background */
-    display: flex;
-    flex-direction: column;
-}
-
 /* Message container */
 .message-container {
     display: flex;
     margin-bottom: 4px;
     position: relative;
-    width: 100%
+    width: 100%;
     /* Space for avatar */
 }
 
@@ -86,23 +75,4 @@
     display: flex;
     padding: 8px 16px;
     align-items: center;
-}
-
-/* Scrollbar styling */
-.scrollable-feed-container::-webkit-scrollbar {
-    width: 6px;
-}
-
-.scrollable-feed-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-}
-
-.scrollable-feed-container::-webkit-scrollbar-thumb {
-    background: #c4cfd6;
-    border-radius: 3px;
-}
-
-.scrollable-feed-container::-webkit-scrollbar-thumb:hover {
-    background: #a7b5be;
 }

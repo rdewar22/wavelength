@@ -32,7 +32,10 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
                     content: messageData.message,
                     chatId: messageData.chatId
                 }
-            })
+            }),
+            invalidatesTags: [
+                { type: 'Message', id: "LIST" }
+            ]
         }),
         fetchChatsForUser: builder.query({
             query: (userId) => ({
@@ -79,31 +82,13 @@ export const {
     useGetMessagesInChatQuery,
 } = messagesApiSlice
 
-export const makeSelectMessages = (username) => {
-    // Directly create adapter selectors for a username
-    const selectMessagesForUser = createSelector(
-        (state) => messagesApiSlice.endpoints.getMessagesForUserName.select(username)(state),
-        (messagesResult) => messagesResult?.data ?? initialState
-    );
-
-    return messagesAdapter.getSelectors(selectMessagesForUser);
-};
-
-// Selector for chats
-export const selectChatsData = createSelector(
-    (state) => messagesApiSlice.endpoints.fetchChatsForUser.select()(state),
-    (chatsResult) => chatsResult?.data ?? initialChatsState
-)
-
-// Export chats selectors
-export const {
-    selectAll: selectAllChats,
-    selectById: selectChatById,
-    selectIds: selectChatIds,
-} = chatsAdapter.getSelectors(state => selectChatsData(state) ?? initialChatsState)
+// return the query result object
+export const selectMessagesResult = (chatId) =>
+    messagesApiSlice.endpoints.getMessagesInChat.select(chatId);
 
 const selectMessagesData = createSelector(
-    messagesResult => messagesResult?.data ?? initialState // normalized state object with ids and entities
+    [selectMessagesResult, (state, chatId) => chatId],
+    (messagesResult) => messagesResult.data
 )
 
 //getSelectors creates these selectors and we rename them with aliases using destructuring
