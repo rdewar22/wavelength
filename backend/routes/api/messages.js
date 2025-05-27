@@ -4,17 +4,14 @@ const messagesController = require('../../controllers/messagesController');
 const ROLES_LIST = require('../../config/roles_list');
 const verifyRoles = require('../../middleware/verifyRoles');
 
-// router.route('/')
-//     .post(messagesController.sendMessage)
+router.route('/:chatId')
+    .delete(messagesController.deleteChat);
 
 router.route('/')
     .post(messagesController.accessChat);
 
 router.route('/:userId')
     .get(messagesController.fetchChats);
-
-router.route('/:username')
-    .get(messagesController.getMessagesForUserName);
 
 router.route("/group")
     .post(messagesController.createGroupChat);

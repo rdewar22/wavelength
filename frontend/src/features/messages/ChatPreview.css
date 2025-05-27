@@ -83,3 +83,52 @@
     // Implement text truncation with ellipsis
     return text?.length > maxLength ? text.substring(0, maxLength) + '...' : text;
   } */
+
+.chat-preview-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.message-preview {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: none;
+    background: none;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+.message-preview:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.delete-chat-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 50%;
+    display: none;
+    transition: all 0.2s;
+}
+
+.chat-preview-wrapper:hover .delete-chat-btn {
+    display: block;
+}
+
+.delete-chat-btn:hover {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #ff0000;
+}

@@ -43,23 +43,22 @@ const sendMessage = async (req, res) => {
 
 }
 
+const deleteChat = async (req, res) => {
+    try {
+        const chatId = req.params.chatId;
+        
+        // Delete all messages in the chat
+        await Message.deleteMany({ chat: chatId });
+        
+        // Delete the chat
+        await Chat.findByIdAndDelete(chatId);
 
-const getMessagesForUserName = async (req, res) => {
-    if (!req.params?.username) return res.status(400).json({ "message": 'username required' });
+        res.status(200).json({ message: "Chat deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting chat", error: error.message });
+    }
+};
 
-    const username = req.params.username;
-
-    const messages = await Message.find({
-        $or: [
-            { from: username },
-            { to: username }
-        ]
-    }).sort({ updatedAt: -1 });
-
-    res.json({
-        messages: messages
-    });
-}
 
 const getMessagesInChat = async (req, res) => {
     try {
@@ -303,7 +302,7 @@ const removeFromGroup = async (req, res) => {
 
 module.exports = {
     sendMessage,
-    getMessagesForUserName,
+    deleteChat,
     accessChat,
     fetchChats,
     createGroupChat,

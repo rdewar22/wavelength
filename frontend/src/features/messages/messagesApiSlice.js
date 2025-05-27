@@ -58,6 +58,16 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Chat']
         }),
+        deleteChat: builder.mutation({
+            query: (chatId) => ({
+                url: `/messages/${chatId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: [
+                { type: 'Chat', id: 'LIST' },
+                { type: 'Message', id: 'LIST' }
+            ]
+        }),
         getMessagesInChat: builder.query({
             query: (chatId) => ({
                 url: `/messages/chat/${chatId}`,
@@ -80,6 +90,7 @@ export const {
     useSendMessageMutation,
     useFetchChatsForUserQuery,
     useGetMessagesInChatQuery,
+    useDeleteChatMutation,
 } = messagesApiSlice
 
 // return the query result object
