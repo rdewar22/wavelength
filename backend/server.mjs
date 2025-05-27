@@ -21,17 +21,82 @@ import apiEmployeesRoute from './routes/api/employees.js';
 import apiUsersRoute from './routes/api/users.js';
 import apiPostsRoute from './routes/api/posts.js';
 import apiMessagesRoute from './routes/api/messages.js';
+import { Server } from 'socket.io';
+import { createServer } from 'http';
 
-
-dotenv.config({ path: '.env'}) //uncomment to use production db and .env
-
-
+dotenv.config({ path: '.env' }) //uncomment to use production db and .env
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const PORT = process.env.PORT || 3500;
 const app = express();
+
+// Create HTTP server
+const httpServer = createServer(app);
+
+// Create Socket.IO instance
+const io = new Server(httpServer, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+        credentials: true
+    },
+    pingTimeout: 60000
+});
+
+// Socket.IO connection handling
+io.on("connection", (socket) => {
+    console.log("Connected to socket.io");
+
+    // Setup socket user (usually done after user logs in)
+    socket.on("setup", (userData) => {
+        socket.join(userData._id); // Create a room for user
+        socket.emit("connected");
+    });
+
+    // Join chat room
+    socket.on("join chat", (room) => {
+        socket.join(room);
+        console.log("User joined room: " + room);
+    });
+
+    // Handle new message
+    socket.on("new message", (newMessageReceived) => {
+        console.log("Server received new message:", newMessageReceived);
+        try {
+            const chat = newMessageReceived.chat;
+
+            if (!chat.users) {
+                console.log("chat.users not defined");
+                return;
+            }
+
+            console.log("Broadcasting message to chat users:", chat.users);
+            chat.users.forEach((user) => {
+                if (user._id === newMessageReceived.sender._id) {
+                    console.log("Skipping sender:", user._id);
+                    return;
+                }
+                
+                console.log("Emitting message to user:", user._id);
+                // Broadcast to all sockets in the room
+                io.in(user._id).emit("message received", newMessageReceived);
+            });
+        } catch (err) {
+            console.error("Error handling new message:", err);
+        }
+    });
+
+    // Handle typing
+    socket.on("typing", (room) => socket.in(room).emit("typing"));
+    socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
+
+    // Handle disconnect
+    socket.on("disconnect", () => {
+        console.log("USER DISCONNECTED");
+    });
+});
 
 // Connect to MongoDB
 connectDB();
@@ -60,9 +125,9 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 
 // routes
 //Welcome test route
-app.get("/test", (req,res) => {
-    res.status(200).send({message: "Welcome to the WAVELENGTH-REST-API"});
-  }); 
+app.get("/test", (req, res) => {
+    res.status(200).send({ message: "Welcome to the WAVELENGTH-REST-API" });
+});
 app.use('/', rootRoute);
 app.use('/register', registerRoute);
 app.use('/auth', authRoute);
@@ -82,20 +147,24 @@ app.all('*', (req, res) => {
     if (req.accepts('html')) {
         res.sendFile(path.join(__dirname, 'views', '404.html'));
     } else if (req.accepts('json')) {
-        res.json({ error: "404 Not Found"});
+        res.json({ error: "404 Not Found" });
     } else {
         res.type('txt').send("404 Not Found");
     }
-    
+
 });
 
 app.use(errorHandler);
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Use httpServer instead of app.listen
+httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');
 });
 
+// Make io available to other modules
+export { io };
 export default app;
 
 

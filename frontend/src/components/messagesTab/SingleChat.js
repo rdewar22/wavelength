@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import Spinner from '../Spinner';
 import { useSelector } from "react-redux";
 import ScrollableChat from './ScrollableChat';
 import ProfileModal from '../ProfileModal';
@@ -7,6 +8,11 @@ import animationData from "../../animations/typing.json"
 import { getSenderFull } from '../../config/ChatLogics';
 import { selectAllMessages, selectMessagesResult, useGetMessagesInChatQuery, useSendMessageMutation } from '../../features/messages/messagesApiSlice';
 import "./SingleChat.css"
+import io from "socket.io-client";
+import { selectCurrentUser, selectCurrentUserId } from '../../features/auth/authSlice';
+
+const ENDPOINT = "http://localhost:3500";
+let socket;
 
 const SingleChat = ({ chatId }) => {
     const [newMessage, setNewMessage] = useState();
@@ -15,8 +21,11 @@ const SingleChat = ({ chatId }) => {
     const [istyping, setIsTyping] = useState(false);
     const [message, setMessage] = useState("");
     const [sendMessage] = useSendMessageMutation();
-    const [localMessages, setLocalMessages] = useState([]);
     const messagesContainerRef = useRef();
+    const typingTimeoutRef = useRef(null);
+    const user = useSelector(selectCurrentUser);
+    const [messages, setMessages] = useState([]);
+    const userId = useSelector(selectCurrentUserId);
 
     const defaultOptions = {
         loop: true,
@@ -28,49 +37,194 @@ const SingleChat = ({ chatId }) => {
     };
 
     const {
-        data,
+        data: messagesData,
         isLoading,
         isSuccess,
         isError,
-        error
+        error,
+        refetch
     } = useGetMessagesInChatQuery(chatId);
 
-    const allMessages = useSelector(selectMessagesResult(chatId));
-
+    // Load initial messages when chat changes or data is fetched
     useEffect(() => {
-        // Scroll to bottom when messages load or change
-        if (messagesContainerRef.current && isSuccess) {
+        if (isSuccess && messagesData) {
+            console.log("Setting initial messages:", messagesData);
+            setMessages(Object.values(messagesData.entities));
+        }
+    }, [isSuccess, messagesData, chatId]);
+
+    // Initialize Socket.IO connection
+    useEffect(() => {
+        console.log("Initializing socket connection");
+        socket = io(ENDPOINT, {
+            withCredentials: true,
+            transports: ['websocket']
+        });
+        
+        socket.on("connect", () => {
+            console.log("Socket connected with ID:", socket.id);
+            socket.emit("setup", { _id: userId }); // Use userId instead of user
+        });
+
+        socket.on("connected", () => {
+            console.log("Socket setup completed");
+            setSocketConnected(true);
+        });
+
+        socket.on("connect_error", (error) => {
+            console.error("Socket connection error:", error);
+        });
+
+        return () => {
+            console.log("Cleaning up socket connection");
+            socket.off("connect");
+            socket.off("connected");
+            socket.off("connect_error");
+            socket.disconnect();
+        };
+    }, [userId]);
+
+    // Join chat room when chatId changes
+    useEffect(() => {
+        if (chatId && socket && socketConnected) {
+            console.log("Joining chat room:", chatId);
+            socket.emit("join chat", chatId);
+        }
+    }, [chatId, socketConnected]);
+
+    // Handle received messages and typing indicators
+    useEffect(() => {
+        if (!socket || !socketConnected) return;
+
+        const handleNewMessage = (newMessageReceived) => {
+            console.log("Received new message:", newMessageReceived);
+            console.log("Current chatId:", chatId);
+            console.log("Message chatId:", newMessageReceived.chat._id);
+            
+            if (chatId === newMessageReceived.chat._id) {
+                console.log("Adding received message to state");
+                setMessages(prevMessages => [...prevMessages, newMessageReceived]);
+            } else {
+                console.log("Message was for a different chat");
+            }
+        };
+
+        console.log("Setting up message received listener");
+        socket.on("message received", handleNewMessage);
+        socket.on("typing", () => setIsTyping(true));
+        socket.on("stop typing", () => setIsTyping(false));
+
+        return () => {
+            console.log("Cleaning up message listeners");
+            socket.off("message received", handleNewMessage);
+            socket.off("typing");
+            socket.off("stop typing");
+        };
+    }, [socket, socketConnected, chatId]);
+
+    // Scroll to bottom when messages change
+    useEffect(() => {
+        if (messagesContainerRef.current) {
             messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
         }
-    }, [isSuccess, allMessages]);
+    }, [messages]);
+
+    // Scroll to bottom when typing indicator appears
+    useEffect(() => {
+        if (istyping && messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+        }
+    }, [istyping]);
 
     const handleChange = (value) => {
         setMessage(value);
+
+        // Handle typing indicator
+        if (!socketConnected) return;
+
+        if (!typing) {
+            setTyping(true);
+            socket.emit("typing", chatId);
+        }
+
+        // Clear previous timeout
+        if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current);
+        }
+
+        // Set new timeout
+        typingTimeoutRef.current = setTimeout(() => {
+            socket.emit("stop typing", chatId);
+            setTyping(false);
+        }, 3000);
     }
 
     const handleSendMessage = async (chatId) => {
         if (!message.trim()) return;
 
+        if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current);
+        }
+        socket.emit("stop typing", chatId);
+
+        const tempMessage = {
+            _id: Date.now(),
+            sender: {
+                _id: userId,
+                username: user.username,
+                profilePicUri: user.profilePicUri
+            },
+            message: message,
+            chat: { _id: chatId }
+        };
+
         try {
-            await sendMessage({ message, chatId }).unwrap();
+            console.log("Adding temp message to state:", tempMessage);
+            setMessages(prevMessages => [...prevMessages, tempMessage]);
             setMessage('');
+
+            const response = await sendMessage({ message, chatId }).unwrap();
+            console.log("Server response:", response);
+
+            socket.emit("new message", response);
+
+            setMessages(prevMessages =>
+                prevMessages.map(msg =>
+                    msg._id === tempMessage._id ? response : msg
+                )
+            );
         } catch (err) {
             console.error('Failed to send message:', err);
+            setMessages(prevMessages =>
+                prevMessages.filter(msg => msg._id !== tempMessage._id)
+            );
         }
     };
 
     return (
         <div className="chat-container">
             <div className="chat-active">
-                {/* Messages area */}
                 <div className="messages-container" ref={messagesContainerRef}>
                     {isLoading ? (
                         <div className="spinner-container">
-                            <div className="spinner"></div>
+                            <div className="spinner" />
+                        </div>
+                    ) : isError ? (
+                        <div className="error-container">
+                            <p>Error loading messages. Please try again later.</p>
                         </div>
                     ) : (
                         <div className="messages">
-                            <ScrollableChat messages={allMessages} />
+                            <ScrollableChat messages={messages} />
+                            {istyping && (
+                                <div style={{ marginLeft: 10 }}>
+                                    <Lottie
+                                        options={defaultOptions}
+                                        width={70}
+                                        style={{ marginBottom: 15, marginLeft: 0 }}
+                                    />
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
@@ -84,7 +238,6 @@ const SingleChat = ({ chatId }) => {
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
                                 handleSendMessage(chatId);
-                                handleChange('');
                             }
                         }}
                     />
