@@ -1,31 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Spinner from '../Spinner';
 import { useSelector } from "react-redux";
 import ScrollableChat from './ScrollableChat';
-import ProfileModal from '../ProfileModal';
 import Lottie from 'react-lottie';
 import animationData from "../../animations/typing.json"
-import { getSenderFull } from '../../config/ChatLogics';
-import { selectAllMessages, selectMessagesResult, useGetMessagesInChatQuery, useSendMessageMutation } from '../../features/messages/messagesApiSlice';
+import { useGetMessagesInChatQuery, useSendMessageMutation } from '../../features/messages/messagesApiSlice';
 import "./SingleChat.css"
 import io from "socket.io-client";
 import { selectCurrentUser, selectCurrentUserId } from '../../features/auth/authSlice';
 
-const ENDPOINT = "https://wavelength-backend-eq3t.onrender.com";
+const ENDPOINT = "http://localhost:3500";
 let socket;
 
 const SingleChat = ({ chatId }) => {
-    const [newMessage, setNewMessage] = useState();
     const [socketConnected, setSocketConnected] = useState(false);
+    const user = useSelector(selectCurrentUser);
+    const userId = useSelector(selectCurrentUserId);
     const [typing, setTyping] = useState(false);
     const [istyping, setIsTyping] = useState(false);
+    const typingTimeoutRef = useRef(null);
     const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState([]);
     const [sendMessage] = useSendMessageMutation();
     const messagesContainerRef = useRef();
-    const typingTimeoutRef = useRef(null);
-    const user = useSelector(selectCurrentUser);
-    const [messages, setMessages] = useState([]);
-    const userId = useSelector(selectCurrentUserId);
 
     const defaultOptions = {
         loop: true,
@@ -42,7 +38,6 @@ const SingleChat = ({ chatId }) => {
         isSuccess,
         isError,
         error,
-        refetch
     } = useGetMessagesInChatQuery(chatId);
 
     // Load initial messages when chat changes or data is fetched
@@ -55,12 +50,11 @@ const SingleChat = ({ chatId }) => {
 
     // Initialize Socket.IO connection
     useEffect(() => {
-        console.log("Initializing socket connection");
         socket = io(ENDPOINT, {
             withCredentials: true,
             transports: ['websocket']
         });
-        
+
         socket.on("connect", () => {
             console.log("Socket connected with ID:", socket.id);
             socket.emit("setup", { _id: userId }); // Use userId instead of user
@@ -76,7 +70,6 @@ const SingleChat = ({ chatId }) => {
         });
 
         return () => {
-            console.log("Cleaning up socket connection");
             socket.off("connect");
             socket.off("connected");
             socket.off("connect_error");
@@ -87,7 +80,6 @@ const SingleChat = ({ chatId }) => {
     // Join chat room when chatId changes
     useEffect(() => {
         if (chatId && socket && socketConnected) {
-            console.log("Joining chat room:", chatId);
             socket.emit("join chat", chatId);
         }
     }, [chatId, socketConnected]);
@@ -97,25 +89,19 @@ const SingleChat = ({ chatId }) => {
         if (!socket || !socketConnected) return;
 
         const handleNewMessage = (newMessageReceived) => {
-            console.log("Received new message:", newMessageReceived);
-            console.log("Current chatId:", chatId);
-            console.log("Message chatId:", newMessageReceived.chat._id);
-            
+
             if (chatId === newMessageReceived.chat._id) {
-                console.log("Adding received message to state");
                 setMessages(prevMessages => [...prevMessages, newMessageReceived]);
             } else {
                 console.log("Message was for a different chat");
             }
         };
 
-        console.log("Setting up message received listener");
         socket.on("message received", handleNewMessage);
         socket.on("typing", () => setIsTyping(true));
         socket.on("stop typing", () => setIsTyping(false));
 
         return () => {
-            console.log("Cleaning up message listeners");
             socket.off("message received", handleNewMessage);
             socket.off("typing");
             socket.off("stop typing");
@@ -179,12 +165,10 @@ const SingleChat = ({ chatId }) => {
         };
 
         try {
-            console.log("Adding temp message to state:", tempMessage);
             setMessages(prevMessages => [...prevMessages, tempMessage]);
             setMessage('');
 
             const response = await sendMessage({ message, chatId }).unwrap();
-            console.log("Server response:", response);
 
             socket.emit("new message", response);
 

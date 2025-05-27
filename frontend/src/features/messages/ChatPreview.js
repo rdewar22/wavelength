@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux"
 import { selectCurrentUserId } from "../../features/auth/authSlice"
-import { makeSelectMessages } from "./messagesApiSlice"
 import { useDeleteChatMutation } from "./messagesApiSlice"
 import "./ChatPreview.css"
 

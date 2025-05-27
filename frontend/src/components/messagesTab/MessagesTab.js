@@ -51,7 +51,6 @@ export const MessageTab = () => {
         // Safely handle `data` (could be `null` or an array)
         const chatsArray = Object.values(data.entities);
         content = chatsArray
-            .reverse() // Reverse only if data exists
             .map(chat => (
                 <ChatPreview
                     key={chat._id}

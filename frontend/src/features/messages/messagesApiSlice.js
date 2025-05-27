@@ -34,7 +34,8 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
                 }
             }),
             invalidatesTags: [
-                { type: 'Message', id: "LIST" }
+                { type: 'Message', id: "LIST" },
+                { type: 'Chat', id: "LIST" }
             ]
         }),
         fetchChatsForUser: builder.query({
