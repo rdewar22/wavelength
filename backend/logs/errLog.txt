@@ -16,3 +16,5 @@
 20250510	17:50:29	d709bb86-e624-4037-8663-03a0f61387a3	SyntaxError: Expected property name or '}' in JSON at position 17 (line 2 column 16)
 20250510	17:57:36	9ccbf192-688e-46b3-be9e-05a1db9cb956	SyntaxError: Expected ',' or '}' after property value in JSON at position 19 (line 2 column 18)
 20250514	11:39:12	4e933442-e16b-4dc1-a053-f1add94ccafc	SyntaxError: Expected ',' or '}' after property value in JSON at position 50 (line 3 column 5)
+20250527	13:20:48	609b0060-3cd8-4e65-993c-e26cfb958448	Error: Invalid audio format. Allowed formats: MP3, WAV, OGG, M4A
+20250527	13:25:07	b6edcb51-e064-4804-a9d9-6c90fe26c565	AccessControlListNotSupported: The bucket does not allow ACLs

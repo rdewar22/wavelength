@@ -2,6 +2,7 @@ import './Profile.css'
 import React, { useState, useEffect } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import UploadAvatar from "./UploadAvatar";
+import UploadAudio from "./UploadAudio";
 import { selectCurrentUser, selectisProfPicInDb } from "../auth/authSlice";
 import { useSelector } from "react-redux";
 import { useGetPostsByUserNameQuery, selectPostIds } from '../posts/postsApiSlice';
@@ -11,7 +12,8 @@ import { Spinner } from 'reactstrap';
 const Profile = ({ token }) => {
   const userName = useSelector(selectCurrentUser);
   const [isProfPic, setProfPic] = useState(true);
-  const [isProfPicLoading, setIsProfPicLoading] = useState(true); // State to track loading
+  const [isProfPicLoading, setIsProfPicLoading] = useState(true);
+  const [audioUrls, setAudioUrls] = useState([]);
   const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`
   const imageSrc = profilePicUri + "?" + Math.random().toString(36);
   const [counter, setCounter] = useState(0);
@@ -24,6 +26,16 @@ const Profile = ({ token }) => {
     error
   } = useGetPostsByUserNameQuery(userName)
 
+  const handleAudioUploaded = (audioUrl) => {
+    // Ensure the URL is properly formatted for S3
+    const formattedUrl = audioUrl.startsWith('http') 
+      ? audioUrl 
+      : `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/${audioUrl}`;
+    setAudioUrls(prev => [...prev, {
+      url: formattedUrl,
+      timestamp: Date.now()
+    }]);
+  };
 
   let content;
   if (isLoading) {
@@ -31,12 +43,16 @@ const Profile = ({ token }) => {
   } else if (isSuccess) {
     content = [...posts.ids].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
   } else if (isError) {
-    content = <p>Error: {error.originalStatus} {error.status}</p>  //JSON.stringify()
+    content = <p>Error: {error.originalStatus} {error.status}</p>
   }
 
   const reloadParent = () => {
-    setCounter(prev => prev + 1); // Incrementing state triggers a re-render
+    setCounter(prev => prev + 1);
     setProfPic(true)
+  };
+
+  const formatDate = (timestamp) => {
+    return new Date(timestamp).toLocaleString();
   };
 
   return (
@@ -47,19 +63,16 @@ const Profile = ({ token }) => {
             <div className="avatar-wrapper">
               {isProfPic ? (
                 <>
-                  {/* Show loader while image is loading */}
                   {isProfPicLoading && <Spinner />}
-
-                  {/* Image element */}
                   <img
                     src={imageSrc}
                     alt={`${userName} avatar`}
-                    onLoad={() => setIsProfPicLoading(false)} // Hide loader when image loads
+                    onLoad={() => setIsProfPicLoading(false)}
                     onError={() => {
-                      setProfPic(false); // Hide image on error
-                      setIsProfPicLoading(false); // Hide loader on error
+                      setProfPic(false);
+                      setIsProfPicLoading(false);
                     }}
-                    style={{ display: isLoading ? 'none' : 'block' }} // Hide image while loading
+                    style={{ display: isLoading ? 'none' : 'block' }}
                   />
                 </>
               ) : (
@@ -73,6 +86,35 @@ const Profile = ({ token }) => {
           </div>
           <p className='profile-name'>{userName}</p>
         </div>
+
+        <div className="audio-section">
+          <h3>Audio Files</h3>
+          <div className="audio-controls">
+            <UploadAudio
+              onAudioUploaded={handleAudioUploaded}
+              buttonLabel="Upload New Audio"
+            />
+          </div>
+          <div className="audio-list">
+            {audioUrls.length > 0 ? (
+              audioUrls.map((audio, index) => (
+                <div key={audio.timestamp} className="audio-item">
+                  <div className="audio-item-header">
+                    <p>Audio {index + 1}</p>
+                    <span className="audio-timestamp">{formatDate(audio.timestamp)}</span>
+                  </div>
+                  <audio controls preload="metadata">
+                    <source src={audio.url} />
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+              ))
+            ) : (
+              <p className="no-audio">No audio files uploaded yet</p>
+            )}
+          </div>
+        </div>
+
         <div className="body">
           {content}
         </div>

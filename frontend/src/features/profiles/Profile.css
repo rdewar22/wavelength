@@ -64,3 +64,88 @@
     margin: 0;
     margin-bottom: 10px;
   }
+
+  /* Audio Section Styles */
+  .audio-section {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: 3px 10px 15px hsl(0deg 0% 0% / 0.1);
+  }
+
+  .audio-section h3 {
+    margin-bottom: 20px;
+    color: #070707;
+    font-weight: bold;
+  }
+
+  .audio-controls {
+    margin-bottom: 20px;
+  }
+
+  .audio-list {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
+  .audio-item {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .audio-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .audio-timestamp {
+    font-size: 0.85em;
+    color: #6c757d;
+  }
+
+  .audio-item p {
+    font-weight: 500;
+    color: #070707;
+    margin-bottom: 0;
+  }
+
+  .audio-item audio {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .no-audio {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    grid-column: 1 / -1;
+    padding: 20px;
+  }
+
+  /* Custom audio player styling */
+  .audio-item audio::-webkit-media-controls-panel {
+    background-color: #f8f9fa;
+  }
+
+  .audio-item audio::-webkit-media-controls-play-button {
+    background-color: #070707;
+    border-radius: 50%;
+  }
+
+  .audio-item audio::-webkit-media-controls-current-time-display,
+  .audio-item audio::-webkit-media-controls-time-remaining-display {
+    color: #070707;
+  }
+
+  /* Add hover effect to audio items */
+  .audio-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+  }

@@ -19,8 +19,8 @@ const uploadAudio = multer({
     storage: multer.memoryStorage(), // Use memory storage to access the buffer in middleware
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit for audio files
     fileFilter: (req, file, cb) => {
-        // Accept common audio formats
-        if (file.mimetype.startsWith('audio/')) {
+        // Accept common audio formats including WebM
+        if (file.mimetype.startsWith('audio/') || file.mimetype === 'video/webm') {
             cb(null, true);
         } else {
             cb(new Error('Only audio files are allowed!'), false);
@@ -38,31 +38,32 @@ const uploadAudioAWS = multer({
         key: function (req, file, cb) {
             // Add file extension to the key
             const fileExtension = file.originalname.split('.').pop();
-            const timestamp = Date.now();
-            const chatId = req?.params?.chatId || 'general';
+            const userName = req?.params?.username
 
-            const folderPath = 'audio-messages';
+
+            const folderPath = 'audio-files';
             
-            // Format: audio-messages/chatId/timestamp_originalname.extension
-            cb(null, `${folderPath}/${chatId}/${timestamp}_${file.originalname}`);
+            // Format: audio-files/chatId/timestamp_originalname.extension
+            cb(null, `${folderPath}/${userName}${file.originalname}`);
         },
-        contentType: multerS3.AUTO_CONTENT_TYPE,
-        acl: "public-read",
+        contentType: multerS3.AUTO_CONTENT_TYPE
     }),
     fileFilter: (req, file, cb) => {
-        // Accept common audio formats (mp3, wav, ogg, m4a)
+        // Accept common audio formats (mp3, wav, ogg, m4a, webm)
         const allowedMimeTypes = [
             'audio/mpeg',
             'audio/wav',
             'audio/ogg',
             'audio/mp4',
-            'audio/x-m4a'
+            'audio/x-m4a',
+            'audio/webm',
+            'video/webm'  // WebM format from MediaRecorder
         ];
         
         if (allowedMimeTypes.includes(file.mimetype)) {
             cb(null, true);
         } else {
-            cb(new Error('Invalid audio format. Allowed formats: MP3, WAV, OGG, M4A'), false);
+            cb(new Error('Invalid audio format. Allowed formats: MP3, WAV, OGG, M4A, WebM'), false);
         }
     },
     limits: {
