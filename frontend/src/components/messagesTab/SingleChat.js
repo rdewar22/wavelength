@@ -8,7 +8,7 @@ import "./SingleChat.css"
 import io from "socket.io-client";
 import { selectCurrentUser, selectCurrentUserId } from '../../features/auth/authSlice';
 
-const ENDPOINT = "http://localhost:3500";
+const ENDPOINT = "https://wavelength-backend-eq3t.onrender.com";
 let socket;
 
 const SingleChat = ({ chatId }) => {
