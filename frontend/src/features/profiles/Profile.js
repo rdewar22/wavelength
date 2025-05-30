@@ -6,6 +6,7 @@ import UploadAudio from "./UploadAudio";
 import { selectCurrentUser, selectisProfPicInDb } from "../auth/authSlice";
 import { useSelector } from "react-redux";
 import { useGetPostsByUserNameQuery, selectPostIds } from '../posts/postsApiSlice';
+import { selectAudiosByUser, useGetAudiosByUserIdQuery } from '../audio/audioApiSlice';
 import PostsExcerpt from '../posts/PostsExcerpt';
 import { Spinner } from 'reactstrap';
 
@@ -13,37 +14,40 @@ const Profile = ({ token }) => {
   const userName = useSelector(selectCurrentUser);
   const [isProfPic, setProfPic] = useState(true);
   const [isProfPicLoading, setIsProfPicLoading] = useState(true);
-  const [audioUrls, setAudioUrls] = useState([]);
   const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`
   const imageSrc = profilePicUri + "?" + Math.random().toString(36);
   const [counter, setCounter] = useState(0);
 
+  // Fetch posts
   const {
     data: posts,
-    isLoading,
-    isSuccess,
-    isError,
-    error
+    isLoading: isPostsLoading,
+    isSuccess: isPostsSuccess,
+    isError: isPostsError,
+    error: postsError
   } = useGetPostsByUserNameQuery(userName)
 
-  const handleAudioUploaded = (audioUrl) => {
-    // Ensure the URL is properly formatted for S3
-    const formattedUrl = audioUrl.startsWith('http') 
-      ? audioUrl 
-      : `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/${audioUrl}`;
-    setAudioUrls(prev => [...prev, {
-      url: formattedUrl,
-      timestamp: Date.now()
-    }]);
-  };
+  // Fetch audios - make sure we have a userName before fetching
+  const {
+    data: audiosData,
+    isLoading: isAudiosLoading,
+    isSuccess: isAudiosSuccess,
+    isError: isAudiosError,
+    error: audiosError
+  } = useGetAudiosByUserIdQuery(userName, {
+    skip: !userName // Skip the query if we don't have a userName
+  })
 
-  let content;
-  if (isLoading) {
-    content = <p>"Loading..."</p>;
-  } else if (isSuccess) {
-    content = [...posts.ids].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
-  } else if (isError) {
-    content = <p>Error: {error.originalStatus} {error.status}</p>
+  // Get audios using the selector
+  const audios = useSelector(state => userName ? selectAudiosByUser(state, userName) : []);
+
+  let postsContent;
+  if (isPostsLoading) {
+    postsContent = <p>"Loading..."</p>;
+  } else if (isPostsSuccess) {
+    postsContent = [...(posts?.ids || [])].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
+  } else if (isPostsError) {
+    postsContent = <p>Error: {postsError?.originalStatus} {postsError?.status}</p>
   }
 
   const reloadParent = () => {
@@ -72,7 +76,7 @@ const Profile = ({ token }) => {
                       setProfPic(false);
                       setIsProfPicLoading(false);
                     }}
-                    style={{ display: isLoading ? 'none' : 'block' }}
+                    style={{ display: isPostsLoading ? 'none' : 'block' }}
                   />
                 </>
               ) : (
@@ -91,20 +95,23 @@ const Profile = ({ token }) => {
           <h3>Audio Files</h3>
           <div className="audio-controls">
             <UploadAudio
-              onAudioUploaded={handleAudioUploaded}
               buttonLabel="Upload New Audio"
             />
           </div>
           <div className="audio-list">
-            {audioUrls.length > 0 ? (
-              audioUrls.map((audio, index) => (
-                <div key={audio.timestamp} className="audio-item">
+            {isAudiosLoading ? (
+              <Spinner />
+            ) : isAudiosError ? (
+              <p>Error loading audio files: {audiosError?.message}</p>
+            ) : audios?.length > 0 ? (
+              audios.map((audio) => (
+                <div key={audio._id} className="audio-item">
                   <div className="audio-item-header">
-                    <p>Audio {index + 1}</p>
-                    <span className="audio-timestamp">{formatDate(audio.timestamp)}</span>
+                    <p>{audio.title || `Audio ${audio._id}`}</p>
+                    <span className="audio-timestamp">{formatDate(audio.date)}</span>
                   </div>
                   <audio controls preload="metadata">
-                    <source src={audio.url} />
+                    <source src={audio.url} type="audio/mpeg" />
                     Your browser does not support the audio element.
                   </audio>
                 </div>
@@ -116,7 +123,7 @@ const Profile = ({ token }) => {
         </div>
 
         <div className="body">
-          {content}
+          {postsContent}
         </div>
       </div>
     </>

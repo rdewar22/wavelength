@@ -11,7 +11,6 @@ import Profile from "./features/profiles/Profile";
 import PersistLogin from "./features/auth/PersistLogin";
 import Navbar from "./components/Navbar";
 import { MessageTab } from "./components/messagesTab/MessagesTab";
-import PublicProfile from "./features/profiles/PublicProfile";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,8 +18,8 @@ function App() {
   const location = useLocation();
 
   // Define the paths where the navigation bar should be displayed
-  const showNavBarPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile', '/publicprofile'];
-  const showMessageTabPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile', '/publicprofile'];
+  const showNavBarPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile'];
+  const showMessageTabPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile'];
 
   // Check if the current path matches one of the allowed paths
   const showNavBar = showNavBarPaths.includes(location.pathname);
@@ -56,7 +55,6 @@ function App() {
               <Route path="welcome" element={<Welcome />} />
               <Route path="addpostform" element={<AddPostForm />} />
               <Route path="profile" element={<Profile />} />
-              <Route path="publicprofile" element={<PublicProfile />} />
             </Route>
           </Route>
 
