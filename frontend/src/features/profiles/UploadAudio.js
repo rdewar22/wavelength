@@ -2,7 +2,7 @@ import './UploadAvatar.css'
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { selectCurrentUser } from "../auth/authSlice";
+import { selectCurrentUserId } from "../auth/authSlice";
 import {
     Form,
     Button,
@@ -14,7 +14,7 @@ import {
     ModalFooter,
     ModalHeader,
 } from "reactstrap";
-import { useUploadAudioMutation } from "../users/usersApiSlice";
+import { useUploadAudioMutation } from "../audio/audioApiSlice";
 
 const UploadAudio = ({
     onAudioUploaded,
@@ -22,15 +22,17 @@ const UploadAudio = ({
 }) => {
     const [modal, setModal] = useState(false);
     const [file, setFile] = useState(null);
+    const [title, setTitle] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const [mediaRecorder, setMediaRecorder] = useState(null);
     const [uploadAudio] = useUploadAudioMutation();
-    const username = useSelector(selectCurrentUser);
+    const userId = useSelector(selectCurrentUserId);
 
     const toggle = () => {
         setModal(!modal);
         if (!modal) {
             setFile(null);
+            setTitle('');
             setIsRecording(false);
             if (mediaRecorder && mediaRecorder.state === "recording") {
                 mediaRecorder.stop();
@@ -54,6 +56,11 @@ const UploadAudio = ({
                 ];
                 if (allowedTypes.includes(type)) {
                     setFile(files[0]);
+                    // Set default title from filename if no title is set
+                    if (!title) {
+                        const fileName = files[0].name.replace(/\.[^/.]+$/, ""); // Remove extension
+                        setTitle(fileName);
+                    }
                 } else {
                     toast.error("Only MP3, WAV, OGG, M4A, and WebM audio formats are allowed", {
                         hideProgressBar: true,
@@ -82,6 +89,9 @@ const UploadAudio = ({
             recorder.onstop = () => {
                 const blob = new Blob(chunks, { type: 'audio/webm' });
                 setFile(new File([blob], 'recording.webm', { type: 'audio/webm' }));
+                if (!title) {
+                    setTitle(`Recording ${new Date().toLocaleString()}`);
+                }
                 stream.getTracks().forEach(track => track.stop());
             };
 
@@ -111,10 +121,18 @@ const UploadAudio = ({
             return;
         }
 
+        if (!title.trim()) {
+            toast.error("Please enter a title for your audio", {
+                hideProgressBar: true,
+            });
+            return;
+        }
+
         try {
             const result = await uploadAudio({
-                username,
-                audioFile: file
+                userId,
+                title: title.trim(),
+                file: file
             }).unwrap();
 
             if (result.success) {
@@ -123,6 +141,7 @@ const UploadAudio = ({
                     onAudioUploaded(result.audioUrl);
                 }
                 setFile(null);
+                setTitle('');
                 setModal(false);
             } else {
                 toast.error(result.error || "Failed to upload audio");
@@ -142,6 +161,18 @@ const UploadAudio = ({
                 <ModalHeader toggle={toggle}>Upload Audio</ModalHeader>
                 <ModalBody>
                     <Form>
+                        <FormGroup>
+                            <Label for="audioTitle">Title</Label>
+                            <Input
+                                type="text"
+                                name="audioTitle"
+                                id="audioTitle"
+                                placeholder="Enter a title for your audio"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                required
+                            />
+                        </FormGroup>
                         <FormGroup>
                             <Label for="audioFile">Select Audio File</Label>
                             <Input
@@ -189,7 +220,7 @@ const UploadAudio = ({
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={handleSubmit} disabled={!file}>
+                    <Button color="primary" onClick={handleSubmit} disabled={!file || !title.trim()}>
                         Upload
                     </Button>
                     <Button color="secondary" onClick={toggle}>

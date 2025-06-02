@@ -42,12 +42,39 @@ export const audiosApiSlice = apiSlice.injectEndpoints({
                 { type: 'Audio', id: "LIST" },
                 ...(result?.ids ? result.ids.map(id => ({ type: 'Audio', id })) : [])
             ]
-        })
+        }),
+        uploadAudio: builder.mutation({
+            query: ({ userId, title, file }) => {
+                const formData = new FormData();
+                formData.append('title', title);
+                formData.append('file', file);
+                return {
+                    url: `/audios/${userId}`,
+                    method: 'POST',
+                    body: formData,
+                };
+            },
+            transformResponse: (response) => {
+                return {
+                    success: true,
+                    key: response.key,
+                    title: response.title,
+                    message: response.message
+                };
+            },
+            transformErrorResponse: (response) => {
+                return {
+                    success: false,
+                    error: response.data?.message || 'Failed to upload audio file'
+                };
+            }
+        }),
     })
 })
 
 export const {
     useGetAudiosByUserIdQuery,
+    useUploadAudioMutation,
 } = audiosApiSlice
 
 // Custom selectors

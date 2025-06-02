@@ -17,4 +17,4 @@ const audioSchema = new Schema({
     },
   }, {timestamps: true });
 
-module.exports = mongoose.model('Audsio', audioSchema);
+module.exports = mongoose.model('Audio', audioSchema);

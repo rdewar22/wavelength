@@ -21,6 +21,7 @@ import apiEmployeesRoute from './routes/api/employees.js';
 import apiUsersRoute from './routes/api/users.js';
 import apiPostsRoute from './routes/api/posts.js';
 import apiMessagesRoute from './routes/api/messages.js';
+import apiAudiosRoute from './routes/api/audios.js';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
 
@@ -140,6 +141,7 @@ app.use(verifyJWT);
 app.use('/employees', apiEmployeesRoute);
 app.use('/users', apiUsersRoute);
 app.use('/messages', apiMessagesRoute);
+app.use('/audios', apiAudiosRoute);
 
 // catch-all 404
 app.all('*', (req, res) => {

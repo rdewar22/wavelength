@@ -36,15 +36,13 @@ const uploadAudioAWS = multer({
             cb(null, { fieldName: 'AUDIO_FILE' });
         },
         key: function (req, file, cb) {
-            // Add file extension to the key
+            // Get the file extension from the original file
             const fileExtension = file.originalname.split('.').pop();
-            const userName = req?.params?.username
-
+            const title = req?.body?.title.replaceAll("/", "");
 
             const folderPath = 'audio-files';
             
-            // Format: audio-files/chatId/timestamp_originalname.extension
-            cb(null, `${folderPath}/${userName}${file.originalname}`);
+            cb(null, `${folderPath}/${title}.${fileExtension}`);
         },
         contentType: multerS3.AUTO_CONTENT_TYPE
     }),

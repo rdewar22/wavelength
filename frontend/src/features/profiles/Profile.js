@@ -3,15 +3,16 @@ import React, { useState, useEffect } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import UploadAvatar from "./UploadAvatar";
 import UploadAudio from "./UploadAudio";
-import { selectCurrentUser, selectisProfPicInDb } from "../auth/authSlice";
+import { selectCurrentUser, selectCurrentUserId } from "../auth/authSlice";
 import { useSelector } from "react-redux";
-import { useGetPostsByUserNameQuery, selectPostIds } from '../posts/postsApiSlice';
+import { useGetPostsByUserNameQuery } from '../posts/postsApiSlice';
 import { selectAudiosByUser, useGetAudiosByUserIdQuery } from '../audio/audioApiSlice';
 import PostsExcerpt from '../posts/PostsExcerpt';
 import { Spinner } from 'reactstrap';
 
 const Profile = ({ token }) => {
   const userName = useSelector(selectCurrentUser);
+  const userId = useSelector(selectCurrentUserId);
   const [isProfPic, setProfPic] = useState(true);
   const [isProfPicLoading, setIsProfPicLoading] = useState(true);
   const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`
@@ -27,19 +28,19 @@ const Profile = ({ token }) => {
     error: postsError
   } = useGetPostsByUserNameQuery(userName)
 
-  // Fetch audios - make sure we have a userName before fetching
+  // Fetch audios - make sure we have a userId before fetching
   const {
     data: audiosData,
     isLoading: isAudiosLoading,
     isSuccess: isAudiosSuccess,
     isError: isAudiosError,
     error: audiosError
-  } = useGetAudiosByUserIdQuery(userName, {
-    skip: !userName // Skip the query if we don't have a userName
+  } = useGetAudiosByUserIdQuery(userId, {
+    skip: !userId // Skip the query if we don't have a userId
   })
 
   // Get audios using the selector
-  const audios = useSelector(state => userName ? selectAudiosByUser(state, userName) : []);
+  const audios = useSelector(state => userId ? selectAudiosByUser(state, userId) : []);
 
   let postsContent;
   if (isPostsLoading) {
