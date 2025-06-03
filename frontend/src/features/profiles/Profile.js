@@ -54,7 +54,7 @@ const Profile = ({ token }) => {
   if (isAudiosLoading) {
     audiosContent = <p>"Loading..."</p>;
   } else if (isAudiosSuccess) {
-    audiosContent = [...(audiosData?.ids || [])].reverse().map(audioId => <AudioExcerpt key={audioId} audioId={audioId} />);
+    audiosContent = (audiosData?.ids || []).slice().reverse().map(data => <AudioExcerpt key={data} audioId={data} />);
   } else if (isAudiosError) {
     audiosContent = <p>Error: {audiosError?.originalStatus} {audiosError?.status}</p>
   }

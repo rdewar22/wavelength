@@ -6,8 +6,7 @@ import { sub } from 'date-fns';
 import { apiSlice } from "../../app/api/apiSlice";
 
 const audiosAdapter = createEntityAdapter({
-    // sortComparer: (a, b) => b.date.localeCompare(a.date),
-    selectId: (audio) => audio._id,
+    selectId: (audio) => audio.id,
 })
 
 const initialState = audiosAdapter.getInitialState()
@@ -19,19 +18,17 @@ export const audiosApiSlice = apiSlice.injectEndpoints({
             query: userId => `/audios/${userId}`,
             transformResponse: responseData => {
                 let min = 1;
-                const loadedAudios = responseData.map(audio => {
-                    if (!audio?.date) audio.date = sub(new Date(), { minutes: min++ }).toISOString();
-                    if (!audio?.reactions) audio.reactions = {
-                        thumbsUp: 0,
-                        thumbsDown: 0,
-                    }
-                    return audio;
-                });
+                const loadedAudios = responseData.map(audio => ({
+                    ...audio,
+                    id: audio._id || audio.id,  // Ensure an id exists
+                    date: audio?.date || sub(new Date(), { minutes: min++ }).toISOString(),
+                    reactions: audio?.reactions || { thumbsUp: 0, thumbsDown: 0 }
+                }));
                 return audiosAdapter.setAll(initialState, loadedAudios)
             },
             providesTags: (result, error, arg) => [
                 { type: 'Audio', id: "LIST" },
-                ...(result?.ids ? result.ids.map(id => ({ type: 'Audio', id })) : [])
+                ...(result?.ids?.map(id => ({ type: 'Audio', id })) || [])
             ]
         }),
         uploadAudio: builder.mutation({
@@ -39,7 +36,7 @@ export const audiosApiSlice = apiSlice.injectEndpoints({
                 const formData = new FormData();
                 formData.append('title', title);
                 formData.append('file', file);
-                
+
                 return {
                     url: `/audios/${userId}`,
                     method: 'POST',
@@ -69,6 +66,25 @@ export const {
     useUploadAudioMutation,
 } = audiosApiSlice
 
-export const selectAudioResult = audiosApiSlice.endpoints.getAudiosByUserId.select()
+export const selectAudioResult = (userId) => audiosApiSlice.endpoints.getAudiosByUserId.select(userId)
 
-// You can add more custom selectors here as needed
+// Creates memoized selector
+export const selectAudioData = createSelector(
+    [(state, userId) => audiosApiSlice.endpoints.getAudiosByUserId.select(userId)(state)],
+    (audioResult) => audioResult?.data
+)
+
+// getSelectors creates these selectors and we rename them with aliases using destructuring
+export const {
+    selectAll: selectAllAudios,
+    selectById: selectAudioById,
+    selectIds: selectAudioIds
+} = audiosAdapter.getSelectors(state => {
+    return selectAudioData(state) ?? initialState;
+})
+
+// Additional memoized selectors if needed
+export const selectAudiosByUser = createSelector(
+    [selectAllAudios, (state, userId) => userId],
+    (audios, userId) => audios?.filter(audio => audio.userId === userId) ?? []
+)
