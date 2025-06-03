@@ -12,15 +12,6 @@ const audiosAdapter = createEntityAdapter({
 
 const initialState = audiosAdapter.getInitialState()
 
-// Get the selectors
-const {
-    selectAll: selectAllAudios,
-    selectById: selectAudioById,
-    selectIds: selectAudioIds
-} = audiosAdapter.getSelectors(state => {
-    // Access the correct path in the state tree
-    return state?.api?.queries?.[`getAudiosByUserId(${state?.auth?.user})`]?.data ?? initialState
-})
 
 export const audiosApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -48,6 +39,7 @@ export const audiosApiSlice = apiSlice.injectEndpoints({
                 const formData = new FormData();
                 formData.append('title', title);
                 formData.append('file', file);
+                
                 return {
                     url: `/audios/${userId}`,
                     method: 'POST',
@@ -77,10 +69,6 @@ export const {
     useUploadAudioMutation,
 } = audiosApiSlice
 
-// Custom selectors
-export const selectAudiosByUser = createSelector(
-    [selectAllAudios, (state, userId) => userId],
-    (audios, userId) => audios?.filter(audio => audio.userId === userId) ?? []
-)
+export const selectAudioResult = audiosApiSlice.endpoints.getAudiosByUserId.select()
 
 // You can add more custom selectors here as needed

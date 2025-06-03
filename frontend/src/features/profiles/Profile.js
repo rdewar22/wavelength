@@ -9,6 +9,7 @@ import { useGetPostsByUserNameQuery } from '../posts/postsApiSlice';
 import { selectAudiosByUser, useGetAudiosByUserIdQuery } from '../audio/audioApiSlice';
 import PostsExcerpt from '../posts/PostsExcerpt';
 import { Spinner } from 'reactstrap';
+import AudioExcerpt from '../audio/AudioExcerpt';
 
 const Profile = ({ token }) => {
   const userName = useSelector(selectCurrentUser);
@@ -39,8 +40,6 @@ const Profile = ({ token }) => {
     skip: !userId // Skip the query if we don't have a userId
   })
 
-  // Get audios using the selector
-  const audios = useSelector(state => userId ? selectAudiosByUser(state, userId) : []);
 
   let postsContent;
   if (isPostsLoading) {
@@ -51,6 +50,15 @@ const Profile = ({ token }) => {
     postsContent = <p>Error: {postsError?.originalStatus} {postsError?.status}</p>
   }
 
+  let audiosContent;
+  if (isAudiosLoading) {
+    audiosContent = <p>"Loading..."</p>;
+  } else if (isAudiosSuccess) {
+    audiosContent = [...(audiosData?.ids || [])].reverse().map(audioId => <AudioExcerpt key={audioId} audioId={audioId} />);
+  } else if (isAudiosError) {
+    audiosContent = <p>Error: {audiosError?.originalStatus} {audiosError?.status}</p>
+  }
+
   const reloadParent = () => {
     setCounter(prev => prev + 1);
     setProfPic(true)
@@ -59,6 +67,10 @@ const Profile = ({ token }) => {
   const formatDate = (timestamp) => {
     return new Date(timestamp).toLocaleString();
   };
+
+  
+
+
 
   return (
     <>
@@ -100,26 +112,7 @@ const Profile = ({ token }) => {
             />
           </div>
           <div className="audio-list">
-            {isAudiosLoading ? (
-              <Spinner />
-            ) : isAudiosError ? (
-              <p>Error loading audio files: {audiosError?.message}</p>
-            ) : audios?.length > 0 ? (
-              audios.map((audio) => (
-                <div key={audio._id} className="audio-item">
-                  <div className="audio-item-header">
-                    <p>{audio.title || `Audio ${audio._id}`}</p>
-                    <span className="audio-timestamp">{formatDate(audio.date)}</span>
-                  </div>
-                  <audio controls preload="metadata">
-                    <source src={audio.url} type="audio/mpeg" />
-                    Your browser does not support the audio element.
-                  </audio>
-                </div>
-              ))
-            ) : (
-              <p className="no-audio">No audio files uploaded yet</p>
-            )}
+            {audiosContent || <p>No audio files uploaded yet</p>}
           </div>
         </div>
 

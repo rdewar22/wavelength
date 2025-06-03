@@ -38,11 +38,13 @@ const uploadAudioAWS = multer({
         key: function (req, file, cb) {
             // Get the file extension from the original file
             const fileExtension = file.originalname.split('.').pop();
-            const title = req?.body?.title.replaceAll("/", "");
-
             const folderPath = 'audio-files';
             
-            cb(null, `${folderPath}/${title}.${fileExtension}`);
+            // Replace any forward slashes in the title with dashes to prevent folder creation
+            const sanitizedTitle = (req?.body?.title || '').replace(/\//g, '-');
+            const title = folderPath + "/" + sanitizedTitle + "." + fileExtension;
+            
+            cb(null, title);
         },
         contentType: multerS3.AUTO_CONTENT_TYPE
     }),
