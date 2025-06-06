@@ -16,6 +16,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getPosts: builder.query({
             query: () => '/posts',
+            keepUnusedDataFor: 300,
             transformResponse: responseData => {
                 let min = 1;
                 const loadedPosts = responseData.map(post => {
@@ -34,6 +35,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
         }),
         getPostsByUserName: builder.query({
             query: username => `/posts/${username}`,
+            keepUnusedDataFor: 300,
             transformResponse: responseData => {
                 let min = 1;
                 const loadedPosts = responseData.map(post => {
@@ -80,7 +82,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
                 }
             }),
             invalidatesTags: (result, error, arg) => [
-                { type: 'Post', id: arg.id}
+                { type: 'Post', id: arg.id }
             ]
         }),
         deletePost: builder.mutation({
@@ -104,7 +106,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             async onQueryStarted({ postId, reactions }, { dispatch, queryFulfilled }) {
                 // `updateQueryData` requires the endpoint name and cache key arguments,
                 // so it knows which piece of cache state to update
-                const patchResult = dispatch (
+                const patchResult = dispatch(
                     postsApiSlice.util.updateQueryData('getPosts', undefined, draft => {
                         // The `draft` is Immer-wrapped and can be "mutated" like in createSlice
                         const post = draft.entities[postId]
@@ -113,7 +115,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
                         if (post) {
                             post.reactions = reactions
                             post.updatedAt = isoStringWithOffset
-                        } 
+                        }
                     })
                 )
                 try {
