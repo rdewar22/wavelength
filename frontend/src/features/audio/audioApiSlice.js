@@ -43,6 +43,9 @@ export const audiosApiSlice = apiSlice.injectEndpoints({
                     body: formData,
                 };
             },
+            invalidatesTags: [
+                { type: 'Audio', id: "LIST" }
+            ],
             transformResponse: (response) => {
                 return {
                     success: true,
@@ -58,12 +61,23 @@ export const audiosApiSlice = apiSlice.injectEndpoints({
                 };
             }
         }),
+        deleteAudio: builder.mutation({
+            query: ({ audioId }) => ({
+                url: `/audios/${audioId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: 'Audio', id: "LIST" },
+                { type: 'Audio', id: arg.audioId }
+            ]
+        }),
     })
 })
 
 export const {
     useGetAudiosByUserIdQuery,
     useUploadAudioMutation,
+    useDeleteAudioMutation,
 } = audiosApiSlice
 
 export const selectAudioResult = (userId) => audiosApiSlice.endpoints.getAudiosByUserId.select(userId)

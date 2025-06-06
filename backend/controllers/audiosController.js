@@ -30,4 +30,24 @@ const saveAudioToMongo = async (req, res) => {
     }
 }
 
-module.exports = { getAllAudios, getAudiosByUserId, saveAudioToMongo };
+const deleteAudioFromMongo = async (req, res) => {
+    try {
+        const audio = req.audioToDelete; // Use the audio record we already fetched
+        if (!audio) {
+            return res.status(404).json({ message: 'Audio not found' });
+        }
+        
+        // Delete from MongoDB
+        await Audio.findByIdAndDelete(audio._id);
+        
+        res.json({ 
+            message: 'Audio deleted successfully',
+            deletedAudio: audio 
+        });
+    } catch (error) {
+        console.error('Error deleting audio from MongoDB:', error);
+        res.status(500).json({ message: 'Failed to delete audio from database', error: error.message });
+    }
+}
+
+module.exports = { getAllAudios, getAudiosByUserId, saveAudioToMongo, deleteAudioFromMongo };
