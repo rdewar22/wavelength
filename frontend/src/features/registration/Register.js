@@ -90,7 +90,7 @@ const Register = () => {
                 <section className="registerSection">
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Register</h1>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} autoComplete="off">
                         <label htmlFor="username">
                             Username:
                             <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
@@ -109,7 +109,7 @@ const Register = () => {
                             onFocus={() => setUserFocus(true)}
                             onBlur={() => setUserFocus(false)}
                         />
-                        <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
+                        <p id="uidnote" className={userFocus && user ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             4 to 24 characters.<br />
                             Must begin with a letter.<br />
@@ -125,6 +125,7 @@ const Register = () => {
                         <input
                             type="password"
                             id="password"
+                            autoComplete="new-password"
                             onChange={(e) => setPwd(e.target.value)}
                             value={pwd}
                             required
@@ -133,7 +134,7 @@ const Register = () => {
                             onFocus={() => setPwdFocus(true)}
                             onBlur={() => setPwdFocus(false)}
                         />
-                        <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
+                        <p id="pwdnote" className={pwdFocus ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             8 to 24 characters.<br />
                             Must include uppercase and lowercase letters, a number and a special character.<br />
@@ -149,6 +150,7 @@ const Register = () => {
                         <input
                             type="password"
                             id="confirm_pwd"
+                            autoComplete="new-password"
                             onChange={(e) => setMatchPwd(e.target.value)}
                             value={matchPwd}
                             required
