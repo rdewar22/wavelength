@@ -57,13 +57,41 @@ const UploadAvatar = ({
       formData.append('file', file); // Append the file (key should match backend expectation)
       // formData.append('name', userName); // Append additional fields
 
-      const result = await newProfPic({ userName, formData });
+      const result = await newProfPic({ userName, formData }).unwrap();
       // updateUserAvatarId(id, url);
       setFile(null);
       setModal(false);
       reloadParent();
+      toast.success("Profile picture uploaded successfully!", {
+        hideProgressBar: true,
+      });
     } catch (error) {
-      console.log({ error });
+      console.error('Upload error:', error);
+
+      let errorMessage = "Failed to upload profile picture. Please try again.";
+
+      // Check for specific error types
+      if (error?.data?.message?.includes('File too large') ||
+        error?.error?.includes('File too large') ||
+        error?.message?.includes('File too large')) {
+        errorMessage = "The file is too large. Please upload a smaller image.";
+      } else if (error?.data?.message?.includes('invalid file type') ||
+        error?.error?.includes('invalid file type') ||
+        error?.message?.includes('invalid file type')) {
+        errorMessage = "Invalid file type. Please upload an image (JPG, PNG, etc.).";
+      } else if (error?.status === 413) {
+        errorMessage = "The file is too large. Maximum upload size exceeded.";
+      } else if (error?.status === 400) {
+        errorMessage = "Invalid request. Please check the file and try again.";
+      } else if (error?.status === 401) {
+        errorMessage = "Unauthorized. Please login again.";
+      }
+
+      toast.error(errorMessage, {
+        position: "top-center",
+        hideProgressBar: true,
+        autoClose: 5000,
+      });
     }
   };
 

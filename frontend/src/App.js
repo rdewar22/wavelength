@@ -13,6 +13,7 @@ import Navbar from "./components/Navbar";
 import { MessageTab } from "./components/messagesTab/MessagesTab";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SinglePostPage from "./features/posts/SinglePostPage";
 
 function App() {
   const location = useLocation();
@@ -21,9 +22,12 @@ function App() {
   const showNavBarPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile'];
   const showMessageTabPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile'];
 
-  // Check if the current path matches one of the allowed paths
-  const showNavBar = showNavBarPaths.includes(location.pathname);
-  const showMessageTab = showMessageTabPaths.includes(location.pathname);
+  // Check if the current path matches one of the allowed paths or dynamic routes
+  const showNavBar = showNavBarPaths.includes(location.pathname) || 
+                     location.pathname.startsWith('/singlepost/');
+  
+  const showMessageTab = showMessageTabPaths.includes(location.pathname) || 
+                         location.pathname.startsWith('/singlepost/');
 
   return (
     <>
@@ -48,6 +52,7 @@ function App() {
           {/* <Route index element={<Public />} /> */}
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="singlepost/:postId" element={<SinglePostPage />} />
 
           {/* protected routes */}
           <Route element={<PersistLogin />}>

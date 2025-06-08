@@ -1,7 +1,11 @@
 // import { Link } from "react-router-dom";
 // import { useGetUsersQuery } from "../users/usersApiSlice";
 
-// const PostAuthor = ({ userId }) => {
+const PostAuthor = ({ userId }) => {
+    return <span>by User {userId}</span>
+}
+
+export default PostAuthor
 
 //     const { user: author } = useGetUsersQuery('getUsers', {
 //         selectFromResult: ({ data, isLoading }) => ({
