@@ -14,6 +14,7 @@ import { MessageTab } from "./components/messagesTab/MessagesTab";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SinglePostPage from "./features/posts/SinglePostPage";
+import PublicProfile from "./features/profiles/PublicProfile";
 
 function App() {
   const location = useLocation();
@@ -24,10 +25,12 @@ function App() {
 
   // Check if the current path matches one of the allowed paths or dynamic routes
   const showNavBar = showNavBarPaths.includes(location.pathname) || 
-                     location.pathname.startsWith('/singlepost/');
+                     location.pathname.startsWith('/singlepost/') ||
+                     location.pathname.startsWith('/publicprofile');
   
   const showMessageTab = showMessageTabPaths.includes(location.pathname) || 
-                         location.pathname.startsWith('/singlepost/');
+                         location.pathname.startsWith('/singlepost/') ||
+                         location.pathname.startsWith('/publicprofile');
 
   return (
     <>
@@ -60,6 +63,7 @@ function App() {
               <Route path="welcome" element={<Welcome />} />
               <Route path="addpostform" element={<AddPostForm />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="publicprofile/:userName" element={<PublicProfile />} />
             </Route>
           </Route>
 

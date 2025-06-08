@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddNewPostMutation } from "./postsApiSlice";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../auth/authSlice";
+import { selectCurrentUser, selectCurrentUserId } from "../auth/authSlice";
 
 const AddPostForm = () => {
     const [addNewPost, { isLoading }] = useAddNewPostMutation()
@@ -13,6 +13,7 @@ const AddPostForm = () => {
     const [content, setContent] = useState('')
     
     const currentUser = useSelector(selectCurrentUser)
+    const currentUserId = useSelector(selectCurrentUserId)
     
 
     const onTitleChanged = e => setTitle(e.target.value)
@@ -23,7 +24,7 @@ const AddPostForm = () => {
     const onSavePostClicked = async () => {
         if (canSave) {
             try {
-                await addNewPost({ title, content, currentUser }).unwrap()
+                await addNewPost({ title, content, currentUserId }).unwrap()
 
                 setTitle('')
                 setContent('')

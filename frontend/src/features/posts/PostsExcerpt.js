@@ -14,8 +14,9 @@ const PostsExcerpt = ({ postId }) => {
             <h2>{post?.title}</h2>
             <p className="excerpt">{post?.content?.substring(0, 75)}...</p>
             <p className="postCredit">
-                <Link to={`singlepost/${post?._id}`}>View Post</Link>
-                {/* <PostAuthor userId={post?._id} /> */}
+                <Link to={`/singlepost/${post?._id}`}>View Post</Link>
+                <span> by </span>
+                <Link to={`/publicprofile/${post?.author?.username}`} state={{ publicUserId: post?.author?._id }}>{post?.author?.username}</Link>
                 <TimeAgo created={post?.createdAt} lastEdited={post?.updatedAt} />
             </p>
             <ReactionButtons post={post} />

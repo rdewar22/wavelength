@@ -5,7 +5,7 @@ import { useRegisterMutation } from "./registrationApiSlice";
 import { Link } from "react-router-dom";
 import "./Register.css";
 
-const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const USER_REGEX = /^[A-z][A-z0-9-_]{4,24}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const USERNAME_LENGTH_REGEX = /^.{4,24}$/;

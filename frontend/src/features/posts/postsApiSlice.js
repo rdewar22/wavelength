@@ -33,8 +33,8 @@ export const postsApiSlice = apiSlice.injectEndpoints({
                 ...(result?.ids ? result.ids.map(id => ({ type: 'Post', id })) : [])
             ]
         }),
-        getPostsByUserName: builder.query({
-            query: username => `/posts/${username}`,
+        getPostsByUserId: builder.query({
+            query: userId => `/posts/${userId}`,
             keepUnusedDataFor: 300,
             transformResponse: responseData => {
                 let min = 1;
@@ -51,7 +51,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             providesTags: (result, error, arg) => {
                 console.log(result)
                 return [
-                    ...result.ids.map(id => ({ type: 'Post', id }))
+                    ...(result?.ids ? result.ids.map(id => ({ type: 'Post', id })) : [])
                 ]
             }
         }),
@@ -131,7 +131,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
 
 export const {
     useGetPostsQuery,
-    useGetPostsByUserNameQuery,
+    useGetPostsByUserIdQuery,
     useAddNewPostMutation,
     useUpdatePostMutation,
     useDeletePostMutation,

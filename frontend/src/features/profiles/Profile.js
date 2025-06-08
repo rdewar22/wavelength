@@ -5,7 +5,7 @@ import UploadAvatar from "./UploadAvatar";
 import UploadAudio from "./UploadAudio";
 import { selectCurrentUser, selectCurrentUserId } from "../auth/authSlice";
 import { useSelector } from "react-redux";
-import { useGetPostsByUserNameQuery } from '../posts/postsApiSlice';
+import { useGetPostsByUserIdQuery } from '../posts/postsApiSlice';
 import { selectAudiosByUser, useGetAudiosByUserIdQuery } from '../audio/audioApiSlice';
 import PostsExcerpt from '../posts/PostsExcerpt';
 import { Spinner } from 'reactstrap';
@@ -27,7 +27,7 @@ const Profile = ({ token }) => {
     isSuccess: isPostsSuccess,
     isError: isPostsError,
     error: postsError
-  } = useGetPostsByUserNameQuery(userName)
+  } = useGetPostsByUserIdQuery(userName)
 
   // Fetch audios - make sure we have a userId before fetching
   const {

@@ -30,7 +30,7 @@ const SinglePostPage = () => {
             <h2>{post.title}</h2>
             <p>{post.content}</p>
             <p className="postCredit">
-                <PostAuthor userId={post.userId} />
+                <Link to={`/publicprofile/${post?.author?.username}`} state={{ publicUserId: post?.author?._id }}>{post?.author?.username}</Link>
                 <TimeAgo created={post.createdAt} lastEdited={post.updatedAt} />
             </p>
             <ReactionButtons post={post} />

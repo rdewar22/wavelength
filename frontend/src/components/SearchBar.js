@@ -58,14 +58,14 @@ export const SearchBar = () => {
                 <div className="dropdown">
                     {input.length > 0 && isFocused === true ? (
                         data?.map((user) => (
-                            <div key={user.username} className="dropdown-row">
+                            <div key={user._id} className="dropdown-row">
                                 {user.profilePicUri ? (
                                     <img src={user.profilePicUri} alt={`${user.username} avatar`} className="prof-pic" />
                                 ) : (
                                     <IoPersonCircleOutline />
                                 )}
                                 
-                                <Link to="/publicprofile" state={{username: user.username }} onClick={handleLinkClick}>{user.username}</Link>
+                                <Link to={`/publicprofile/${user.username}`} state={{ publicUserId: user._id }} onClick={handleLinkClick}>{user.username}</Link>
                             </div>
                         ))
                     ) : (
