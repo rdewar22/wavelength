@@ -8,16 +8,32 @@ import "./Register.css";
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
+const USERNAME_LENGTH_REGEX = /^.{4,24}$/;
+const STARTS_WITH_LETTER_REGEX = /^[A-Za-z]/;
+const ALLOWED_CHARS_REGEX = /^[A-Za-z0-9_-]+$/;
+
+const PWD_LENGTH_REGEX = /^.{8,24}$/;
+const ONE_UPPERCASE_AND_LOWERCASE_REGEX = /^(?=.*[a-z])(?=.*[A-Z])/;
+const ONE_DIGIT_REGEX = /^(?=.*[0-9])/;
+const ONE_SPECIAL_CHAR_REGEX = /^(?=.*[!@#$%])/;
+
 const Register = () => {
     const userRef = useRef();
     const errRef = useRef();
 
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
+    const [validNameLength, setValidNameLength] = useState(false);
+    const [nameStartsWithLetter, setNameStartsWithLetter] = useState(false);
+    const [validNameAllowedChars, setValidNameAllowedChars] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
 
     const [pwd, setPwd] = useState('');
-    const [validPwd, setValidPwd] = useState(false);
+    const [pwdIsValid, setPwdIsValid] = useState(false);
+    const [isValidPwdLength, setIsValidPwdLength] = useState(false);
+    const [hasOneUppercaseAndLowercaseChar, setHasOneUppercaseAndLowercaseChar] = useState(false);
+    const [pwdHasADigit, setPwdHasADigit] = useState(false);
+    const [pwdHasSpecialChar, setPwdSpecialChar] = useState(false);
     const [pwdFocus, setPwdFocus] = useState(false);
 
     const [matchPwd, setMatchPwd] = useState('');
@@ -34,10 +50,17 @@ const Register = () => {
 
     useEffect(() => {
         setValidName(USER_REGEX.test(user));
+        setValidNameLength(USERNAME_LENGTH_REGEX.test(user));
+        setNameStartsWithLetter(STARTS_WITH_LETTER_REGEX.test(user));
+        setValidNameAllowedChars(ALLOWED_CHARS_REGEX.test(user));
     }, [user])
 
     useEffect(() => {
-        setValidPwd(PWD_REGEX.test(pwd));
+        setPwdIsValid(PWD_REGEX.test(pwd));
+        setIsValidPwdLength(PWD_LENGTH_REGEX.test(pwd));
+        setHasOneUppercaseAndLowercaseChar(ONE_UPPERCASE_AND_LOWERCASE_REGEX.test(pwd));
+        setPwdHasADigit(ONE_DIGIT_REGEX.test(pwd));
+        setPwdSpecialChar(ONE_SPECIAL_CHAR_REGEX.test(pwd));
         setValidMatch(pwd === matchPwd);
     }, [pwd, matchPwd])
 
@@ -111,16 +134,24 @@ const Register = () => {
                         />
                         <p id="uidnote" className={userFocus && user ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
-                            4 to 24 characters.<br />
-                            Must begin with a letter.<br />
+                            Username must be 4 - 24 characters
+                            <FontAwesomeIcon icon={faCheck} className={validNameLength ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={validNameLength || !user ? "hide" : "invalid"} />
+                            <br />
+                            begin with a letter
+                            <FontAwesomeIcon icon={faCheck} className={nameStartsWithLetter ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={nameStartsWithLetter || !user ? "hide" : "invalid"} />
+                            <br />
                             Letters, numbers, underscores, hyphens allowed.
+                            <FontAwesomeIcon icon={faCheck} className={validNameAllowedChars ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={validNameAllowedChars || !user ? "hide" : "invalid"} />
                         </p>
 
 
                         <label htmlFor="password">
                             Password:
-                            <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
-                            <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
+                            <FontAwesomeIcon icon={faCheck} className={pwdIsValid ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={pwdIsValid || !pwd ? "hide" : "invalid"} />
                         </label>
                         <input
                             type="password"
@@ -129,15 +160,30 @@ const Register = () => {
                             onChange={(e) => setPwd(e.target.value)}
                             value={pwd}
                             required
-                            aria-invalid={validPwd ? "false" : "true"}
+                            aria-invalid={pwdIsValid ? "false" : "true"}
                             aria-describedby="pwdnote"
                             onFocus={() => setPwdFocus(true)}
                             onBlur={() => setPwdFocus(false)}
                         />
                         <p id="pwdnote" className={pwdFocus ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
-                            8 to 24 characters.<br />
-                            Must include uppercase and lowercase letters, a number and a special character.<br />
+                            Password must be 8 - 24 characters 
+                            <FontAwesomeIcon icon={faCheck} className={isValidPwdLength ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={isValidPwdLength || !user ? "hide" : "invalid"} />
+                            <br />
+                            include upper and lowercase letters
+                            <FontAwesomeIcon icon={faCheck} className={hasOneUppercaseAndLowercaseChar ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={hasOneUppercaseAndLowercaseChar || !user ? "hide" : "invalid"} />
+                            <br /> 
+                            a number 
+                            <FontAwesomeIcon icon={faCheck} className={pwdHasADigit ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={pwdHasADigit || !user ? "hide" : "invalid"} />
+                            <br /> 
+                            & a special character.
+                            <FontAwesomeIcon icon={faCheck} className={pwdHasSpecialChar ? "valid" : "hide"} />
+                            <FontAwesomeIcon icon={faTimes} className={pwdHasSpecialChar || !user ? "hide" : "invalid"} />
+                            <br />
+                            
                             Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
                         </p>
 
@@ -164,7 +210,7 @@ const Register = () => {
                             Must match the first password input field.
                         </p>
 
-                        <button disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
+                        <button disabled={!validName || !pwdIsValid || !validMatch ? true : false}>Sign Up</button>
                     </form>
                     <p>
                         Already registered?<br />

@@ -1,6 +1,7 @@
 const User = require('../model/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { v4: uuid } = require('uuid')
 
 const handleLogin = async (req, res) => {
     const cookies = req.cookies;
@@ -9,7 +10,6 @@ const handleLogin = async (req, res) => {
 
     const foundUser = await User.findOne({ username: user });
     if (!foundUser) return res.sendStatus(401); //Unauthorized
-    const isProfPicInDb = Boolean(foundUser.profilePicUri);
     const userId = foundUser._id 
     // evaluate password 
     const match = await bcrypt.compare(pwd, foundUser.password);
@@ -20,7 +20,7 @@ const handleLogin = async (req, res) => {
             {
                 "UserInfo": {
                     "userId": userId,
-                    "roles": roles
+                    "roles": roles,
                 }
             },
             process.env.ACCESS_TOKEN_SECRET,
@@ -32,7 +32,6 @@ const handleLogin = async (req, res) => {
             { expiresIn: '1d' }
         );
 
-        // Changed to let keyword
         let newRefreshTokenArray =
             !cookies?.jwt
                 ? foundUser.refreshToken
