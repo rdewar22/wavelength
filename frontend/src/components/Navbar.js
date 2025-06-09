@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { logOut } from "../features/auth/authSlice"
 import { Link } from "react-router-dom"
-import { useLogoutQuery } from "../features/auth/authApiSlice"
+import { useLogoutMutation } from "../features/auth/authApiSlice"
 import { SearchBar } from "./SearchBar"
 import { selectCurrentUser } from "../features/auth/authSlice"
 
@@ -13,11 +13,11 @@ export default function Navbar() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    
+    const [logout] = useLogoutMutation();
     const user = useSelector(selectCurrentUser);
 
     const errRef = useRef();
-    const { logout } = useLogoutQuery();
 
 
 
@@ -25,7 +25,6 @@ export default function Navbar() {
         e.preventDefault()
 
         try {
-            dispatch(logOut());
             await logout();
             navigate('/login')
         } catch (err) {
@@ -34,6 +33,7 @@ export default function Navbar() {
             }
         }
     }
+
     return (
         <>
             <nav className="nav">

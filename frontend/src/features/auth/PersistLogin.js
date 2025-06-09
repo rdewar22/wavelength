@@ -40,16 +40,17 @@ const PersistLogin = () => {
     };
 
     // Only verify if we don't have a token
-    if (!accessToken) {
-      verifyRefreshToken();
-    } else {
-      setIsLoading(false);
-    }
+    !accessToken ? verifyRefreshToken() : setIsLoading(false)
 
     return () => {
       isMounted = false;
     };
   }, [accessToken, dispatch, refetch, navigate]);
+
+  useEffect(() => {
+    console.log(`isloading: ${isLoading}`);
+    console.log(`accessToken: ${accessToken}`);
+  }, [isLoading])
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
