@@ -134,12 +134,12 @@ app.use('/register', registerRoute);
 app.use('/auth', authRoute);
 app.use('/refresh', refreshRoute);
 app.use('/posts', apiPostsRoute);
-app.use('/logout', logoutRoute);
+app.use('/users', apiUsersRoute);
 
 
 app.use(verifyJWT);
+app.use('/logout', logoutRoute);
 app.use('/employees', apiEmployeesRoute);
-app.use('/users', apiUsersRoute);
 app.use('/messages', apiMessagesRoute);
 app.use('/audios', apiAudiosRoute);
 

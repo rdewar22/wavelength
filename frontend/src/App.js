@@ -61,11 +61,11 @@ function App() {
           <Route element={<PersistLogin />}>
             <Route index element={<PostsList />} />
             <Route path="singlepost/:postId" element={<SinglePostPage />} />
+            <Route path="publicprofile/:userName" element={<PublicProfile />} />
             <Route element={<RequireAuth />}>
               <Route path="welcome" element={<Welcome />} />
               <Route path="addpostform" element={<AddPostForm />} />
               <Route path="profile" element={<Profile />} />
-              <Route path="publicprofile/:userName" element={<PublicProfile />} />
             </Route>
           </Route>
 

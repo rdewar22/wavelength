@@ -93,7 +93,7 @@ export const MessageTab = () => {
                                 <button onClick={toggleOverlay} className='new-convo-button'>+</button>
                                 <ul>
                                     <section>
-                                        {content?.length > 0 && content !== null ? (content) : (<p>Start a new conversation with the '+' button!</p>)}
+                                        {content?.length > 0 && content !== null ? (content) : (<p>Start a new chat with the '+' button!</p>)}
                                     </section>
                                 </ul>
                             </div>
