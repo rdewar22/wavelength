@@ -43,7 +43,7 @@ const SingleChat = ({ chatId }) => {
     // Load initial messages when chat changes or data is fetched
     useEffect(() => {
         if (isSuccess && messagesData) {
-            console.log("Setting initial messages:", messagesData);
+            // console.log("Setting initial messages:", messagesData);
             setMessages(Object.values(messagesData.entities));
         }
     }, [isSuccess, messagesData, chatId]);
@@ -56,12 +56,12 @@ const SingleChat = ({ chatId }) => {
         });
 
         socket.on("connect", () => {
-            console.log("Socket connected with ID:", socket.id);
+            // console.log("Socket connected with ID:", socket.id);
             socket.emit("setup", { _id: userId }); // Use userId instead of user
         });
 
         socket.on("connected", () => {
-            console.log("Socket setup completed");
+            // console.log("Socket setup completed");
             setSocketConnected(true);
         });
 
@@ -93,7 +93,7 @@ const SingleChat = ({ chatId }) => {
             if (chatId === newMessageReceived.chat._id) {
                 setMessages(prevMessages => [...prevMessages, newMessageReceived]);
             } else {
-                console.log("Message was for a different chat");
+                // console.log("Message was for a different chat");
             }
         };
 

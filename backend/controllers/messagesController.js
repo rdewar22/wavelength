@@ -8,7 +8,7 @@ const sendMessage = async (req, res) => {
     const { content, chatId } = req.body;
 
     if (!content || !chatId) {
-        console.log("Invalid data passed into request");
+        // console.log("Invalid data passed into request");
         return res.sendStatus(400);
     }
 
@@ -78,7 +78,7 @@ const accessChat = async (req, res) => {
     const { userIds, groupName } = req.body;
 
     if (!userIds) {
-        console.log("UserId param not sent with request");
+        // console.log("UserId param not sent with request");
         return res.sendStatus(400);
     }
 
@@ -91,7 +91,7 @@ const accessChat = async (req, res) => {
         // Convert all IDs to ObjectId and validate format
         const userIdObjects = targetUserIds.map(id => {
             try {
-                console.log(typeof id);
+                // console.log(typeof id);
                 return new mongoose.Types.ObjectId(id);
             } catch (err) {
                 throw new Error(`Invalid user ID format: ${id}`);

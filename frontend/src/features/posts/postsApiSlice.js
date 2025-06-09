@@ -49,7 +49,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
                 return postsAdapter.setAll(initialState, loadedPosts)
             },
             providesTags: (result, error, arg) => {
-                console.log(result)
+                // console.log(result)
                 return [
                     ...(result?.ids ? result.ids.map(id => ({ type: 'Post', id })) : [])
                 ]

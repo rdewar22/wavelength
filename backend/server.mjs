@@ -48,7 +48,7 @@ const io = new Server(httpServer, {
 
 // Socket.IO connection handling
 io.on("connection", (socket) => {
-    console.log("Connected to socket.io");
+    // console.log("Connected to socket.io");
 
     // Setup socket user (usually done after user logs in)
     socket.on("setup", (userData) => {
@@ -59,28 +59,28 @@ io.on("connection", (socket) => {
     // Join chat room
     socket.on("join chat", (room) => {
         socket.join(room);
-        console.log("User joined room: " + room);
+        // console.log("User joined room: " + room);
     });
 
     // Handle new message
     socket.on("new message", (newMessageReceived) => {
-        console.log("Server received new message:", newMessageReceived);
+        // console.log("Server received new message:", newMessageReceived);
         try {
             const chat = newMessageReceived.chat;
 
             if (!chat.users) {
-                console.log("chat.users not defined");
+                // console.log("chat.users not defined");
                 return;
             }
 
-            console.log("Broadcasting message to chat users:", chat.users);
+            // console.log("Broadcasting message to chat users:", chat.users);
             chat.users.forEach((user) => {
                 if (user._id === newMessageReceived.sender._id) {
-                    console.log("Skipping sender:", user._id);
+                    // console.log("Skipping sender:", user._id);
                     return;
                 }
                 
-                console.log("Emitting message to user:", user._id);
+                // console.log("Emitting message to user:", user._id);
                 // Broadcast to all sockets in the room
                 io.in(user._id).emit("message received", newMessageReceived);
             });
@@ -95,7 +95,7 @@ io.on("connection", (socket) => {
 
     // Handle disconnect
     socket.on("disconnect", () => {
-        console.log("USER DISCONNECTED");
+        // console.log("USER DISCONNECTED");
     });
 });
 
@@ -162,7 +162,7 @@ app.use(errorHandler);
 httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 mongoose.connection.once('open', () => {
-    console.log('Connected to MongoDB');
+    // console.log('Connected to MongoDB');
 });
 
 // Make io available to other modules

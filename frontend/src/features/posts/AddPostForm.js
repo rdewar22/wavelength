@@ -29,7 +29,7 @@ const AddPostForm = () => {
                 setTitle('')
                 setContent('')
                 navigate('/')
-                console.log('New post added!')
+                // console.log('New post added!')
             } catch (err) {
                 console.error('Failed to save the post', err)
             }

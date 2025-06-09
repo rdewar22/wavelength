@@ -18,12 +18,12 @@ const s3 = new S3Client({
     // endpoint: `https://s3.us-east-2.amazonaws.com`
 });
 
-console.log('AWS Credentials Check:', {
-    hasAccessKey: !!process.env.AWS_ACCESS_KEY_ID,
-    hasSecretKey: !!process.env.AWS_SECRET_ACCESS_KEY,
-    hasAccessToken: !!process.env.ACCESS_TOKEN_SECRET,
-    hasRefreshToken: !!process.env.REFRESH_TOKEN_SECRET
-});
+// console.log('AWS Credentials Check:', {
+//     hasAccessKey: !!process.env.AWS_ACCESS_KEY_ID,
+//     hasSecretKey: !!process.env.AWS_SECRET_ACCESS_KEY,
+//     hasAccessToken: !!process.env.ACCESS_TOKEN_SECRET,
+//     hasRefreshToken: !!process.env.REFRESH_TOKEN_SECRET
+// });
 
 // Define multer configuration for handling single file uploads
 const uploadImage = multer({

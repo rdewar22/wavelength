@@ -50,7 +50,7 @@ const handleLogin = async (req, res) => {
 
             // Detected refresh token reuse!
             if (!foundToken) {
-                console.log('attempted refresh token reuse at login!')
+                // console.log('attempted refresh token reuse at login!')
                 // clear out ALL previous refresh tokens
                 newRefreshTokenArray = [];
             }
