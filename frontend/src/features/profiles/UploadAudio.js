@@ -158,7 +158,8 @@ const UploadAudio = ({
                 {buttonLabel}
             </Button>
             <Modal isOpen={modal} toggle={toggle}>
-                <ModalHeader toggle={toggle}>Upload Audio</ModalHeader>
+                <h2>Upload Audio</h2>
+                <br />
                 <ModalBody>
                     <Form>
                         <FormGroup>
@@ -173,6 +174,7 @@ const UploadAudio = ({
                                 required
                             />
                         </FormGroup>
+                        <br />
                         <FormGroup>
                             <Label for="audioFile">Select Audio File</Label>
                             <Input

@@ -9,7 +9,7 @@ import ProfileModal from '../ProfileModal';
 import NewConvoModal from './NewConvoModal';
 import SingleChat from './SingleChat';
 
-export const MessageTab = () => {
+export const MessagesTab = () => {
     const user = useSelector(selectCurrentUser);
     const userId = useSelector(selectCurrentUserId);
     const [isOpen, setIsOpen] = useState(false);

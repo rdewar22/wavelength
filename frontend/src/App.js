@@ -10,7 +10,7 @@ import AddPostForm from "./features/posts/AddPostForm";
 import Profile from "./features/profiles/Profile";
 import PersistLogin from "./features/auth/PersistLogin";
 import Navbar from "./components/Navbar";
-import { MessageTab } from "./components/messagesTab/MessagesTab";
+import { MessagesTab } from "./components/messagesTab/MessagesTab";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SinglePostPage from "./features/posts/SinglePostPage";
@@ -74,7 +74,7 @@ function App() {
 
         </Route>
       </Routes>
-      {showMessageTab && <MessageTab />}
+      {showMessageTab && <MessagesTab />}
     </>
   )
 

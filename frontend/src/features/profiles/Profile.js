@@ -17,8 +17,12 @@ const Profile = ({ token }) => {
   const [isProfPic, setProfPic] = useState(true);
   const [isProfPicLoading, setIsProfPicLoading] = useState(true);
   const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`
-  const imageSrc = profilePicUri + "?" + Math.random().toString(36);
   const [counter, setCounter] = useState(0);
+  
+  // Only add cache buster when counter changes (when image is actually updated)
+  const imageSrc = counter > 0 
+    ? `${profilePicUri}?v=${counter}` 
+    : profilePicUri;
 
   // Fetch posts
   const {

@@ -7,8 +7,11 @@ const ChatPreview = ({ chatName, chatId, latestMessage, toggleConversation, user
   const currentUserId = useSelector(selectCurrentUserId);
   const [deleteChat] = useDeleteChatMutation();
 
-  if (!isGroupChat) {
-    chatName = users.find(user => user._id !== currentUserId).username;
+  if (!isGroupChat && users && users.length > 0) {
+    const otherUser = users.find(user => user._id !== currentUserId);
+    if (otherUser) {
+      chatName = otherUser.username;
+    }
   }
 
   const handleClick = () => {

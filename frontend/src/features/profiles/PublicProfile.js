@@ -6,17 +6,30 @@ import { useGetAudiosByUserIdQuery } from '../audio/audioApiSlice';
 import PostsExcerpt from '../posts/PostsExcerpt';
 import { Spinner } from 'reactstrap';
 import AudioExcerpt from '../audio/AudioExcerpt';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectCurrentUserId } from '../auth/authSlice';
 
 const PublicProfile = ({ token }) => {
     const location = useLocation();
     const { userName } = useParams();
+    const navigate = useNavigate();
+    
     const userId = location.state.publicUserId;
     const [isProfPic, setProfPic] = useState(true);
     const [isProfPicLoading, setIsProfPicLoading] = useState(true);
     const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`
     const imageSrc = profilePicUri + "?" + Math.random().toString(36);
     const [counter, setCounter] = useState(0);
+    
+    const currentUserId = useSelector(selectCurrentUserId);
+    
+    // Redirect if user is viewing their own profile
+    useEffect(() => {
+        if (userId === currentUserId) {
+            navigate("/profile");
+        }
+    }, [userId, currentUserId, navigate]);
 
     // Fetch posts
     const {

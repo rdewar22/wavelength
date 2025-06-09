@@ -45,6 +45,15 @@ export const MessagesSearchBar = ({ selectedUsers, setSelectedUsers }) => {
     };
 
     const handleGroup = (userToAdd) => {
+        if (selectedUsers.length === 1) {
+            toast.warning("You can only add one user to a chat", {
+                hideProgressBar: true,
+                closeOnClick: true,
+                autoClose: 3000,
+                position: "top-center"
+            });
+            return;
+        }
         if (selectedUsers.includes(userToAdd)) {
             toast.warning("User already added", {
                 hideProgressBar: true,
@@ -69,7 +78,7 @@ export const MessagesSearchBar = ({ selectedUsers, setSelectedUsers }) => {
             <div className="search-container">
                 <div className="input-wrapper">
                     <FaSearch id="search-icon" />
-                    <input onBlur={handleBlur} onFocus={handleFocus} type="text" className="search-input" placeholder="Search" value={input} onChange={(e) => handleChange(e.target.value)} />
+                    <input onBlur={handleBlur} onFocus={handleFocus} type="text" className="search-input" placeholder="Search Users" value={input} onChange={(e) => handleChange(e.target.value)} />
 
                 </div>
                 <div>
@@ -78,17 +87,23 @@ export const MessagesSearchBar = ({ selectedUsers, setSelectedUsers }) => {
                             handleFunction={() => handleDelete(u)} />
                     ))}
                 </div>
+                {/* && isFocused === true  */}
                 <div className="dropdown">
-                    {input.length > 0 && isFocused === true ? (
+                    {input.length > 0 ? (
                         data?.map((user) => (
-                            <div key={user.username} className="dropdown-row">
+                            <div 
+                                key={user.username} 
+                                className="dropdown-row"
+                                onClick={() => handleGroup(user)}
+                                style={{ cursor: 'pointer' }}
+                            >
                                 {user.profilePicUri ? (
                                     <img src={user.profilePicUri} alt={`${user.username} avatar`} className="prof-pic" />
                                 ) : (
-                                    <IoPersonCircleOutline />
+                                    <IoPersonCircleOutline size="1.8em" />
                                 )}
 
-                                <Link onClick={() => handleGroup(user)}>{user.username}</Link>
+                                <span>{user.username}</span>
                             </div>
                         ))
                     ) : (

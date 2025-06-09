@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useSelector } from "react-redux";
 import ScrollableChat from './ScrollableChat';
-import Lottie from 'react-lottie';
+import { Player } from '@lottiefiles/react-lottie-player';
 import animationData from "../../animations/typing.json"
 import { useGetMessagesInChatQuery, useSendMessageMutation } from '../../features/messages/messagesApiSlice';
 import "./SingleChat.css"
@@ -22,15 +22,33 @@ const SingleChat = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
     const [sendMessage] = useSendMessageMutation();
     const messagesContainerRef = useRef();
+    const scrollTimeoutRef = useRef(null);
 
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice",
-        },
-    };
+    // Debounced scroll function
+    const scrollToBottom = useCallback(() => {
+        if (scrollTimeoutRef.current) {
+            clearTimeout(scrollTimeoutRef.current);
+        }
+        scrollTimeoutRef.current = setTimeout(() => {
+            if (messagesContainerRef.current) {
+                messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+            }
+        }, 10);
+    }, []);
+
+    // Optimized message handler with useCallback
+    const handleNewMessage = useCallback((newMessageReceived) => {
+        // Use functional update to avoid stale closure issues
+        if (chatId === newMessageReceived.chat._id) {
+            setMessages(prevMessages => {
+                // Check if message already exists to prevent duplicates
+                const messageExists = prevMessages.some(msg => msg._id === newMessageReceived._id);
+                if (messageExists) return prevMessages;
+                
+                return [...prevMessages, newMessageReceived];
+            });
+        }
+    }, [chatId]);
 
     const {
         data: messagesData,
@@ -51,8 +69,7 @@ const SingleChat = ({ chatId }) => {
     // Initialize Socket.IO connection
     useEffect(() => {
         socket = io(ENDPOINT, {
-            withCredentials: true,
-            transports: ['websocket']
+            withCredentials: true
         });
 
         socket.on("connect", () => {
@@ -88,15 +105,6 @@ const SingleChat = ({ chatId }) => {
     useEffect(() => {
         if (!socket || !socketConnected) return;
 
-        const handleNewMessage = (newMessageReceived) => {
-
-            if (chatId === newMessageReceived.chat._id) {
-                setMessages(prevMessages => [...prevMessages, newMessageReceived]);
-            } else {
-                // console.log("Message was for a different chat");
-            }
-        };
-
         socket.on("message received", handleNewMessage);
         socket.on("typing", () => setIsTyping(true));
         socket.on("stop typing", () => setIsTyping(false));
@@ -106,14 +114,12 @@ const SingleChat = ({ chatId }) => {
             socket.off("typing");
             socket.off("stop typing");
         };
-    }, [socket, socketConnected, chatId]);
+    }, [socketConnected, chatId, handleNewMessage]);
 
     // Scroll to bottom when messages change
     useEffect(() => {
-        if (messagesContainerRef.current) {
-            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
-        }
-    }, [messages]);
+        scrollToBottom();
+    }, [messages, scrollToBottom]);
 
     // Scroll to bottom when typing indicator appears
     useEffect(() => {
@@ -202,10 +208,11 @@ const SingleChat = ({ chatId }) => {
                             <ScrollableChat messages={messages} />
                             {istyping && (
                                 <div style={{ marginLeft: 10 }}>
-                                    <Lottie
-                                        options={defaultOptions}
-                                        width={70}
-                                        style={{ marginBottom: 15, marginLeft: 0 }}
+                                    <Player
+                                        src={animationData}
+                                        autoplay
+                                        loop
+                                        style={{ width: 70, marginBottom: 15, marginLeft: 0 }}
                                     />
                                 </div>
                             )}

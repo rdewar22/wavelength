@@ -78,7 +78,7 @@ const Login = () => {
                     ref={userRef}
                     value={user}
                     onChange={handleUserInput}
-                    autoComplete="off"
+                    autoComplete="username"
                     required
                 />
 
@@ -88,6 +88,7 @@ const Login = () => {
                     id="password"
                     onChange={handlePwdInput}
                     value={pwd}
+                    autoComplete="current-password"
                     required
                 />
                 <label htmlFor="persist" className="form__persist">
