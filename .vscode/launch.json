@@ -5,11 +5,20 @@
             "name": "Frontend and Backend",
             "configurations": [
                 "Launch Frontend",
-                "Launch Backend"
+                "Launch Backend",
+                "Launch Chrome against localhost"
             ]
         }
     ],
     "configurations": [
+        {
+            "name": "Launch Chrome against localhost",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/frontend",
+            
+        },
         {
             "name": "Launch Frontend",
             "type": "node",

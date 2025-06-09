@@ -55,7 +55,11 @@ const handleLogin = async (req, res) => {
                 newRefreshTokenArray = [];
             }
 
-            res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+            res.clearCookie('jwt', { 
+                httpOnly: true, 
+                sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', 
+                secure: process.env.NODE_ENV === 'production' 
+            });
         }
 
         // Saving refreshToken with current user
@@ -63,7 +67,14 @@ const handleLogin = async (req, res) => {
         const result = await foundUser.save();
 
         // Creates Secure Cookie with refresh token
-        res.cookie('jwt', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
+        const cookieOptions = {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000,
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+            secure: process.env.NODE_ENV === 'production'
+        };
+        
+        res.cookie('jwt', newRefreshToken, cookieOptions);
 
         // Send authorization roles and access token to user
         res.json({ roles, accessToken, userId });

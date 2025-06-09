@@ -5,7 +5,14 @@ const handleRefreshToken = async (req, res) => {
     const cookies = req.cookies;
     if (!cookies?.jwt) return res.sendStatus(401);
     const refreshToken = cookies.jwt;
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+    
+    const cookieOptions = {
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+        secure: process.env.NODE_ENV === 'production'
+    };
+    
+    res.clearCookie('jwt', cookieOptions);
 
     const foundUser = await User.findOne({ refreshToken }).exec();
 
@@ -16,7 +23,7 @@ const handleRefreshToken = async (req, res) => {
             process.env.REFRESH_TOKEN_SECRET,
             async (err, decoded) => {
                 if (err) return res.sendStatus(403); //Forbidden
-                // console.log('attempted refresh token reuse!')
+                console.log('attempted refresh token reuse!')
                 // Delete refresh tokens of hacked user
                 const hackedUser = await User.findOneAndUpdate(
                     { username: decoded.username },
@@ -37,7 +44,7 @@ const handleRefreshToken = async (req, res) => {
         process.env.REFRESH_TOKEN_SECRET,
         async (err, decoded) => {
             if (err) {
-                // console.log('expired refresh token')
+                console.log('expired refresh token')
                 foundUser.refreshToken = [...newRefreshTokenArray];
                 const result = await foundUser.save();
             }
@@ -70,9 +77,18 @@ const handleRefreshToken = async (req, res) => {
             const userName = decoded.username
 
             // Creates Secure Cookie with refresh token
-            res.cookie('jwt', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
+            const cookieOptions = {
+                httpOnly: true,
+                maxAge: 24 * 60 * 60 * 1000,
+                sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+                secure: process.env.NODE_ENV === 'production'
+            };
+            
+            res.cookie('jwt', newRefreshToken, cookieOptions);
+            const userId = foundUser._id;
 
-            res.json({ accessToken, userName })
+            
+            res.json({ accessToken, userName, userId })
         }
     );
 }
