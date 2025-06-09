@@ -26,8 +26,10 @@ export default function Navbar() {
 
         try {
             await logout();
-            navigate('/login')
+            dispatch(logOut());
+            // navigate('/login')
         } catch (err) {
+            console.error('Logout failed:', err);
             if (errRef.current) {
                 errRef.current.focus();
             }

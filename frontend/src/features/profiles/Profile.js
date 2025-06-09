@@ -27,7 +27,7 @@ const Profile = ({ token }) => {
     isSuccess: isPostsSuccess,
     isError: isPostsError,
     error: postsError
-  } = useGetPostsByUserIdQuery(userName)
+  } = useGetPostsByUserIdQuery(userId)
 
   // Fetch audios - make sure we have a userId before fetching
   const {

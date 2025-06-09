@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { setCredentials, selectCurrentToken, logOut, selectCurrentUser } from './authSlice'; 
-import { useRefreshQuery } from './authApiSlice';
+import { useRefreshMutation } from './authApiSlice';
 
 const PersistLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { refetch } = useRefreshQuery();
+  const [refresh] = useRefreshMutation();
   const [isLoading, setIsLoading] = useState(true);
   let accessToken = useSelector(selectCurrentToken);
   const userName = useSelector(selectCurrentUser);
@@ -17,40 +17,40 @@ const PersistLogin = () => {
 
     const verifyRefreshToken = async () => {
       try {
-        const response = await refetch();
-        accessToken = 1;
+        const response = await refresh();
         if (isMounted) {
           if (response?.data?.accessToken) {
             dispatch(setCredentials({ 
-              user: response.data.userName, 
+              user: response.data.userName,
+              userId: response.data.userId,
               accessToken: response.data.accessToken 
             }));
           } else {
             dispatch(logOut());
-            navigate('/login');
+            // navigate('/login');
           }
         }
       } catch (err) {
         console.error('Failed to refresh token:', err);
-        dispatch(logOut());
-        navigate('/login');
+        if (isMounted) {
+          dispatch(logOut());
+          // navigate('/login');
+        }
       } finally {
-        isMounted && setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     // Only verify if we don't have a token
-    !accessToken ? verifyRefreshToken() : setIsLoading(false)
+    !accessToken ? verifyRefreshToken() : setIsLoading(false);
 
     return () => {
       isMounted = false;
     };
-  }, [accessToken, dispatch, refetch, navigate]);
+  }, [accessToken, refresh, dispatch, navigate]);
 
-  useEffect(() => {
-    console.log(`isloading: ${isLoading}`);
-    console.log(`accessToken: ${accessToken}`);
-  }, [isLoading])
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;

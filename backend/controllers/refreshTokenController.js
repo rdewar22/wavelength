@@ -18,7 +18,10 @@ const handleRefreshToken = async (req, res) => {
                 if (err) return res.sendStatus(403); //Forbidden
                 console.log('attempted refresh token reuse!')
                 // Delete refresh tokens of hacked user
-                const hackedUser = await User.findOne({ username: decoded.username }).exec();
+                const hackedUser = await User.findOneAndUpdate(
+                    { username: decoded.username },
+                    { $set: { refreshToken: [] } }
+                );
                 hackedUser.refreshToken = [];
                 const result = await hackedUser.save();
             }
@@ -60,7 +63,10 @@ const handleRefreshToken = async (req, res) => {
             );
             // Saving refreshToken with current user
             foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
-            const result = await foundUser.save();
+            const result = await User.findOneAndUpdate(
+                { username: foundUser.username },
+                { $set: { refreshToken: [...newRefreshTokenArray, newRefreshToken] } }
+            );
             const userName = decoded.username
 
             // Creates Secure Cookie with refresh token

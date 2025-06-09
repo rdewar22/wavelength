@@ -24,13 +24,13 @@ function App() {
   const showMessageTabPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile'];
 
   // Check if the current path matches one of the allowed paths or dynamic routes
-  const showNavBar = showNavBarPaths.includes(location.pathname) || 
-                     location.pathname.startsWith('/singlepost/') ||
-                     location.pathname.startsWith('/publicprofile');
-  
-  const showMessageTab = showMessageTabPaths.includes(location.pathname) || 
-                         location.pathname.startsWith('/singlepost/') ||
-                         location.pathname.startsWith('/publicprofile');
+  const showNavBar = showNavBarPaths.includes(location.pathname) ||
+    location.pathname.startsWith('/singlepost/') ||
+    location.pathname.startsWith('/publicprofile');
+
+  const showMessageTab = showMessageTabPaths.includes(location.pathname) ||
+    location.pathname.startsWith('/singlepost/') ||
+    location.pathname.startsWith('/publicprofile');
 
   return (
     <>
@@ -51,14 +51,16 @@ function App() {
       <Routes>
         <Route path="/" element={< Layout />}>
           {/* public routes */}
-          <Route index element={<PostsList />} />
+
           {/* <Route index element={<Public />} /> */}
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="singlepost/:postId" element={<SinglePostPage />} />
+          
 
           {/* protected routes */}
           <Route element={<PersistLogin />}>
+            <Route index element={<PostsList />} />
+            <Route path="singlepost/:postId" element={<SinglePostPage />} />
             <Route element={<RequireAuth />}>
               <Route path="welcome" element={<Welcome />} />
               <Route path="addpostform" element={<AddPostForm />} />

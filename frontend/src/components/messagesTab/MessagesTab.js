@@ -25,7 +25,7 @@ export const MessageTab = () => {
         isError,
         error
     } = useFetchChatsForUserQuery(userId, {
-        skip: !user
+        skip: !user || !userId
     });
 
     const toggleMessagesTab = () => {
@@ -93,7 +93,7 @@ export const MessageTab = () => {
                                 <button onClick={toggleOverlay} className='new-convo-button'>+</button>
                                 <ul>
                                     <section>
-                                        {content.length > 0 && content !== null ? (content) : (<p>Start a new conversation with the '+' button!</p>)}
+                                        {content?.length > 0 && content !== null ? (content) : (<p>Start a new conversation with the '+' button!</p>)}
                                     </section>
                                 </ul>
                             </div>
