@@ -8,11 +8,11 @@ const TimeAgo = ({ created, lastEdited }) => {
         const editedDate = parseISO(lastEdited)
         const timePeriod = formatDistanceToNow(date)
         const editPeriod = formatDistanceToNow(editedDate)
-        timeAgo = `created ${timePeriod} ago. last interacted with ${editPeriod} ago.`
+        timeAgo = `posted ${timePeriod} ago. last interacted with ${editPeriod} ago.`
     }
 
     return (
-        <span title={created}>
+        <span style={{ color: 'black' }} title={created}>
             &nbsp; <i>{timeAgo}</i>
         </span>
     )

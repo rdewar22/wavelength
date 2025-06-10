@@ -1,0 +1,126 @@
+.chat-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.chat-header {
+    display: flex;
+    align-items: center;
+    font-size: 1.75rem;
+    font-family: 'Work Sans', sans-serif;
+    border-bottom: 1px solid #ddd;
+}
+
+.chat-active {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative; /* Needed for sticky child */
+}
+
+.back-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.mobile-only {
+    display: none;
+}
+
+.chat-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-messages-container {
+    flex: 1; /* Takes all available space */
+    overflow-y: auto; /* Allows scrolling */
+    width: 100%;
+    scrollbar-width: none;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #000;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.input-container {
+    position: sticky;
+    bottom: 0;
+    background: black; /* Match your chat background */
+    width: 100%;
+}
+
+.message-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 20px;
+    border: none;
+    background: #333;
+    /* Dark input field */
+    color: white;
+}
+
+.messages {
+    overflow-y: auto;
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Input area */
+.message-input-container {
+    margin-top: 15px;
+}
+
+.typing-indicator {
+    margin-bottom: 15px;
+}
+
+/* No chat selected */
+.no-chat-selected {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 1.75rem;
+    font-family: 'Work Sans', sans-serif;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .mobile-only {
+        display: flex;
+    }
+
+    .chat-header {
+        font-size: 1.4rem;
+        justify-content: space-between;
+    }
+}

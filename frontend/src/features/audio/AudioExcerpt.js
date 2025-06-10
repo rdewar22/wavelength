@@ -4,10 +4,11 @@ import ReactionButtons from "../posts/ReactionButtons";
 import "./AudioExcerpt.css";
 
 import { useSelector } from "react-redux";
-import { useDeleteAudioMutation, selectAudioById, useGetAudiosByUserIdQuery } from "./audioApiSlice";
+import { useDeleteAudioMutation, makeSelectAudioById, useGetAudiosByUserIdQuery } from "./audioApiSlice";
 import { selectCurrentUserId } from "../auth/authSlice";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useMemo } from "react";
 
 
 const formatLikeS3Url = (str) => {
@@ -30,7 +31,10 @@ const AudioExcerpt = ({ audioId }) => {
     const { data: audioData } = useGetAudiosByUserIdQuery(userId, {
         skip: !userId // Skip the query if we don't have a userId
     });
-    const audio = useSelector(state => selectAudioById(state, audioId));
+
+    // Create memoized selector instance
+    const selectAudioById = useMemo(() => makeSelectAudioById(), []);
+    const audio = useSelector(state => selectAudioById(state, audioId, userId));
 
     const handleDelete = async () => {
         const result = await Swal.fire({
@@ -71,7 +75,7 @@ const AudioExcerpt = ({ audioId }) => {
                 {isDeleting ? '...' : '×'}
             </button>
 
-            <h2 style={{ color: 'black' }}>{audio?.title}</h2>
+            <h2 style={{ color: 'black', fontSize: '1.2rem' }}>{audio?.title}</h2>
             <p className="postCredit">
                 <audio controls preload="metadata">
                     <source src={formatLikeS3Url(audio?.title)} type="audio/webm" />

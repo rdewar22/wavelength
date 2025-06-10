@@ -187,8 +187,9 @@
 }
 
 .audio-controls {
-  margin-bottom: 30px;
-  text-align: center;
+  display: flex;
+  justify-content: center; /* Horizontal */
+  align-items: center;     /* Vertical */
 }
 
 .audio-list {
@@ -282,8 +283,7 @@
   background: white;
   border-radius: 25px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  padding: 40px;
-  margin-top: 40px;
+  padding: 15px;
   position: relative;
   overflow: hidden;
 }

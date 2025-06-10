@@ -1,0 +1,10 @@
+.profile-modal {
+    width: fit-content;
+    align-items: end;
+}
+
+.profile-modal-button {
+    font-size: small;
+    padding: 0.1rem;
+    margin: 0;
+}

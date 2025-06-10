@@ -1,0 +1,24 @@
+.user-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    margin: 0.25rem;
+    margin-bottom: 0.5rem;
+    background-color: #805ad5;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    width: fit-content;
+  }
+  
+  .badge-close {
+    margin-left: 0.25rem;
+    padding: 0.1rem;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .badge-close:hover {
+    opacity: 0.8;
+  }

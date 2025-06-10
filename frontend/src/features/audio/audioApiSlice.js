@@ -105,3 +105,17 @@ export const selectAudiosByUser = createSelector(
     [selectAllAudios, (state, userId) => userId],
     (audios, userId) => audios?.filter(audio => audio.userId === userId) ?? []
 )
+
+// Create a memoized selector factory that takes userId as parameter to fix memoization issues
+export const makeSelectAudioById = () => createSelector(
+    [(state, audioId, userId) => {
+        if (!userId) return null;
+        const selectAudiosByUserResult = audiosApiSlice.endpoints.getAudiosByUserId.select(userId);
+        const result = selectAudiosByUserResult(state);
+        return result?.data;
+    }, (state, audioId) => audioId],
+    (audioData, audioId) => {
+        if (!audioData?.entities) return null;
+        return audioData.entities[audioId];
+    }
+);

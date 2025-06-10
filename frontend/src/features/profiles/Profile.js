@@ -17,16 +17,16 @@ const Profile = ({ token }) => {
   const user = useSelector(state => state.auth.user);
   const [isProfPic, setProfPic] = useState(true);
   const [isProfPicLoading, setIsProfPicLoading] = useState(true);
-  
+
   // Use profile picture URL from Redux store (user object now has profilePicUri)
   const baseProfilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`;
   const profilePicUri = user?.profilePicUri || baseProfilePicUri;
-  
+
   const [counter, setCounter] = useState(0);
-  
+
   // Use the profilePicUri from Redux (which now includes cache busting) or add counter for manual refresh
-  const imageSrc = counter > 0 
-    ? `${baseProfilePicUri}?v=${counter}` 
+  const imageSrc = counter > 0
+    ? `${baseProfilePicUri}?v=${counter}`
     : profilePicUri;
 
   // Fetch posts
@@ -85,7 +85,7 @@ const Profile = ({ token }) => {
     return new Date(timestamp).toLocaleString();
   };
 
-  
+
 
 
 
@@ -122,6 +122,13 @@ const Profile = ({ token }) => {
         </div>
 
         <div className="content-sections">
+
+          <div className="posts-section">
+            <div className="body">
+              <h2>Posts</h2>
+              {postsContent}
+            </div>
+          </div>
           <div className="audio-section">
             <h3>Audio Files</h3>
             <div className="audio-controls">
@@ -131,13 +138,6 @@ const Profile = ({ token }) => {
             </div>
             <div className="audio-list">
               {audiosContent || <p>No audio files uploaded yet</p>}
-            </div>
-          </div>
-
-          <div className="posts-section">
-            <h2>Posts</h2>
-            <div className="body">
-              {postsContent}
             </div>
           </div>
         </div>
