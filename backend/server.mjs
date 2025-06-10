@@ -42,7 +42,7 @@ const httpServer = createServer(app);
 // Create Socket.IO instance
 const io = new Server(httpServer, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "https://wavelength-72dv.onrender.com",
         methods: ["GET", "POST"],
         credentials: true
     },
