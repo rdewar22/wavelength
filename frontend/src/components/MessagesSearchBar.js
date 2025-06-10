@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { useFindUsersQuery } from "../features/users/usersApiSlice";
+import { useFindUserQuery } from "../features/users/usersApiSlice";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import UserBadgeItem from "./UserBadgeItem.js"
@@ -12,7 +12,7 @@ export const MessagesSearchBar = ({ selectedUsers, setSelectedUsers }) => {
     const [input, setInput] = useState("") // search input
     const [debouncedInput, setDebouncedInput] = useState(""); // what does debounced mean?
     const [isFocused, setIsFocused] = useState(false); // idk what this does
-    let { data, isLoading, error } = useFindUsersQuery(debouncedInput, {
+    let { data, isLoading, error } = useFindUserQuery(debouncedInput, {
         //skip: !debouncedInput,  // Skip query if input is empty
     });
 

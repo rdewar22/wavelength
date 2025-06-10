@@ -15,7 +15,10 @@ const initialState = audiosAdapter.getInitialState()
 export const audiosApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getAudiosByUserId: builder.query({
-            query: userId => `/audios/${userId}`,
+            query: userId => ({
+                url: `/audios/${userId}`,
+                method: 'GET'
+            }),
             transformResponse: responseData => {
                 let min = 1;
                 const loadedAudios = responseData.map(audio => ({

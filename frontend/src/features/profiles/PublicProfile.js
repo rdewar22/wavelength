@@ -14,16 +14,16 @@ const PublicProfile = ({ token }) => {
     const location = useLocation();
     const { userName } = useParams();
     const navigate = useNavigate();
-    
+
     const userId = location.state.publicUserId;
     const [isProfPic, setProfPic] = useState(true);
     const [isProfPicLoading, setIsProfPicLoading] = useState(true);
     const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`
     const imageSrc = profilePicUri + "?" + Math.random().toString(36);
     const [counter, setCounter] = useState(0);
-    
+
     const currentUserId = useSelector(selectCurrentUserId);
-    
+
     // Redirect if user is viewing their own profile
     useEffect(() => {
         if (userId === currentUserId) {
@@ -51,24 +51,32 @@ const PublicProfile = ({ token }) => {
         skip: !userId // Skip the query if we don't have a userId
     })
 
+    let audiosContent;
+    if (isAudiosLoading) {
+        audiosContent = <p>"Loading..."</p>;
+    } else if (isAudiosSuccess) {
+        if (audiosData?.ids && audiosData.ids.length > 0) {
+            audiosContent = (audiosData?.ids || []).slice().reverse().map(data => <AudioExcerpt key={data} audioId={data} />);
+        } else {
+            audiosContent = <p className="empty-state">No audio files uploaded yet.</p>;
+        }
+    } else if (isAudiosError) {
+        audiosContent = <p>Error: {audiosError?.originalStatus} {audiosError?.status}</p>
+    }
 
     let postsContent;
     if (isPostsLoading) {
         postsContent = <p>"Loading..."</p>;
     } else if (isPostsSuccess) {
-        postsContent = [...(posts?.ids || [])].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
+        if (posts?.ids && posts.ids.length > 0) {
+            postsContent = [...(posts?.ids || [])].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
+        } else {
+            postsContent = <p className="empty-state">No posts yet.</p>;
+        }
     } else if (isPostsError) {
         postsContent = <p>Error: {postsError?.originalStatus} {postsError?.status}</p>
     }
 
-    let audiosContent;
-    if (isAudiosLoading) {
-        audiosContent = <p>"Loading..."</p>;
-    } else if (isAudiosSuccess) {
-        audiosContent = (audiosData?.ids || []).slice().reverse().map(data => <AudioExcerpt key={data} audioId={data} />);
-    } else if (isAudiosError) {
-        audiosContent = <p>Error: {audiosError?.originalStatus} {audiosError?.status}</p>
-    }
 
     const reloadParent = () => {
         setCounter(prev => prev + 1);
@@ -108,20 +116,20 @@ const PublicProfile = ({ token }) => {
                     <p className='profile-name'>{userName}</p>
                 </div>
 
-                <div className="audio-section">
-                    <h3>Audio Files</h3>
-                    {/* <div className="audio-controls">
-                        <UploadAudio
-                            buttonLabel="Upload New Audio"
-                        />
-                    </div> */}
-                    <div className="audio-list">
-                        {audiosContent || <p>No audio files uploaded yet</p>}
+                <div className="content-sections">
+                    <div className="audio-section">
+                        <h3>Audio Files</h3>
+                        <div className="audio-list">
+                            {audiosContent || <p>No audio files uploaded yet</p>}
+                        </div>
                     </div>
-                </div>
 
-                <div className="body">
-                    {postsContent}
+                    <div className="posts-section">
+                        <h2>Posts</h2>
+                        <div className="body">
+                            {postsContent}
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

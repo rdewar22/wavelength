@@ -16,15 +16,6 @@ const deleteUser = async (req, res) => {
     res.json(result);
 }
 
-const getUser = async (req, res) => {
-    if (!req?.params?.id) return res.status(400).json({ "message": 'User ID required' });
-    const user = await User.findOne({ _id: req.params.id });
-    if (!user) {
-        return res.status(204).json({ 'message': `User ID ${req.params.id} not found` });
-    }
-    res.json(user);
-}
-
 const findUser = async (req, res) => {
     const input  = req.query.searchString;
     if (input.length === 0) {
@@ -65,7 +56,6 @@ const newProfilePic = async (req, res) => {
 module.exports = {
     getAllUsers,
     deleteUser,
-    getUser,
     newProfilePic,
     findUser
 }

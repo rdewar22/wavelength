@@ -119,6 +119,16 @@ const PersistLogin = () => {
           <Outlet />
         </>
       );
+    } else if (currentPath.startsWith('/singlepost')) {
+      // On public profile pages, allow viewing but suggest login
+      errorContent = (
+        <>
+          <p className='errmsg'>
+            You are not logged in. <Link to="/login">Login</Link> to access all features, or continue browsing.
+          </p>
+          <Outlet />
+        </>
+      );
     } else {
       // Default message for other pages
       errorContent = (
@@ -135,7 +145,7 @@ const PersistLogin = () => {
   } else if (accessToken && isUninitialized) { //persist: yes, token: yes
     content = <Outlet />
   }
-  
+
   return content
 };
 

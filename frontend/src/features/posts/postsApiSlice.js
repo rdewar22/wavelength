@@ -15,7 +15,7 @@ const initialState = postsAdapter.getInitialState()
 export const postsApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getPosts: builder.query({
-            query: () => '/posts',
+            query: () => '/publicPosts',
             keepUnusedDataFor: 300,
             transformResponse: responseData => {
                 let min = 1;
@@ -34,7 +34,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             ]
         }),
         getPostsByUserId: builder.query({
-            query: userId => `/posts/${userId}`,
+            query: userId => `/publicPosts/${userId}`,
             keepUnusedDataFor: 300,
             transformResponse: responseData => {
                 let min = 1;

@@ -2,9 +2,9 @@ import { apiSlice } from "../../app/api/apiSlice"
 
 export const usersApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        findUsers: builder.query({
+        findUser: builder.query({
             query: (searchString) => ({
-                url: '/users',   
+                url: '/publicUsers',   
                 params: { searchString },
                 method: 'GET'
             }),
@@ -46,7 +46,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 })
 
 export const {
-    useFindUsersQuery,
+    useFindUserQuery,
     useGetUserQuery,
     useNewProfPicMutation,
 } = usersApiSlice 

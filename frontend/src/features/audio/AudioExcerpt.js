@@ -4,7 +4,7 @@ import ReactionButtons from "../posts/ReactionButtons";
 import "./AudioExcerpt.css";
 
 import { useSelector } from "react-redux";
-import { useDeleteAudioMutation, audiosApiSlice } from "./audioApiSlice";
+import { useDeleteAudioMutation, selectAudioById, useGetAudiosByUserIdQuery } from "./audioApiSlice";
 import { selectCurrentUserId } from "../auth/authSlice";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -27,10 +27,10 @@ const AudioExcerpt = ({ audioId }) => {
     const userId = useSelector(selectCurrentUserId);
     const [deleteAudio, { isLoading: isDeleting }] = useDeleteAudioMutation();
 
-    const audio = useSelector(state => {
-        const audioResult = audiosApiSlice.endpoints.getAudiosByUserId.select(userId)(state);
-        return audioResult?.data?.entities?.[audioId];
+    const { data: audioData } = useGetAudiosByUserIdQuery(userId, {
+        skip: !userId // Skip the query if we don't have a userId
     });
+    const audio = useSelector(state => selectAudioById(state, audioId));
 
     const handleDelete = async () => {
         const result = await Swal.fire({

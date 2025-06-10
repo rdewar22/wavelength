@@ -9,12 +9,10 @@ const { PutObjectCommand } = require('@aws-sdk/client-s3');
 
 
 router.route('/')
-    .get(usersController.findUser)
     //.get(verifyRoles(ROLES_LIST.Admin), usersController.getAllUsers)
     .delete(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser);
 
 router.route('/:username')
-    .get(verifyRoles(ROLES_LIST.User), usersController.getUser)
     .put(
         verifyRoles(ROLES_LIST.User), // Role verification middleware
         uploadImage.single('file'), // Handle file upload to memory

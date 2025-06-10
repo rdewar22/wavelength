@@ -54,7 +54,11 @@ const Profile = ({ token }) => {
   if (isPostsLoading) {
     postsContent = <p>"Loading..."</p>;
   } else if (isPostsSuccess) {
-    postsContent = [...(posts?.ids || [])].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
+    if (posts?.ids && posts.ids.length > 0) {
+      postsContent = [...(posts?.ids || [])].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
+    } else {
+      postsContent = <p className="empty-state">No posts yet. Share your first post!</p>;
+    }
   } else if (isPostsError) {
     postsContent = <p>Error: {postsError?.originalStatus} {postsError?.status}</p>
   }
@@ -63,7 +67,11 @@ const Profile = ({ token }) => {
   if (isAudiosLoading) {
     audiosContent = <p>"Loading..."</p>;
   } else if (isAudiosSuccess) {
-    audiosContent = (audiosData?.ids || []).slice().reverse().map(data => <AudioExcerpt key={data} audioId={data} />);
+    if (audiosData?.ids && audiosData.ids.length > 0) {
+      audiosContent = (audiosData?.ids || []).slice().reverse().map(data => <AudioExcerpt key={data} audioId={data} />);
+    } else {
+      audiosContent = <p className="empty-state">No audio files uploaded yet. Upload your first audio!</p>;
+    }
   } else if (isAudiosError) {
     audiosContent = <p>Error: {audiosError?.originalStatus} {audiosError?.status}</p>
   }
@@ -110,23 +118,28 @@ const Profile = ({ token }) => {
               />
             </div>
           </div>
-          <p className='profile-name'>{userName}</p>
+          <div className='profile-name'>{userName}</div>
         </div>
 
-        <div className="audio-section">
-          <h3>Audio Files</h3>
-          <div className="audio-controls">
-            <UploadAudio
-              buttonLabel="Upload New Audio"
-            />
+        <div className="content-sections">
+          <div className="audio-section">
+            <h3>Audio Files</h3>
+            <div className="audio-controls">
+              <UploadAudio
+                buttonLabel="Upload New Audio"
+              />
+            </div>
+            <div className="audio-list">
+              {audiosContent || <p>No audio files uploaded yet</p>}
+            </div>
           </div>
-          <div className="audio-list">
-            {audiosContent || <p>No audio files uploaded yet</p>}
-          </div>
-        </div>
 
-        <div className="body">
-          {postsContent}
+          <div className="posts-section">
+            <h2>Posts</h2>
+            <div className="body">
+              {postsContent}
+            </div>
+          </div>
         </div>
       </div>
     </>

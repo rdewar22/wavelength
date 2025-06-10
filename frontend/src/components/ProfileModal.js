@@ -1,5 +1,5 @@
 import { useState } from "react"; // Add this import
-import { useFindUsersQuery } from "../features/users/usersApiSlice";
+import { useFindUserQuery } from "../features/users/usersApiSlice";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import "./ProfileModal.css"
 
@@ -11,7 +11,7 @@ const ProfileModal = ({ userName }) => {
         isLoading,
         isError,
         error
-    } = useFindUsersQuery(userName);
+    } = useFindUserQuery(userName);
 
     if (isLoading) {
         return <div>Loading...</div>;

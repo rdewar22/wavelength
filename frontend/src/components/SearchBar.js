@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { useFindUsersQuery } from "../features/users/usersApiSlice";
+import { useFindUserQuery } from "../features/users/usersApiSlice";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import "./SearchBar.css";
 
@@ -12,7 +12,7 @@ export const SearchBar = () => {
     const [isFocused, setIsFocused] = useState(false);
 
 
-    let { data, isLoading, error } = useFindUsersQuery(debouncedInput, {
+    let { data, isLoading, error } = useFindUserQuery(debouncedInput, {
         skip: !debouncedInput,  // Skip query if input is empty
     });
 
