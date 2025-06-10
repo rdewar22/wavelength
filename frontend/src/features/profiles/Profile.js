@@ -1,6 +1,7 @@
 import './Profile.css'
 import React, { useState, useEffect } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 import UploadAvatar from "./UploadAvatar";
 import UploadAudio from "./UploadAudio";
 import { selectCurrentUser, selectCurrentUserId } from "../auth/authSlice";
@@ -81,14 +82,6 @@ const Profile = ({ token }) => {
     setProfPic(true)
   };
 
-  const formatDate = (timestamp) => {
-    return new Date(timestamp).toLocaleString();
-  };
-
-
-
-
-
   return (
     <>
       <div className="profile">
@@ -126,11 +119,16 @@ const Profile = ({ token }) => {
           <div className="posts-section">
             <div className="body">
               <h2>Posts</h2>
+              <div className="post-controls">
+                <Link to="/addpostform" className="add-post-button">
+                  Create New Post
+                </Link>
+              </div>
               {postsContent}
             </div>
           </div>
           <div className="audio-section">
-            <h3>Audio Files</h3>
+            <h2>Audio Files</h2>
             <div className="audio-controls">
               <UploadAudio
                 buttonLabel="Upload New Audio"

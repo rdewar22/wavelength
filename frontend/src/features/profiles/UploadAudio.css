@@ -396,6 +396,8 @@
     align-items: center;
     gap: 0.5rem;
     font-size: 0.875rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
 .upload-audio-trigger-btn::before {

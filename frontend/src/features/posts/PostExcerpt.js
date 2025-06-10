@@ -12,20 +12,31 @@ const PostExcerpt = ({ postId, userId }) => {
         <article className="post-excerpt">
             <h3 className="post-title">{post?.title}</h3>
             <p className="excerpt">{post?.content?.substring(0, 75)}{post?.content?.length > 75 ? '...' : ''}</p>
-            <br />
-            <p className="postCredit">
-                {post?.content?.length > 75 && (
-                    <>
-                        <Link to={`/singlepost/${post?._id}`}>View Post</Link>
-                    </>
-                )}
-                <span style={{ color: 'black' }}> by </span>
-                <Link to={`/publicprofile/${post?.author?.username}`} state={{ publicUserId: post?.author?._id }}>{post?.author?.username}</Link>
-                <br /><br />          
-                <TimeAgo created={post?.createdAt} lastEdited={post?.updatedAt} />
-            </p>
+            
+            <div className="postCredit">
+                <div className="post-meta-row">
+                    {post?.content?.length > 75 && (
+                        <Link to={`/singlepost/${post?._id}`} className="view-post-link">
+                            View Post
+                        </Link>
+                    )}
+                    <div className="author-info">
+                        <span>by</span>
+                        <Link 
+                            to={`/publicprofile/${post?.author?.username}`} 
+                            state={{ publicUserId: post?.author?._id }}
+                            className="author-link"
+                        >
+                            {post?.author?.username}
+                        </Link>
+                    </div>
+                </div>
+                <div className="time-ago">
+                    <TimeAgo created={post?.createdAt} lastEdited={post?.updatedAt} />
+                </div>
+            </div>
+            
             <ReactionButtons post={post} />
-
         </article>
     )
 }

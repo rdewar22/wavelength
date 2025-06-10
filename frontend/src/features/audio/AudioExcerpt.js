@@ -62,36 +62,41 @@ const AudioExcerpt = ({ audioId, userId: propUserId }) => {
     };
 
     if (!audio) {
-        return <article><p style={{ color: 'red' }}>Audio not found</p></article>
+        return (
+            <article className="audio-not-found">
+                <p>Audio not found</p>
+            </article>
+        )
     }
 
     return (
-        <article style={{ position: 'relative' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-                <h2 style={{ color: 'black', fontSize: '1.2rem', margin: 0 }}>{audio?.title}</h2>
+        <article className="audio-excerpt">
+            <div className="audio-header">
+                <h2 className="audio-title">{audio?.title}</h2>
                 {userId === currentUserId && (
                     <button
                         onClick={handleDelete}
                         disabled={isDeleting}
                         className="delete-audio-button"
                         title="Delete audio"
-                        style={{ marginLeft: '10px' }}
                     >
                         {isDeleting ? '...' : '×'}
                     </button>
                 )}
             </div>
 
-            <p className="postCredit">
-                <audio controls preload="metadata">
+            <div className="audio-player-container">
+                <audio controls preload="metadata" className="audio-player">
                     <source src={formatLikeS3Url(audio?.title)} type="audio/webm" />
                     Your browser does not support the audio element.
                 </audio>
+            </div>
 
-                {/* <PostAuthor userId={post?._id} /> */}
-                <TimeAgoCreated created={audio?.createdAt} />
-            </p>
-            {/* <ReactionButtons post={post} /> */}
+            <div className="audio-meta">
+                <div className="audio-timestamp">
+                    <TimeAgoCreated created={audio?.createdAt} />
+                </div>
+            </div>
         </article>
     )
 }
