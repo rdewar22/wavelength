@@ -387,7 +387,7 @@ const SingleChat = ({ chatId }) => {
                     ) : (
                         <div className="messages">
                             <ScrollableChat messages={messages} />
-                            {true && (
+                            {istyping && (
                                 <div style={{ 
                                     backgroundColor: 'rgba(0,0,0,0.1)',
                                     borderRadius: 5,

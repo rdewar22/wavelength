@@ -71,21 +71,20 @@ export const SearchBar = () => {
                 <div className="dropdown">
                     {input.length >= 1 && isFocused && !isLoading && memoizedData.length > 0 ? (
                         memoizedData.map((user) => (
-                            <div key={user._id} className="dropdown-row">
+                            <Link 
+                                key={user._id}
+                                to={`/publicprofile/${user.username}`} 
+                                state={{ publicUserId: user._id }} 
+                                onClick={handleLinkClick}
+                                className="dropdown-row"
+                            >
                                 {user.profilePicUri ? (
                                     <img src={user.profilePicUri} alt={`${user.username} avatar`} className="prof-pic" />
                                 ) : (
                                     <IoPersonCircleOutline />
                                 )}
-                                
-                                <Link 
-                                    to={`/publicprofile/${user.username}`} 
-                                    state={{ publicUserId: user._id }} 
-                                    onClick={handleLinkClick}
-                                >
-                                    {user.username}
-                                </Link>
-                            </div>
+                                <span style={{color: "black"}}>{user.username}</span>
+                            </Link>
                         ))
                     ) : input.length >= 1 && isFocused && isLoading ? (
                         <div className="dropdown-row">
