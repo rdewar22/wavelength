@@ -68,12 +68,11 @@ export const MessagesTab = () => {
 
     return (
         <div className="messages-container">
-            {/* Messages Tab */}
-
             <div className={`messages-overlay ${isOpen ? "open" : ""}`}>
                 <button className="messages-tab" onClick={toggleMessagesTab}>
                     Messages
                 </button>
+                {/* Messages content (hidden when closed) */}
                 {user ? (
                     <>
                         {currentConversationId ? (
@@ -100,19 +99,16 @@ export const MessagesTab = () => {
                         )}
                     </>
                 ) : (
-                    <>
-                        <div className="no-user-message">
-                            <p>
-                                Please <Link to="/login" className='login-link'>login</Link> or <Link className='register-link' to="/register">register</Link> to use messages.
-                            </p>
-                        </div>
-                    </>
+                    <div className="no-user-message">
+                        <p>
+                            Please <Link to="/login" className='login-link'>login</Link> or <Link className='register-link' to="/register">register</Link> to use messages.
+                        </p>
+                    </div>
                 )}
-
 
             </div>
 
-            {/* Overlay */}
+            {/* Overlay for new conversation modal */}
             {showOverlay && (
                 <NewConvoModal
                     toggleOverlay={toggleOverlay}

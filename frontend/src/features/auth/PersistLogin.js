@@ -15,6 +15,7 @@ const PersistLogin = () => {
 
   const [isMountedLoading, setIsMountedLoading] = useState(true);
   const [trueSuccess, setTrueSuccess] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   let accessToken = useSelector(selectCurrentToken);
 
@@ -32,6 +33,14 @@ const PersistLogin = () => {
     let isMounted = true;
 
     const verifyRefreshToken = async () => {
+      if (isRefreshing) {
+        console.log('Refresh already in progress, skipping...');
+        setIsMountedLoading(false);
+        return;
+      }
+
+      setIsRefreshing(true);
+
       try {
         const response = await refresh();
         setTrueSuccess(true);
@@ -42,6 +51,9 @@ const PersistLogin = () => {
               userId: response.data.userId,
               accessToken: response.data.accessToken
             }));
+          } else if (response?.error?.status === 500) {
+            // Server error - don't logout, just show error
+            console.error('Server error during refresh. Please try again later.');
           } else {
             dispatch(logOut());
             // navigate('/login');
@@ -50,12 +62,16 @@ const PersistLogin = () => {
       } catch (err) {
         console.error('Failed to refresh token:', err);
         if (isMounted) {
-          dispatch(logOut());
+          // Only logout if it's not a server error
+          if (err?.status !== 500) {
+            dispatch(logOut());
+          }
           // navigate('/login');
         }
       } finally {
         if (isMounted) {
           setIsMountedLoading(false);
+          setIsRefreshing(false);
         }
       }
     };
@@ -65,6 +81,7 @@ const PersistLogin = () => {
 
     return () => {
       isMounted = false;
+      setIsRefreshing(false);
     };
   }, [accessToken, refresh, dispatch, navigate, persist]);
 
@@ -143,6 +160,8 @@ const PersistLogin = () => {
   } else if (isSuccess && trueSuccess) { //persist: yes, token: yes
     content = <Outlet />
   } else if (accessToken && isUninitialized) { //persist: yes, token: yes
+    content = <Outlet />
+  } else {
     content = <Outlet />
   }
 

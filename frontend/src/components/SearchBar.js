@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { useFindUserQuery } from "../features/users/usersApiSlice";
@@ -11,37 +11,42 @@ export const SearchBar = () => {
     const [debouncedInput, setDebouncedInput] = useState("");
     const [isFocused, setIsFocused] = useState(false);
 
+    // Skip query if input is too short or empty
+    const shouldSkipQuery = !debouncedInput;
 
     let { data, isLoading, error } = useFindUserQuery(debouncedInput, {
-        skip: !debouncedInput,  // Skip query if input is empty
+        skip: shouldSkipQuery,
     });
 
+    // Memoize the data to prevent unnecessary re-renders
+    const memoizedData = useMemo(() => {
+        return data || [];
+    }, [data]);
 
-    // Debounce the input value
+    // Increase debounce time to reduce API calls
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             setDebouncedInput(input);
-        }, 50); // Wait 50ms after last keystroke before updating
-
+        }, 300); // Increased from 50ms to 300ms
 
         // Cleanup timeout
         return () => clearTimeout(timeoutId);
     }, [input]);
 
     const handleChange = (value) => {
-        data = []
         setInput(value);
     }
 
     const handleLinkClick = () => {
-        setInput('');  // Clear the input field when a link is clicked
+        setInput('');
+        setIsFocused(false);
     };
 
     const handleBlur = () => {
         // Delay the blur event to allow the link to be clicked
         setTimeout(() => {
             setIsFocused(false);
-        }, 175); // Adjust the delay as needed
+        }, 175);
     };
     
     const handleFocus = () => {
@@ -53,11 +58,19 @@ export const SearchBar = () => {
             <div className="search-container">
                 <div className="input-wrapper">
                     <FaSearch id="search-icon" />
-                    <input onBlur={handleBlur} onFocus={handleFocus} type="text" className="search-input" placeholder="Search" value={input} onChange={(e) => handleChange(e.target.value)} />
+                    <input 
+                        onBlur={handleBlur} 
+                        onFocus={handleFocus} 
+                        type="text" 
+                        className="search-input" 
+                        placeholder="Search users..." 
+                        value={input} 
+                        onChange={(e) => handleChange(e.target.value)} 
+                    />
                 </div>
                 <div className="dropdown">
-                    {input.length > 0 && isFocused === true ? (
-                        data?.map((user) => (
+                    {input.length >= 2 && isFocused && !isLoading && memoizedData.length > 0 ? (
+                        memoizedData.map((user) => (
                             <div key={user._id} className="dropdown-row">
                                 {user.profilePicUri ? (
                                     <img src={user.profilePicUri} alt={`${user.username} avatar`} className="prof-pic" />
@@ -65,15 +78,26 @@ export const SearchBar = () => {
                                     <IoPersonCircleOutline />
                                 )}
                                 
-                                <Link to={`/publicprofile/${user.username}`} state={{ publicUserId: user._id }} onClick={handleLinkClick}>{user.username}</Link>
+                                <Link 
+                                    to={`/publicprofile/${user.username}`} 
+                                    state={{ publicUserId: user._id }} 
+                                    onClick={handleLinkClick}
+                                >
+                                    {user.username}
+                                </Link>
                             </div>
                         ))
-                    ) : (
-                        !isLoading
-                    )}
+                    ) : input.length >= 2 && isFocused && isLoading ? (
+                        <div className="dropdown-row">
+                            <span>Searching...</span>
+                        </div>
+                    ) : input.length >= 2 && isFocused && !isLoading && memoizedData.length === 0 ? (
+                        <div className="dropdown-row">
+                            <span>No users found</span>
+                        </div>
+                    ) : null}
                 </div>
             </div>
-
         </>
     )
 }
