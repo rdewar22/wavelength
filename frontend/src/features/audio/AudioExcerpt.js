@@ -1,5 +1,5 @@
 import PostAuthor from "../posts/PostAuthor";
-import TimeAgo from "../posts/TimeAgo";
+import TimeAgoCreated from "./TimeAgoCreated";
 import ReactionButtons from "../posts/ReactionButtons";
 import "./AudioExcerpt.css";
 
@@ -24,8 +24,9 @@ const formatLikeS3Url = (str) => {
     return encoded;
 };
 
-const AudioExcerpt = ({ audioId }) => {
-    const userId = useSelector(selectCurrentUserId);
+const AudioExcerpt = ({ audioId, userId: propUserId }) => {
+    const currentUserId = useSelector(selectCurrentUserId);
+    const userId = propUserId || currentUserId; // Use passed userId or fall back to current user
     const [deleteAudio, { isLoading: isDeleting }] = useDeleteAudioMutation();
 
     const { data: audioData } = useGetAudiosByUserIdQuery(userId, {
@@ -66,16 +67,21 @@ const AudioExcerpt = ({ audioId }) => {
 
     return (
         <article style={{ position: 'relative' }}>
-            <button
-                onClick={handleDelete}
-                disabled={isDeleting}
-                className="delete-audio-button"
-                title="Delete audio"
-            >
-                {isDeleting ? '...' : '×'}
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <h2 style={{ color: 'black', fontSize: '1.2rem', margin: 0 }}>{audio?.title}</h2>
+                {userId === currentUserId && (
+                    <button
+                        onClick={handleDelete}
+                        disabled={isDeleting}
+                        className="delete-audio-button"
+                        title="Delete audio"
+                        style={{ marginLeft: '10px' }}
+                    >
+                        {isDeleting ? '...' : '×'}
+                    </button>
+                )}
+            </div>
 
-            <h2 style={{ color: 'black', fontSize: '1.2rem' }}>{audio?.title}</h2>
             <p className="postCredit">
                 <audio controls preload="metadata">
                     <source src={formatLikeS3Url(audio?.title)} type="audio/webm" />
@@ -83,7 +89,7 @@ const AudioExcerpt = ({ audioId }) => {
                 </audio>
 
                 {/* <PostAuthor userId={post?._id} /> */}
-                <TimeAgo created={audio?.createdAt} lastEdited={audio?.updatedAt} />
+                <TimeAgoCreated created={audio?.createdAt} />
             </p>
             {/* <ReactionButtons post={post} /> */}
         </article>

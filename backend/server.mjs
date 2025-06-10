@@ -24,6 +24,7 @@ import apiMessagesRoute from './routes/api/messages.js';
 import apiAudiosRoute from './routes/api/audios.js';
 import apiPublicUsersRoute from './routes/api/publicUsers.js';
 import apiPublicPostsRoute from './routes/api/publicPosts.js';
+import apiPublicAudiosRoute from './routes/api/publicAudios.js';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
 
@@ -137,7 +138,7 @@ app.use('/auth', authRoute);
 app.use('/refresh', refreshRoute);
 app.use('/publicUsers', apiPublicUsersRoute);
 app.use('/publicPosts', apiPublicPostsRoute);
-
+app.use('/publicAudios', apiPublicAudiosRoute);
 app.use(verifyJWT);
 app.use('/posts', apiPostsRoute);
 app.use('/logout', logoutRoute);

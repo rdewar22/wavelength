@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { useGetPostsByUserIdQuery } from '../posts/postsApiSlice';
 import { useGetAudiosByUserIdQuery } from '../audio/audioApiSlice';
-import PostsExcerpt from '../posts/PostsExcerpt';
+import PostExcerpt from '../posts/PostExcerpt';
 import { Spinner } from 'reactstrap';
 import AudioExcerpt from '../audio/AudioExcerpt';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
@@ -16,13 +16,14 @@ const PublicProfile = ({ token }) => {
     const navigate = useNavigate();
 
     const userId = location.state.publicUserId;
+    const currentUserId = useSelector(selectCurrentUserId);
+
     const [isProfPic, setProfPic] = useState(true);
     const [isProfPicLoading, setIsProfPicLoading] = useState(true);
-    const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`
-    const imageSrc = profilePicUri + "?" + Math.random().toString(36);
     const [counter, setCounter] = useState(0);
 
-    const currentUserId = useSelector(selectCurrentUserId);
+    const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`
+    const imageSrc = profilePicUri + "?" + Math.random().toString(36);
 
     // Redirect if user is viewing their own profile
     useEffect(() => {
@@ -56,7 +57,7 @@ const PublicProfile = ({ token }) => {
         audiosContent = <p>"Loading..."</p>;
     } else if (isAudiosSuccess) {
         if (audiosData?.ids && audiosData.ids.length > 0) {
-            audiosContent = (audiosData?.ids || []).slice().reverse().map(data => <AudioExcerpt key={data} audioId={data} />);
+            audiosContent = (audiosData?.ids || []).slice().reverse().map(data => <AudioExcerpt key={data} audioId={data} userId={userId} />);
         } else {
             audiosContent = <p className="empty-state">No audio files uploaded yet.</p>;
         }
@@ -69,7 +70,7 @@ const PublicProfile = ({ token }) => {
         postsContent = <p>"Loading..."</p>;
     } else if (isPostsSuccess) {
         if (posts?.ids && posts.ids.length > 0) {
-            postsContent = [...(posts?.ids || [])].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
+            postsContent = [...(posts?.ids || [])].reverse().map(postId => <PostExcerpt key={postId} postId={postId} userId={userId} />);
         } else {
             postsContent = <p className="empty-state">No posts yet.</p>;
         }
@@ -107,27 +108,23 @@ const PublicProfile = ({ token }) => {
                             ) : (
                                 <IoPersonCircleOutline size={40} />
                             )}
-                            {/* <UploadAvatar
-                                avatarUrl={profilePicUri}
-                                reloadParent={reloadParent}
-                            /> */}
                         </div>
                     </div>
-                    <p className='profile-name'>{userName}</p>
+                    <div className='profile-name'>{userName}</div>
                 </div>
 
                 <div className="content-sections">
+
+                    <div className="posts-section">
+                        <div className="body">
+                            <h2>Posts</h2>
+                            {postsContent}
+                        </div>
+                    </div>
                     <div className="audio-section">
                         <h3>Audio Files</h3>
                         <div className="audio-list">
                             {audiosContent || <p>No audio files uploaded yet</p>}
-                        </div>
-                    </div>
-
-                    <div className="posts-section">
-                        <h2>Posts</h2>
-                        <div className="body">
-                            {postsContent}
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import PostsExcerpt from "./PostsExcerpt";
+import PostsExcerpt from "./PostExcerpt";
 import { useGetPostsQuery, selectPostIds } from "./postsApiSlice";
 
 const PostsList = () => {

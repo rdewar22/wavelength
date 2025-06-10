@@ -16,7 +16,7 @@ export const audiosApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getAudiosByUserId: builder.query({
             query: userId => ({
-                url: `/audios/${userId}`,
+                url: `/publicAudios/${userId}`,
                 method: 'GET'
             }),
             transformResponse: responseData => {

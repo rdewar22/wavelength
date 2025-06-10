@@ -7,12 +7,6 @@ const { uploadAudioAWS } = require('../../middleware/uploadAudio');
 const { deleteAudioAWS } = require('../../middleware/deleteAudio');
 const Audio = require('../../model/Audio');
 
-router.route('/')
-    .get(audiosController.getAllAudios)
-
-router.route('/:userId')
-    .get(audiosController.getAudiosByUserId)
-
 // New route for audio file uploads
 router.route('/:userId')
     .post(

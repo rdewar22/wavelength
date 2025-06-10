@@ -1,21 +1,19 @@
 import { parseISO, formatDistanceToNow } from 'date-fns';
 
 
-const TimeAgo = ({ created, lastEdited }) => {
+const TimeAgoCreated = ({ created }) => {
     let timeAgo = ''
     if (created) {
         const date = parseISO(created)
-        const editedDate = parseISO(lastEdited)
         const timePeriod = formatDistanceToNow(date)
-        const editPeriod = formatDistanceToNow(editedDate)
-        timeAgo = `posted ${timePeriod} ago. last interacted with ${editPeriod} ago.`
+        timeAgo = `posted ${timePeriod} ago.`
     }
 
     return (
         <span style={{ color: 'black' }} title={created}>
-            <i>{timeAgo}</i>
+            &nbsp; <i>{timeAgo}</i>
         </span>
     )
 }
 
-export default TimeAgo
+export default TimeAgoCreated

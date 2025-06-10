@@ -16,7 +16,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getPosts: builder.query({
             query: () => '/publicPosts',
-            keepUnusedDataFor: 300,
+            keepUnusedDataFor: 3600,
             transformResponse: responseData => {
                 let min = 1;
                 const loadedPosts = responseData.map(post => {
@@ -35,7 +35,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
         }),
         getPostsByUserId: builder.query({
             query: userId => `/publicPosts/${userId}`,
-            keepUnusedDataFor: 300,
+            keepUnusedDataFor: 3600,
             transformResponse: responseData => {
                 let min = 1;
                 const loadedPosts = responseData.map(post => {
@@ -51,6 +51,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             providesTags: (result, error, arg) => {
                 // console.log(result)
                 return [
+                    { type: 'Post', id: "LIST" },
                     ...(result?.ids ? result.ids.map(id => ({ type: 'Post', id })) : [])
                 ]
             }
@@ -154,3 +155,42 @@ export const {
     selectIds: selectPostIds
     // Pass in a selector that returns the posts slice of state
 } = postsAdapter.getSelectors(state => selectPostsData(state) ?? initialState)
+
+// Create selectors for user-specific posts cache
+export const selectPostsByUserResult = (userId) => postsApiSlice.endpoints.getPostsByUserId.select(userId)
+
+export const selectPostsByUserData = createSelector(
+    [selectPostsByUserResult],
+    (selectResult) => (state, userId) => selectResult(state)?.data
+)
+
+// Create user-specific post selectors
+export const getUserPostSelectors = (userId) => {
+    return postsAdapter.getSelectors((state) => {
+        const result = postsApiSlice.endpoints.getPostsByUserId.select(userId)(state);
+        return result?.data ?? initialState;
+    });
+};
+
+// Combined selector that can find posts from either global or user-specific cache
+export const selectPostByIdFromAnyCache = createSelector(
+    [
+        // Input selector 1: Try global cache
+        (state, postId) => selectPostById(state, postId),
+        // Input selector 2: Try user-specific cache
+        (state, postId, userId) => {
+            if (!userId) return null;
+            const userPostsResult = postsApiSlice.endpoints.getPostsByUserId.select(userId)(state);
+            const userPostsData = userPostsResult?.data;
+            return userPostsData?.entities?.[postId] || null;
+        },
+        // Input selector 3: Pass through the postId for validation
+        (state, postId) => postId
+    ],
+    // Result function: Choose the first available post and ensure it has an id
+    (globalPost, userPost, postId) => {
+        const post = globalPost || userPost;
+        // Add minimal transformation to avoid the identity function warning
+        return post && post._id === postId ? post : null;
+    }
+);

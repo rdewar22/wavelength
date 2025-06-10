@@ -7,7 +7,7 @@ import { selectCurrentUser, selectCurrentUserId } from "../auth/authSlice";
 import { useSelector } from "react-redux";
 import { useGetPostsByUserIdQuery } from '../posts/postsApiSlice';
 import { selectAudiosByUser, useGetAudiosByUserIdQuery } from '../audio/audioApiSlice';
-import PostsExcerpt from '../posts/PostsExcerpt';
+import PostExcerpt from '../posts/PostExcerpt';
 import { Spinner } from 'reactstrap';
 import AudioExcerpt from '../audio/AudioExcerpt';
 
@@ -55,7 +55,7 @@ const Profile = ({ token }) => {
     postsContent = <p>"Loading..."</p>;
   } else if (isPostsSuccess) {
     if (posts?.ids && posts.ids.length > 0) {
-      postsContent = [...(posts?.ids || [])].reverse().map(postId => <PostsExcerpt key={postId} postId={postId} />);
+      postsContent = [...(posts?.ids || [])].reverse().map(postId => <PostExcerpt key={postId} postId={postId} userId={userId} />);
     } else {
       postsContent = <p className="empty-state">No posts yet. Share your first post!</p>;
     }

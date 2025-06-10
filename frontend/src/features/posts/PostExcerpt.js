@@ -2,11 +2,11 @@ import TimeAgo from "./TimeAgo";
 import ReactionButtons from "./ReactionButtons";
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import { selectPostById } from "./postsApiSlice";
-import "./PostsExcerpt.css"
+import { selectPostByIdFromAnyCache } from "./postsApiSlice";
+import "./PostExcerpt.css"
 
-const PostsExcerpt = ({ postId }) => {
-    const post = useSelector(state => selectPostById(state, postId))
+const PostExcerpt = ({ postId, userId }) => {
+    const post = useSelector(state => selectPostByIdFromAnyCache(state, postId, userId))
     
     return (
         <article className="post-excerpt">
@@ -31,4 +31,4 @@ const PostsExcerpt = ({ postId }) => {
 }
 
 
-export default PostsExcerpt
+export default PostExcerpt
