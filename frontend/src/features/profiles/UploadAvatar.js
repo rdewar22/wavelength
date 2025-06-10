@@ -1,8 +1,9 @@
 import './UploadAvatar.css'
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { selectCurrentUser } from "../auth/authSlice";
+import { updateProfilePic } from "../auth/authSlice";
 import {
   Form,
   Button,
@@ -24,6 +25,7 @@ const UploadAvatar = ({
   const [file, setFile] = useState(null);
   const [newProfPic, { isLoading, error }] = useNewProfPicMutation();
   const userName = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
   console.assert(userName !== null, "%o", "User can't be null in UploadAvatar")
 
 
@@ -58,7 +60,11 @@ const UploadAvatar = ({
       // formData.append('name', userName); // Append additional fields
 
       const result = await newProfPic({ userName, formData }).unwrap();
-      // updateUserAvatarId(id, url);
+      
+      // Update the user's profile picture URL in Redux with timestamp cache busting
+      const newProfilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg?v=${Date.now()}`;
+      dispatch(updateProfilePic({ profilePicUri: newProfilePicUri }));
+      
       setFile(null);
       setModal(false);
       reloadParent();

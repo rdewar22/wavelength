@@ -11,6 +11,11 @@ const authSlice = createSlice({
             state.isProfPicInDb = isProfPicInDb
             state.userId = userId
         },
+        updateProfilePic: (state, action) => {
+            if (state.user) {
+                state.user.profilePicUri = action.payload.profilePicUri
+            }
+        },
         logOut: (state, action) => {
             state.user = null
             state.token = null
@@ -20,11 +25,11 @@ const authSlice = createSlice({
 
 })
 
-export const { setCredentials, logOut } = authSlice.actions
+export const { setCredentials, updateProfilePic, logOut } = authSlice.actions
 
 export default authSlice.reducer
 
-export const selectCurrentUser = (state) => state.auth.user
+export const selectCurrentUser = (state) => state.auth.user?.username
 export const selectCurrentToken = (state) => state.auth.token
 export const selectisProfPicInDb = (state) => state.auth.isProfPicInDb
 export const selectCurrentUserId = (state) => state.auth.userId

@@ -87,8 +87,17 @@ const handleRefreshToken = async (req, res) => {
             res.cookie('jwt', newRefreshToken, cookieOptions);
             const userId = foundUser._id;
 
-            
-            res.json({ accessToken, userName, userId })
+            // Send access token, user info, and user data
+            res.json({ 
+                accessToken, 
+                userName, 
+                userId,
+                user: {
+                    _id: foundUser._id,
+                    username: foundUser.username,
+                    profilePicUri: foundUser.profilePicUri
+                }
+            })
         }
     );
 }

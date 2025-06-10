@@ -56,7 +56,7 @@ const ChatPreview = ({ chatName, chatId, latestMessage, toggleConversation, user
     }
   };
 
-  if (!latestMessage) return "use '+' to start a new conversation!\n";
+  if (!latestMessage) return (<p style={{ "marginTop": "1rem" }}>use '+' to start a new conversation!</p>)
 
   return (
     <div className="chat-preview-wrapper">

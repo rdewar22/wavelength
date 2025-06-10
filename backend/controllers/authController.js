@@ -76,8 +76,17 @@ const handleLogin = async (req, res) => {
         
         res.cookie('jwt', newRefreshToken, cookieOptions);
 
-        // Send authorization roles and access token to user
-        res.json({ roles, accessToken, userId });
+        // Send authorization roles, access token, and user data to user
+        res.json({ 
+            roles, 
+            accessToken, 
+            userId,
+            user: {
+                _id: foundUser._id,
+                username: foundUser.username,
+                profilePicUri: foundUser.profilePicUri
+            }
+        });
 
     } else {
         res.sendStatus(401);

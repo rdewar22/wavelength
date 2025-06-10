@@ -33,7 +33,11 @@ const Login = () => {
 
         try {
             const userData = await login({ user, pwd }).unwrap()
-            dispatch(setCredentials({ ...userData, user }))
+            dispatch(setCredentials({ 
+                user: userData.user,
+                accessToken: userData.accessToken,
+                userId: userData.userId
+            }))
             setUser('')
             setPwd('')
             navigate('/')

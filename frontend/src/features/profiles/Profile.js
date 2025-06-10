@@ -14,14 +14,19 @@ import AudioExcerpt from '../audio/AudioExcerpt';
 const Profile = ({ token }) => {
   const userName = useSelector(selectCurrentUser);
   const userId = useSelector(selectCurrentUserId);
+  const user = useSelector(state => state.auth.user);
   const [isProfPic, setProfPic] = useState(true);
   const [isProfPicLoading, setIsProfPicLoading] = useState(true);
-  const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`
+  
+  // Use profile picture URL from Redux store (user object now has profilePicUri)
+  const baseProfilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`;
+  const profilePicUri = user?.profilePicUri || baseProfilePicUri;
+  
   const [counter, setCounter] = useState(0);
   
-  // Only add cache buster when counter changes (when image is actually updated)
+  // Use the profilePicUri from Redux (which now includes cache busting) or add counter for manual refresh
   const imageSrc = counter > 0 
-    ? `${profilePicUri}?v=${counter}` 
+    ? `${baseProfilePicUri}?v=${counter}` 
     : profilePicUri;
 
   // Fetch posts

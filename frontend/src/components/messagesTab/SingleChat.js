@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSelector } from "react-redux";
 import ScrollableChat from './ScrollableChat';
 import { Player } from '@lottiefiles/react-lottie-player';
@@ -13,7 +13,8 @@ let socket;
 
 const SingleChat = ({ chatId }) => {
     const [socketConnected, setSocketConnected] = useState(false);
-    const user = useSelector(selectCurrentUser);
+    const userName = useSelector(selectCurrentUser);
+    const user = useSelector(state => state.auth.user);
     const userId = useSelector(selectCurrentUserId);
     const [typing, setTyping] = useState(false);
     const [istyping, setIsTyping] = useState(false);
@@ -22,33 +23,15 @@ const SingleChat = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
     const [sendMessage] = useSendMessageMutation();
     const messagesContainerRef = useRef();
-    const scrollTimeoutRef = useRef(null);
 
-    // Debounced scroll function
-    const scrollToBottom = useCallback(() => {
-        if (scrollTimeoutRef.current) {
-            clearTimeout(scrollTimeoutRef.current);
-        }
-        scrollTimeoutRef.current = setTimeout(() => {
-            if (messagesContainerRef.current) {
-                messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
-            }
-        }, 10);
-    }, []);
-
-    // Optimized message handler with useCallback
-    const handleNewMessage = useCallback((newMessageReceived) => {
-        // Use functional update to avoid stale closure issues
-        if (chatId === newMessageReceived.chat._id) {
-            setMessages(prevMessages => {
-                // Check if message already exists to prevent duplicates
-                const messageExists = prevMessages.some(msg => msg._id === newMessageReceived._id);
-                if (messageExists) return prevMessages;
-                
-                return [...prevMessages, newMessageReceived];
-            });
-        }
-    }, [chatId]);
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: "xMidYMid slice",
+        },
+    };
 
     const {
         data: messagesData,
@@ -105,6 +88,15 @@ const SingleChat = ({ chatId }) => {
     useEffect(() => {
         if (!socket || !socketConnected) return;
 
+        const handleNewMessage = (newMessageReceived) => {
+
+            if (chatId === newMessageReceived.chat._id) {
+                setMessages(prevMessages => [...prevMessages, newMessageReceived]);
+            } else {
+                // console.log("Message was for a different chat");
+            }
+        };
+
         socket.on("message received", handleNewMessage);
         socket.on("typing", () => setIsTyping(true));
         socket.on("stop typing", () => setIsTyping(false));
@@ -114,12 +106,14 @@ const SingleChat = ({ chatId }) => {
             socket.off("typing");
             socket.off("stop typing");
         };
-    }, [socketConnected, chatId, handleNewMessage]);
+    }, [socketConnected, chatId]);
 
     // Scroll to bottom when messages change
     useEffect(() => {
-        scrollToBottom();
-    }, [messages, scrollToBottom]);
+        if (messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+        }
+    }, [messages]);
 
     // Scroll to bottom when typing indicator appears
     useEffect(() => {
@@ -163,8 +157,8 @@ const SingleChat = ({ chatId }) => {
             _id: Date.now(),
             sender: {
                 _id: userId,
-                username: user.username,
-                profilePicUri: user.profilePicUri
+                username: user?.username || userName,
+                profilePicUri: user?.profilePicUri
             },
             message: message,
             chat: { _id: chatId }

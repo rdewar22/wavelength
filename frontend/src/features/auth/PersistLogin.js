@@ -38,7 +38,7 @@ const PersistLogin = () => {
         if (isMounted) {
           if (response?.data?.accessToken) {
             dispatch(setCredentials({
-              user: response.data.userName,
+              user: response.data.user,
               userId: response.data.userId,
               accessToken: response.data.accessToken
             }));
@@ -75,14 +75,10 @@ const PersistLogin = () => {
 
   let content
   if (!persist) { // persist: no
-    console.log('no persist')
     content = <Outlet />
   } else if (isLoading) { //persist: yes, token: no
-    console.log('loading')
     content = <Spinner />
   } else if (isError) { //persist: yes, token: no
-    console.log('error')
-
     // Get current page path
     const currentPath = location.pathname;
 
@@ -135,14 +131,11 @@ const PersistLogin = () => {
 
     content = errorContent;
   } else if (isSuccess && trueSuccess) { //persist: yes, token: yes
-    console.log('success')
     content = <Outlet />
   } else if (accessToken && isUninitialized) { //persist: yes, token: yes
-    console.log('token and uninit')
-    console.log(isUninitialized)
     content = <Outlet />
   }
-
+  
   return content
 };
 

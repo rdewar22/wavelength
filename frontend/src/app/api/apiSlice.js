@@ -25,9 +25,12 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         }, api, extraOptions)
         
         if (refreshResult?.data) {
-            const user = api.getState().auth.user
-            // store the new token
-            api.dispatch(setCredentials({ ...refreshResult.data, user }))
+            // store the new token with the complete user object
+            api.dispatch(setCredentials({ 
+                user: refreshResult.data.user,
+                accessToken: refreshResult.data.accessToken,
+                userId: refreshResult.data.userId
+            }))
             // retry the original query with new access token
             result = await baseQuery(args, api, extraOptions)
         } else {
@@ -40,5 +43,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
+    tagTypes: ['Post', 'User', 'Audio'],
     endpoints: builder => ({})
 })
