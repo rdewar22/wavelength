@@ -181,7 +181,7 @@ const accessChat = async (req, res) => {
 
 };
 
-const fetchChats = async (req, res) => {
+const fetchChatsForUserId = async (req, res) => {
     try {
         const { userId } = req.params;
         Chat.find({ users: { $elemMatch: { $eq: userId } } })
@@ -304,7 +304,7 @@ module.exports = {
     sendMessage,
     deleteChat,
     accessChat,
-    fetchChats,
+    fetchChatsForUserId,
     createGroupChat,
     renameGroup,
     addToGroup,

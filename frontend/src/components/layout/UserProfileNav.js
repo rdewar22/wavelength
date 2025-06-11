@@ -18,10 +18,14 @@ const UserProfileNav = () => {
         setImageError(true);
     };
 
+    // Route to login if no user, otherwise to profile
+    const linkDestination = user ? "/profile" : "/login";
+    const displayName = user ? userName : "Login";
+
     return (
-        <Link to="/profile" className="user-profile-nav">
+        <Link to={linkDestination} className="user-profile-nav">
             <div className="profile-avatar">
-                {!imageError && profilePicUri ? (
+                {user && !imageError && profilePicUri ? (
                     <img 
                         src={profilePicUri} 
                         alt={`${userName} avatar`} 
@@ -32,7 +36,7 @@ const UserProfileNav = () => {
                     <IoPersonCircleOutline className="avatar-icon" />
                 )}
             </div>
-            <span className="profile-username">{userName}</span>
+            <span className="profile-username">{displayName}</span>
         </Link>
     );
 };

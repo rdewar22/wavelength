@@ -1,11 +1,14 @@
 import { useSelector } from "react-redux"
 import { selectCurrentUserId } from "../../features/auth/authSlice"
 import { useDeleteChatMutation } from "./messagesApiSlice"
+import { IoPersonCircleOutline } from "react-icons/io5";
+import { useState } from "react";
 import "./ChatPreview.css"
 
 const ChatPreview = ({ chatName, chatId, latestMessage, toggleConversation, users, isGroupChat }) => {
   const currentUserId = useSelector(selectCurrentUserId);
   const [deleteChat] = useDeleteChatMutation();
+  const [imageError, setImageError] = useState(false);
 
   if (!isGroupChat && users && users.length > 0) {
     const otherUser = users.find(user => user._id !== currentUserId);
@@ -13,6 +16,8 @@ const ChatPreview = ({ chatName, chatId, latestMessage, toggleConversation, user
       chatName = otherUser.username;
     }
   }
+
+  const baseProfilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${chatName}_profPic.jpeg`;
 
   const handleClick = () => {
     toggleConversation(chatName, chatId);
@@ -25,6 +30,10 @@ const ChatPreview = ({ chatName, chatId, latestMessage, toggleConversation, user
     } catch (err) {
       console.error('Failed to delete chat:', err);
     }
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
   };
 
   const formatTimestamp = (isoString) => {
@@ -56,14 +65,22 @@ const ChatPreview = ({ chatName, chatId, latestMessage, toggleConversation, user
     }
   };
 
-  if (!latestMessage) return (<p style={{ "marginTop": "1rem" }}>use '+' to start a new conversation!</p>)
+  if (!latestMessage) return 
 
   return (
     <div className="chat-preview-wrapper">
       <button className="message-preview" onClick={handleClick}>
         <div className="avatar-wrapper">
-          {/* Replace with actual avatar component or icon */}
-          <div className="avatar-placeholder"></div>
+          {!imageError ? (
+            <img 
+              src={baseProfilePicUri} 
+              alt={`${chatName} avatar`} 
+              className="avatar-image"
+              onError={handleImageError}
+            />
+          ) : (
+            <IoPersonCircleOutline className="avatar-icon" />
+          )}
         </div>
         <div className="message-content">
           <div className="message-header">

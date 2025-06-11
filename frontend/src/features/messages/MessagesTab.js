@@ -148,7 +148,9 @@ export const MessagesTab = () => {
                     </>
                 ) : (
                     <div className="messages-content">
-                        <Link to='/login'>Login to view messages</Link>
+                        <p>Please</p>
+                        <Link style={{color: 'blue'}} to='/login'>login</Link>
+                        <p>to view messages</p>
                     </div>
                 )}
             </div>

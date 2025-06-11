@@ -11,7 +11,7 @@ router.route('/')
     .post(messagesController.accessChat);
 
 router.route('/:userId')
-    .get(messagesController.fetchChats);
+    .get(messagesController.fetchChatsForUserId);
 
 router.route("/group")
     .post(messagesController.createGroupChat);
