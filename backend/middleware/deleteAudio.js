@@ -1,7 +1,7 @@
 const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const dotenv = require('dotenv');
 
-dotenv.config({ path: '.env' });
+dotenv.config({ path: '../.env' });
 
 const s3 = new S3Client({
     region: 'us-east-2',

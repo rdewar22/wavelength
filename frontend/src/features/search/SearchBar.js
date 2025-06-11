@@ -63,7 +63,7 @@ export const SearchBar = () => {
                         onFocus={handleFocus} 
                         type="text" 
                         className="search-input" 
-                        placeholder="Search users..." 
+                        placeholder="Search users" 
                         value={input} 
                         onChange={(e) => handleChange(e.target.value)} 
                     />

@@ -1,15 +1,17 @@
-import { useState } from 'react';
-import { useSelector } from "react-redux";
+import { useState, useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from 'react-router-dom';
 import { selectCurrentUser, selectCurrentUserId } from '../auth/authSlice';
-import { useFetchChatsForUserQuery, useAccessChatMutation, useSendMessageMutation } from './messagesApiSlice';
+import { useFetchChatsForUserQuery, useAccessChatMutation, useSendMessageMutation, messagesApiSlice } from './messagesApiSlice';
 import './MessagesTab.css'
 import ChatPreview from './ChatPreview';
 import ProfileModal from '../../components/ui/ProfileModal';
 import NewConvoModal from './NewConvoModal';
 import SingleChat from './SingleChat';
+import socketManager from './SocketManager';
 
 export const MessagesTab = () => {
+    const dispatch = useDispatch();
     const user = useSelector(selectCurrentUser);
     const userId = useSelector(selectCurrentUserId);
     const [isOpen, setIsOpen] = useState(false);
@@ -27,6 +29,52 @@ export const MessagesTab = () => {
     } = useFetchChatsForUserQuery(userId, {
         skip: !user || !userId
     });
+
+    // Global message handler for all chats (not just the currently open one)
+    const handleGlobalMessage = useCallback((newMessageReceived) => {
+        // Always update the chat preview for any received message
+        dispatch(
+            messagesApiSlice.util.updateQueryData('fetchChatsForUser', userId, (draft) => {
+                const chatToUpdate = draft.entities[newMessageReceived.chat._id];
+                if (chatToUpdate) {
+                    chatToUpdate.latestMessage = {
+                        _id: newMessageReceived._id,
+                        message: newMessageReceived.message,
+                        updatedAt: newMessageReceived.updatedAt || new Date().toISOString(),
+                        sender: newMessageReceived.sender
+                    };
+                }
+            })
+        );
+    }, [dispatch, userId]);
+
+    // Set up global socket listeners for the MessagesTab
+    useEffect(() => {
+        if (!userId) return;
+
+        const connectAndSetupGlobalHandlers = async () => {
+            try {
+                await socketManager.connect(userId);
+                
+                // Register a global handler that doesn't conflict with SingleChat handlers
+                const globalHandlers = {
+                    "message received": handleGlobalMessage
+                };
+
+                // Use a special key for global handlers
+                socketManager.registerChatHandlers('global_messages_tab', globalHandlers);
+            } catch (error) {
+                console.error("Failed to connect socket in MessagesTab:", error);
+            }
+        };
+
+        connectAndSetupGlobalHandlers();
+
+        return () => {
+            // Cleanup global handlers when component unmounts
+            socketManager.unregisterChatHandlers('global_messages_tab');
+        };
+    }, [userId, handleGlobalMessage]);
 
     const toggleMessagesTab = () => {
         setIsOpen(!isOpen);
@@ -99,16 +147,12 @@ export const MessagesTab = () => {
                         )}
                     </>
                 ) : (
-                    <div className="no-user-message">
-                        <p>
-                            Please <Link to="/login" className='login-link'>login</Link> or <Link className='register-link' to="/register">register</Link> to use messages.
-                        </p>
+                    <div className="messages-content">
+                        <Link to='/login'>Login to view messages</Link>
                     </div>
                 )}
-
             </div>
 
-            {/* Overlay for new conversation modal */}
             {showOverlay && (
                 <NewConvoModal
                     toggleOverlay={toggleOverlay}
@@ -117,4 +161,4 @@ export const MessagesTab = () => {
             )}
         </div>
     );
-};
+}

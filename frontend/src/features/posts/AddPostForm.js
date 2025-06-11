@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAddNewPostMutation } from "./postsApiSlice";
 import { useSelector } from "react-redux";
 import { selectCurrentUser, selectCurrentUserId } from "../auth/authSlice";
+import "./AddPostForm.css";
 
 const AddPostForm = () => {
     const [addNewPost, { isLoading }] = useAddNewPostMutation()
@@ -36,46 +37,73 @@ const AddPostForm = () => {
         }
     }
 
-    // let usersOptions
-    // if (isSuccess) {
-    //     usersOptions = users?.ids?.map(id => (
-    //         <option key={id} value={id}>
-    //             {users.entities[id].name}
-    //         </option>
-    //     ))
-    // }
+    const getCharacterCountClass = (count, max) => {
+        if (count > max) return 'character-count error';
+        if (count > max * 0.8) return 'character-count warning';
+        return 'character-count';
+    };
 
     return (
-        <section>
-            <h2>Add a New Post</h2>
-            <form>
-                <label htmlFor="postTitle">Post Title:</label>
-                <input
-                    type="text"
-                    id="postTitle"
-                    name="postTitle"
-                    value={title}
-                    onChange={onTitleChanged}
-                />
-                {/* <label htmlFor="postAuthor">Author:</label>
-                <select id="postAuthor" value={userId} onChange={onAuthorChanged}>
-                    <option value=""></option>
-                    {usersOptions}
-                </select> */}
-                <label htmlFor="postContent">Content:</label>
-                <textarea
-                    id="postContent"
-                    name="postContent"
-                    value={content}
-                    onChange={onContentChanged}
-                />
-                <button
-                    type="button"
-                    onClick={onSavePostClicked}
-                    disabled={!canSave}
-                >Save Post</button>
-            </form>
-        </section>
+        <div className="add-post-container">
+            <div className="add-post-form-wrapper">
+                {isLoading && (
+                    <div className="loading-overlay">
+                        <div className="loading-spinner"></div>
+                    </div>
+                )}
+                
+                <h1 className="add-post-title">Create new Post</h1>
+                
+                <form className="add-post-form" onSubmit={(e) => e.preventDefault()}>
+                    <div className="form-group">
+                        <label htmlFor="postTitle" className="form-label">Post Title</label>
+                        <input
+                            type="text"
+                            id="postTitle"
+                            name="postTitle"
+                            className="form-input"
+                            value={title}
+                            onChange={onTitleChanged}
+                            placeholder="Enter a compelling title for your post..."
+                            maxLength={100}
+                        />
+                        <div className={getCharacterCountClass(title.length, 100)}>
+                            {title.length}/100 characters
+                        </div>
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="postContent" className="form-label">Content</label>
+                        <textarea
+                            id="postContent"
+                            name="postContent"
+                            className="form-textarea"
+                            value={content}
+                            onChange={onContentChanged}
+                            placeholder="Write your post content here... Share your ideas, experiences, or anything you'd like to discuss with the community."
+                            maxLength={5000}
+                        />
+                        <div className={getCharacterCountClass(content.length, 5000)}>
+                            {content.length}/5000 characters
+                        </div>
+                    </div>
+
+                    <div className="form-actions">
+                        <button
+                            type="button"
+                            className="save-post-btn"
+                            onClick={onSavePostClicked}
+                            disabled={!canSave}
+                        >
+                            {isLoading ? 'Publishing...' : 'Publish Post'}
+                        </button>
+                        <Link to="/" className="cancel-btn">
+                            Cancel
+                        </Link>
+                    </div>
+                </form>
+            </div>
+        </div>
     )
 }
 export default AddPostForm

@@ -1,0 +1,129 @@
+.user-profile-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.user-profile-nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.user-profile-nav:hover::before {
+    opacity: 1;
+}
+
+.user-profile-nav:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    text-decoration: none;
+}
+
+.profile-avatar {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.user-profile-nav:hover .profile-avatar {
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.avatar-icon {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.profile-username {
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.user-profile-nav:hover .profile-username {
+    filter: brightness(1.1);
+}
+
+/* Responsive design - matching navbar breakpoints */
+@media (max-width: 768px) {
+    .user-profile-nav {
+        padding: 0.5rem 0.75rem;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .profile-avatar {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+    
+    .avatar-icon {
+        font-size: 1.25rem;
+    }
+    
+    .profile-username {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-username {
+        display: none;
+    }
+    
+    .user-profile-nav {
+        padding: 0.5rem;
+        min-width: auto;
+        gap: 0;
+    }
+    
+    .profile-avatar {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    
+    .avatar-icon {
+        font-size: 1rem;
+    }
+} 

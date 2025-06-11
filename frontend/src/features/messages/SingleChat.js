@@ -1,165 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ScrollableChat from './ScrollableChat';
 import { Player } from '@lottiefiles/react-lottie-player';
 import animationData from "../../assets/animations/typing.json"
-import { useGetMessagesInChatQuery, useSendMessageMutation } from './messagesApiSlice';
+import { useGetMessagesInChatQuery, useSendMessageMutation, messagesApiSlice } from './messagesApiSlice';
 import "./SingleChat.css"
-import io from "socket.io-client";
 import { selectCurrentUser, selectCurrentUserId } from '../auth/authSlice';
-
-const ENDPOINT = "https://wavelength-backend-eq3t.onrender.com";
-
-// Singleton socket manager to prevent multiple connections
-class SocketManager {
-    constructor() {
-        this.socket = null;
-        this.isConnecting = false;
-        this.isConnected = false;
-        this.eventHandlers = new Map(); // Track event handlers per chatId
-        this.setupPromise = null;
-        this.connectedRooms = new Set(); // Track joined rooms
-    }
-
-    async connect(userId) {
-        if (this.socket && this.isConnected) {
-            return this.socket;
-        }
-
-        if (this.isConnecting) {
-            return this.setupPromise;
-        }
-
-        this.isConnecting = true;
-        
-        // Clean up existing connection
-        if (this.socket) {
-            this.socket.disconnect();
-            this.socket = null;
-        }
-
-        this.setupPromise = new Promise((resolve, reject) => {
-            const timeoutId = setTimeout(() => {
-                reject(new Error('Connection timeout'));
-                this.isConnecting = false;
-            }, 10000);
-
-            this.socket = io(ENDPOINT, {
-                withCredentials: true,
-                transports: ['websocket'],
-                forceNew: true,
-                timeout: 5000,
-            });
-
-            this.socket.on("connect", () => {
-                clearTimeout(timeoutId);
-                console.log("Socket connected successfully");
-                this.socket.emit("setup", { _id: userId });
-            });
-
-            this.socket.on("connected", () => {
-                this.isConnected = true;
-                this.isConnecting = false;
-                console.log("Socket setup complete");
-                resolve(this.socket);
-            });
-
-            this.socket.on("connect_error", (error) => {
-                clearTimeout(timeoutId);
-                console.error("Socket connection error:", error);
-                this.isConnecting = false;
-                reject(error);
-            });
-
-            this.socket.on("disconnect", (reason) => {
-                console.log("Socket disconnected:", reason);
-                this.isConnected = false;
-                this.isConnecting = false;
-                this.connectedRooms.clear();
-            });
-        });
-
-        try {
-            await this.setupPromise;
-            return this.socket;
-        } catch (error) {
-            this.isConnecting = false;
-            throw error;
-        }
-    }
-
-    // Register event handlers for a specific chat
-    registerChatHandlers(chatId, handlers) {
-        if (!this.socket || !this.isConnected) return;
-
-        // Remove existing handlers for this chat
-        this.unregisterChatHandlers(chatId);
-
-        // Store handlers for this chat
-        this.eventHandlers.set(chatId, handlers);
-
-        // Register with socket
-        Object.entries(handlers).forEach(([event, handler]) => {
-            this.socket.on(event, handler);
-        });
-    }
-
-    // Unregister event handlers for a specific chat
-    unregisterChatHandlers(chatId) {
-        if (!this.socket || !this.eventHandlers.has(chatId)) return;
-
-        const handlers = this.eventHandlers.get(chatId);
-        Object.entries(handlers).forEach(([event, handler]) => {
-            this.socket.off(event, handler);
-        });
-
-        this.eventHandlers.delete(chatId);
-    }
-
-    // Join a chat room
-    joinRoom(chatId) {
-        if (this.socket && this.isConnected && !this.connectedRooms.has(chatId)) {
-            this.socket.emit("join chat", chatId);
-            this.connectedRooms.add(chatId);
-            console.log(`Joined chat room: ${chatId}`);
-        }
-    }
-
-    // Leave a chat room (optional, rooms are cleaned up on disconnect)
-    leaveRoom(chatId) {
-        if (this.socket && this.connectedRooms.has(chatId)) {
-            // Socket.IO doesn't have a leave method, but we can track locally
-            this.connectedRooms.delete(chatId);
-            console.log(`Left chat room: ${chatId}`);
-        }
-    }
-
-    getSocket() {
-        return this.socket;
-    }
-
-    isSocketConnected() {
-        return this.socket && this.isConnected;
-    }
-
-    disconnect() {
-        if (this.socket) {
-            // Clear all event handlers
-            this.eventHandlers.clear();
-            this.connectedRooms.clear();
-            
-            this.socket.disconnect();
-            this.socket = null;
-            this.isConnected = false;
-            this.isConnecting = false;
-        }
-    }
-}
-
-// Global socket manager instance
-const socketManager = new SocketManager();
+import socketManager from './SocketManager';
 
 const SingleChat = ({ chatId }) => {
+    const dispatch = useDispatch();
     const [socketConnected, setSocketConnected] = useState(false);
     const userName = useSelector(selectCurrentUser);
     const user = useSelector(state => state.auth.user);
@@ -248,6 +98,7 @@ const SingleChat = ({ chatId }) => {
     // Optimized message handler using useCallback
     const handleNewMessage = useCallback((newMessageReceived) => {
         if (chatId === newMessageReceived.chat._id) {
+            // Update local state
             setMessages(prevMessages => {
                 // Check if message already exists to prevent duplicates
                 const exists = prevMessages.some(msg => msg._id === newMessageReceived._id);
@@ -255,8 +106,51 @@ const SingleChat = ({ chatId }) => {
                 
                 return [...prevMessages, newMessageReceived];
             });
+
+            // Update RTK Query cache for the current chat messages
+            dispatch(
+                messagesApiSlice.util.updateQueryData('getMessagesInChat', chatId, (draft) => {
+                    // Check if message already exists in cache
+                    const existsInCache = draft.entities[newMessageReceived._id];
+                    if (!existsInCache) {
+                        // Add the new message to the cache using entity adapter
+                        draft.ids.push(newMessageReceived._id);
+                        draft.entities[newMessageReceived._id] = newMessageReceived;
+                    }
+                })
+            );
+
+            // Update RTK Query cache for the chats list to update the latest message preview
+            dispatch(
+                messagesApiSlice.util.updateQueryData('fetchChatsForUser', userId, (draft) => {
+                    const chatToUpdate = draft.entities[chatId];
+                    if (chatToUpdate) {
+                        chatToUpdate.latestMessage = {
+                            _id: newMessageReceived._id,
+                            message: newMessageReceived.message,
+                            updatedAt: newMessageReceived.updatedAt || new Date().toISOString(),
+                            sender: newMessageReceived.sender
+                        };
+                    }
+                })
+            );
+        } else {
+            // Message is for a different chat - still update the chat preview
+            dispatch(
+                messagesApiSlice.util.updateQueryData('fetchChatsForUser', userId, (draft) => {
+                    const chatToUpdate = draft.entities[newMessageReceived.chat._id];
+                    if (chatToUpdate) {
+                        chatToUpdate.latestMessage = {
+                            _id: newMessageReceived._id,
+                            message: newMessageReceived.message,
+                            updatedAt: newMessageReceived.updatedAt || new Date().toISOString(),
+                            sender: newMessageReceived.sender
+                        };
+                    }
+                })
+            );
         }
-    }, [chatId]);
+    }, [chatId, dispatch, userId]);
 
     // Handle received messages and typing indicators
     useEffect(() => {

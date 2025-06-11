@@ -3,7 +3,7 @@ const multerS3 = require('multer-s3');
 const { S3Client } = require('@aws-sdk/client-s3');
 const dotenv = require('dotenv');
 
-dotenv.config({ path: '.env' })
+dotenv.config({ path: '../.env' })
 
 // Configure S3 client with credentials from shared credentials file
 const s3 = new S3Client({

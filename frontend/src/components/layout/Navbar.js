@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { logOut, selectCurrentUser } from "../../features/auth/authSlice"
 import { useLogoutMutation } from "../../features/auth/authApiSlice"
 import { SearchBar } from "../../features/search/SearchBar"
+import UserProfileNav from "./UserProfileNav"
 
 
 export default function Navbar() {
@@ -39,31 +40,33 @@ export default function Navbar() {
             <nav className="nav">
                 <Link to="/" className="site-title">Wavelength</Link>
                 <SearchBar />
-                <ul>
-                    <li>
-                        <Link to="/profile">Profile</Link>
-                    </li>
-                    <li>
-                        <Link to="/addpostform">New Post</Link>
-                    </li>
-                    {user ? (
-                        <>
-                            <li>
-                                <button onClick={handleLogout}>Logout</button>
-                            </li>
-                        </>
-                    ) : (
-                        // Show Login and Register if no user is logged in
-                        <>
-                            <li>
-                                <Link to="/login">Login</Link>
-                            </li>
-                            <li>
-                                <Link to="/register">Register</Link>
-                            </li>
-                        </>
-                    )}
-                </ul>
+                <div className="nav-links">
+                    <ul>
+                        <li>
+                            <UserProfileNav />
+                        </li>
+                        <li>
+                            <Link to="/addpostform">New Post</Link>
+                        </li>
+                        {user ? (
+                            <>
+                                <li>
+                                    <button onClick={handleLogout}>Logout</button>
+                                </li>
+                            </>
+                        ) : (
+                            // Show Login and Register if no user is logged in
+                            <>
+                                <li>
+                                    <Link to="/login">Login</Link>
+                                </li>
+                                <li>
+                                    <Link to="/register">Register</Link>
+                                </li>
+                            </>
+                        )}
+                    </ul>
+                </div>
             </nav>
         </>
     )
