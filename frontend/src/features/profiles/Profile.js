@@ -1,10 +1,10 @@
 import './Profile.css'
 import React, { useState, useEffect } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import UploadAvatar from "./UploadAvatar";
 import UploadAudio from "./UploadAudio";
-import { selectCurrentUser, selectCurrentUserId } from "../auth/authSlice";
+import { selectCurrentUserName, selectCurrentUserId } from "../auth/authSlice";
 import { useSelector } from "react-redux";
 import { useGetPostsByUserIdQuery } from '../posts/postsApiSlice';
 import { selectAudiosByUser, useGetAudiosByUserIdQuery } from '../audio/audioApiSlice';
@@ -12,22 +12,32 @@ import PostExcerpt from '../posts/PostExcerpt';
 import { Spinner } from 'reactstrap';
 import AudioExcerpt from '../audio/AudioExcerpt';
 
-const Profile = ({ token }) => {
-  const userName = useSelector(selectCurrentUser);
+const Profile = () => {
+  const location = useLocation();
+  
+  const { pageUserId } = location.state;
+  const { pageUserName } = useParams();
+
+  const loggedInUserName = useSelector(selectCurrentUserName);
+
+  const canEdit = loggedInUserName === pageUserName;
+
+
   const userId = useSelector(selectCurrentUserId);
   const user = useSelector(state => state.auth.user);
+
+
   const [isProfPic, setProfPic] = useState(true);
   const [isProfPicLoading, setIsProfPicLoading] = useState(true);
 
   // Use profile picture URL from Redux store (user object now has profilePicUri)
-  const baseProfilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`;
-  const profilePicUri = user?.profilePicUri || baseProfilePicUri;
+  const profilePicUri = `${process.env.PROFILE_PIC_BASE_URL}/${pageUserName}_profPic.jpeg`;
 
   const [counter, setCounter] = useState(0);
 
   // Use the profilePicUri from Redux (which now includes cache busting) or add counter for manual refresh
   const imageSrc = counter > 0
-    ? `${baseProfilePicUri}?v=${counter}`
+    ? `${profilePicUri}?v=${counter}`
     : profilePicUri;
 
   // Fetch posts
@@ -37,7 +47,9 @@ const Profile = ({ token }) => {
     isSuccess: isPostsSuccess,
     isError: isPostsError,
     error: postsError
-  } = useGetPostsByUserIdQuery(userId)
+  } = useGetPostsByUserIdQuery(pageUserId, {
+    skip: !pageUserId // Skip the query if we don't have a userId
+  })
 
   // Fetch audios - make sure we have a userId before fetching
   const {
@@ -46,8 +58,8 @@ const Profile = ({ token }) => {
     isSuccess: isAudiosSuccess,
     isError: isAudiosError,
     error: audiosError
-  } = useGetAudiosByUserIdQuery(userId, {
-    skip: !userId // Skip the query if we don't have a userId
+  } = useGetAudiosByUserIdQuery(pageUserId, {
+    skip: !pageUserId // Skip the query if we don't have a userId
   })
 
 
@@ -69,7 +81,7 @@ const Profile = ({ token }) => {
     audiosContent = <p>"Loading..."</p>;
   } else if (isAudiosSuccess) {
     if (audiosData?.ids && audiosData.ids.length > 0) {
-      audiosContent = (audiosData?.ids || []).slice().reverse().map(data => <AudioExcerpt key={data} audioId={data} />);
+      audiosContent = (audiosData?.ids || []).slice().reverse().map(data => <AudioExcerpt key={data} audioId={data} userId={pageUserId} />);
     } else {
       audiosContent = <p className="empty-state">No audio files uploaded yet. Upload your first audio!</p>;
     }
@@ -93,7 +105,7 @@ const Profile = ({ token }) => {
                   {isProfPicLoading && <Spinner />}
                   <img
                     src={imageSrc}
-                    alt={`${userName} avatar`}
+                    alt={`${pageUserName} avatar`}
                     onLoad={() => setIsProfPicLoading(false)}
                     onError={() => {
                       setProfPic(false);
@@ -111,7 +123,7 @@ const Profile = ({ token }) => {
               />
             </div>
           </div>
-          <div className='profile-name'>{userName}</div>
+          <div className='profile-name'>{pageUserName}</div>
         </div>
 
         <div className="content-sections">
@@ -120,9 +132,9 @@ const Profile = ({ token }) => {
             <div className="body">
               <h2>Posts</h2>
               <div className="post-controls">
-                <Link to="/addpostform" className="add-post-button">
+                {canEdit && <Link to="/addpostform" className="add-post-button">
                   Create New Post
-                </Link>
+                </Link>}
               </div>
               {postsContent}
             </div>
@@ -130,9 +142,9 @@ const Profile = ({ token }) => {
           <div className="audio-section">
             <h2>Audio Files</h2>
             <div className="audio-controls">
-              <UploadAudio
+              {canEdit && <UploadAudio
                 buttonLabel="Upload New Audio"
-              />
+              />}
             </div>
             <div className="audio-list">
               {audiosContent || <p>No audio files uploaded yet</p>}

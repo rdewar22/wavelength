@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from 'react-router-dom';
-import { selectCurrentUser, selectCurrentUserId } from '../auth/authSlice';
+import { selectCurrentUserName, selectCurrentUserId } from '../auth/authSlice';
 import { useFetchChatsForUserQuery, useAccessChatMutation, useSendMessageMutation, messagesApiSlice } from './messagesApiSlice';
 import './MessagesTab.css'
 import ChatPreview from './ChatPreview';
@@ -12,7 +12,7 @@ import socketManager from './SocketManager';
 
 export const MessagesTab = () => {
     const dispatch = useDispatch();
-    const user = useSelector(selectCurrentUser);
+    const userName = useSelector(selectCurrentUserName);
     const userId = useSelector(selectCurrentUserId);
     const [isOpen, setIsOpen] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
@@ -27,7 +27,7 @@ export const MessagesTab = () => {
         isError,
         error
     } = useFetchChatsForUserQuery(userId, {
-        skip: !user || !userId
+        skip: !userName || !userId
     });
 
     // Global message handler for all chats (not just the currently open one)
@@ -121,7 +121,7 @@ export const MessagesTab = () => {
                     Messages
                 </button>
                 {/* Messages content (hidden when closed) */}
-                {user ? (
+                {userName ? (
                     <>
                         {currentConversationId ? (
                             <div className="messages-content">

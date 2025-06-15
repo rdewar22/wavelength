@@ -12,9 +12,8 @@ import PersistLogin from "./features/auth/PersistLogin";
 import Navbar from "./components/layout/Navbar";
 import { MessagesTab } from "./features/messages/MessagesTab";
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import SinglePostPage from "./features/posts/SinglePostPage";
-import PublicProfile from "./features/profiles/PublicProfile";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const location = useLocation();
@@ -22,15 +21,10 @@ function App() {
   // Define the paths where the navigation bar should be displayed
   const showNavBarPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile'];
   const showMessageTabPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile'];
-
-  // Check if the current path matches one of the allowed paths or dynamic routes
-  const showNavBar = showNavBarPaths.includes(location.pathname) ||
-    location.pathname.startsWith('/singlepost/') ||
-    location.pathname.startsWith('/publicprofile');
-
-  const showMessageTab = showMessageTabPaths.includes(location.pathname) ||
-    location.pathname.startsWith('/singlepost/') ||
-    location.pathname.startsWith('/publicprofile');
+  
+  const hideNavAndMsgsPaths = ['/login', '/register'];
+  
+ const showNavAndMsgs = !hideNavAndMsgsPaths.includes(location.pathname);
 
   return (
     <>
@@ -47,7 +41,7 @@ function App() {
         pauseOnHover
       />
       {/* Conditionally render the navigation bar */}
-      {showNavBar && <Navbar />}
+      {showNavAndMsgs && <Navbar />}
       <Routes>
         <Route path="/" element={< Layout />}>
           {/* public routes */}
@@ -55,17 +49,17 @@ function App() {
           {/* <Route index element={<Public />} /> */}
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="/:pageUserName" element={<Profile />} />
           
 
           {/* protected routes */}
           <Route element={<PersistLogin />}>
             <Route index element={<PostsList />} />
             <Route path="singlepost/:postId" element={<SinglePostPage />} />
-            <Route path="publicprofile/:userName" element={<PublicProfile />} />
             <Route element={<RequireAuth />}>
               <Route path="welcome" element={<Welcome />} />
               <Route path="addpostform" element={<AddPostForm />} />
-              <Route path="profile" element={<Profile />} />
+              {/* <Route path="profile" element={<Profile />} /> */}
             </Route>
           </Route>
 
@@ -74,7 +68,7 @@ function App() {
 
         </Route>
       </Routes>
-      {showMessageTab && <MessagesTab />}
+      {showNavAndMsgs && <MessagesTab />}
     </>
   )
 

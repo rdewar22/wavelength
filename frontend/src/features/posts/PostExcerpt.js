@@ -23,8 +23,8 @@ const PostExcerpt = ({ postId, userId }) => {
                     <div className="author-info">
                         <span>by</span>
                         <Link 
-                            to={`/publicprofile/${post?.author?.username}`} 
-                            state={{ publicUserId: post?.author?._id }}
+                            to={`/${post?.author?.username}`} 
+                            state={{ pageUserId: post?.author?._id }}
                             className="author-link"
                         >
                             {post?.author?.username}

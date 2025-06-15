@@ -2,7 +2,7 @@ import './UploadAvatar.css'
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { selectCurrentUser } from "../auth/authSlice";
+import { selectCurrentUserName } from "../auth/authSlice";
 import { updateProfilePic } from "../auth/authSlice";
 import {
   Form,
@@ -24,7 +24,7 @@ const UploadAvatar = ({
   const [modal, setModal] = useState(false);
   const [file, setFile] = useState(null);
   const [newProfPic, { isLoading, error }] = useNewProfPicMutation();
-  const userName = useSelector(selectCurrentUser);
+  const userName = useSelector(selectCurrentUserName);
   const dispatch = useDispatch();
   console.assert(userName !== null, "%o", "User can't be null in UploadAvatar")
 

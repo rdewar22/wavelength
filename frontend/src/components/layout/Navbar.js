@@ -2,7 +2,7 @@ import "./Navbar.css"
 import { useRef } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { logOut, selectCurrentUser } from "../../features/auth/authSlice"
+import { logOut, selectCurrentUserName } from "../../features/auth/authSlice"
 import { useLogoutMutation } from "../../features/auth/authApiSlice"
 import { SearchBar } from "../../features/search/SearchBar"
 import UserProfileNav from "./UserProfileNav"
@@ -14,7 +14,7 @@ export default function Navbar() {
     const dispatch = useDispatch();
     
     const [logout] = useLogoutMutation();
-    const user = useSelector(selectCurrentUser);
+    const userName = useSelector(selectCurrentUserName);
 
     const errRef = useRef();
 
@@ -43,23 +43,20 @@ export default function Navbar() {
                 <div className="nav-links">
                     <ul>
                         <li>
-                            <UserProfileNav />
+                            <UserProfileNav userName={userName} />
                         </li>
                         <li>
                             <Link to="/addpostform">New Post</Link>
                         </li>
-                        {user ? (
+                        {userName ? (
                             <>
                                 <li>
                                     <button onClick={handleLogout}>Logout</button>
                                 </li>
                             </>
                         ) : (
-                            // Show Login and Register if no user is logged in
+                            // Show Register if no user is logged in
                             <>
-                                <li>
-                                    <Link to="/login">Login</Link>
-                                </li>
                                 <li>
                                     <Link to="/register">Register</Link>
                                 </li>

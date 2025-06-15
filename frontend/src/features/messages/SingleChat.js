@@ -5,13 +5,13 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import animationData from "../../assets/animations/typing.json"
 import { useGetMessagesInChatQuery, useSendMessageMutation, messagesApiSlice } from './messagesApiSlice';
 import "./SingleChat.css"
-import { selectCurrentUser, selectCurrentUserId } from '../auth/authSlice';
+import { selectCurrentUserName, selectCurrentUserId } from '../auth/authSlice';
 import socketManager from './SocketManager';
 
 const SingleChat = ({ chatId }) => {
     const dispatch = useDispatch();
     const [socketConnected, setSocketConnected] = useState(false);
-    const userName = useSelector(selectCurrentUser);
+    const userName = useSelector(selectCurrentUserName);
     const user = useSelector(state => state.auth.user);
     const userId = useSelector(selectCurrentUserId);
     const [typing, setTyping] = useState(false);

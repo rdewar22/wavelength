@@ -29,7 +29,7 @@ export const { setCredentials, updateProfilePic, logOut } = authSlice.actions
 
 export default authSlice.reducer
 
-export const selectCurrentUser = (state) => state.auth.user?.username
+export const selectCurrentUserName = (state) => state.auth.user?.username
 export const selectCurrentToken = (state) => state.auth.token
 export const selectisProfPicInDb = (state) => state.auth.isProfPicInDb
 export const selectCurrentUserId = (state) => state.auth.userId
