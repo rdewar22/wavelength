@@ -31,7 +31,7 @@ const Profile = () => {
   const [isProfPicLoading, setIsProfPicLoading] = useState(true);
 
   // Use profile picture URL from Redux store (user object now has profilePicUri)
-  const profilePicUri = `${process.env.PROFILE_PIC_BASE_URL}/${pageUserName}_profPic.jpeg`;
+  const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${pageUserName}_profPic.jpeg`;
 
   const [counter, setCounter] = useState(0);
 
@@ -147,7 +147,7 @@ const Profile = () => {
               />}
             </div>
             <div className="audio-list">
-              {audiosContent || <p>No audio files uploaded yet</p>}
+              {audiosContent || <p style={{fontSize: '1.2em', fontWeight: 'bold', color: '#666'}}>No audio files uploaded yet</p>}
             </div>
           </div>
         </div>

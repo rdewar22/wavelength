@@ -2,7 +2,7 @@ import "./Navbar.css"
 import { useRef } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { logOut, selectCurrentUserName } from "../../features/auth/authSlice"
+import { logOut, selectCurrentUserName, selectCurrentUserId } from "../../features/auth/authSlice"
 import { useLogoutMutation } from "../../features/auth/authApiSlice"
 import { SearchBar } from "../../features/search/SearchBar"
 import UserProfileNav from "./UserProfileNav"
@@ -15,6 +15,7 @@ export default function Navbar() {
     
     const [logout] = useLogoutMutation();
     const userName = useSelector(selectCurrentUserName);
+    const userId = useSelector(selectCurrentUserId);
 
     const errRef = useRef();
 
@@ -43,7 +44,7 @@ export default function Navbar() {
                 <div className="nav-links">
                     <ul>
                         <li>
-                            <UserProfileNav userName={userName} />
+                            <UserProfileNav userName={userName} userId={userId} />
                         </li>
                         <li>
                             <Link to="/addpostform">New Post</Link>

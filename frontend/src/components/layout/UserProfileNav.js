@@ -7,7 +7,7 @@ const UserProfileNav = ({ userName, userId }) => {
     const [imageError, setImageError] = useState(false);
 
     // Construct profile picture URL
-    const baseProfilePicUri = `${process.env.PROFILE_PIC_BASE_URL}/${userName}_profPic.jpeg`;
+    const baseProfilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`;
     const profilePicUri = baseProfilePicUri;
 
     const handleImageError = () => {
