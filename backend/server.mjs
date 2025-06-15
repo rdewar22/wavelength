@@ -28,7 +28,7 @@ import apiPublicAudiosRoute from './routes/api/publicAudios.js';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
 
-dotenv.config({ path: '../.env' }) //uncomment to use production db and .env
+dotenv.config({ path: '.env' }) //uncomment to use production db and .env
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
