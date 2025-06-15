@@ -117,10 +117,10 @@ const Profile = () => {
               ) : (
                 <IoPersonCircleOutline size={40} />
               )}
-              <UploadAvatar
+              {canEdit && <UploadAvatar
                 avatarUrl={profilePicUri}
                 reloadParent={reloadParent}
-              />
+              />}
             </div>
           </div>
           <div className='profile-name'>{pageUserName}</div>

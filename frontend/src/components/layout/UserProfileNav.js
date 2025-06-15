@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { IoPersonCircleOutline } from "react-icons/io5";
 import './UserProfileNav.css';
 
-const UserProfileNav = ({ userName }) => {
+const UserProfileNav = ({ userName, userId }) => {
     const [imageError, setImageError] = useState(false);
 
     // Construct profile picture URL
@@ -18,7 +18,7 @@ const UserProfileNav = ({ userName }) => {
 
 
     return (
-        <Link to={linkDestination} className="user-profile-nav">
+        <Link to={linkDestination} state={{ pageUserId: userId }} className="user-profile-nav">
             <div className="profile-avatar">
                 {!imageError ? (
                     <img

@@ -3,6 +3,7 @@ import ReactionButtons from "./ReactionButtons";
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { selectPostByIdFromAnyCache } from "./postsApiSlice";
+import UserProfileNav from "../../components/layout/UserProfileNav";
 import "./PostExcerpt.css"
 
 const PostExcerpt = ({ postId, userId }) => {
@@ -22,13 +23,7 @@ const PostExcerpt = ({ postId, userId }) => {
                     )}
                     <div className="author-info">
                         <span>by</span>
-                        <Link 
-                            to={`/${post?.author?.username}`} 
-                            state={{ pageUserId: post?.author?._id }}
-                            className="author-link"
-                        >
-                            {post?.author?.username}
-                        </Link>
+                        <UserProfileNav userName={post?.author?.username} userId={post?.author?._id} />
                     </div>
                 </div>
                 <div className="time-ago">
