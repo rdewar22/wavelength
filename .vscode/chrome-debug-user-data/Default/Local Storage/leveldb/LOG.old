@@ -1,9 +1,0 @@
-2025/06/16-20:49:49.665 2614 Reusing MANIFEST C:\Users\robby\OneDrive\Desktop\wavelength\.vscode\chrome-debug-user-data\Default\Local Storage\leveldb/MANIFEST-000001
-2025/06/16-20:49:49.900 2614 Recovering log #3
-2025/06/16-20:49:49.906 2614 Reusing old log C:\Users\robby\OneDrive\Desktop\wavelength\.vscode\chrome-debug-user-data\Default\Local Storage\leveldb/000003.log 
-2025/06/16-20:52:09.476 21e8 Level-0 table #5: started
-2025/06/16-20:52:09.481 21e8 Level-0 table #5: 62839 bytes OK
-2025/06/16-20:52:09.483 21e8 Delete type=0 #3
-2025/06/16-20:52:42.826 21e8 Level-0 table #7: started
-2025/06/16-20:52:42.832 21e8 Level-0 table #7: 160181 bytes OK
-2025/06/16-20:52:42.834 21e8 Delete type=0 #4

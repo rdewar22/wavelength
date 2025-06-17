@@ -26,7 +26,6 @@
                 "<node_internals>/**"
             ],
             "trace": true,
-            "userDataDir": "${workspaceFolder}/.vscode/chrome-debug-user-data"
         },
         {
             "name": "Launch Frontend",
