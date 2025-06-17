@@ -5,7 +5,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha --exit",
     "start": "node server.mjs",
-    "dev": "nodemon server.mjs",
+    "dev": "nodemon --inspect server.mjs",
     "build": "node server.mjs"
   },
   "author": "",

@@ -11,6 +11,7 @@ router.route('/')
 
 router.route('/:id')
     .patch(verifyRoles(ROLES_LIST.User), postsController.addReaction)
+    .delete(verifyRoles(ROLES_LIST.User), postsController.deletePost)
 
 
 module.exports = router;

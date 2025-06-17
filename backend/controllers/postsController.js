@@ -46,9 +46,20 @@ const addReaction = async (req, res) => {
     return res.status(200).json({ success: `Reactions updated` });
 }
 
+const deletePost = async (req, res) => {
+    if (!req?.params?.id) return res.status(400).json({ message: 'Post ID required' });
+    const post = await Post.findOne({ _id: req.params.id }).exec();
+    if (!post) {
+        return res.status(204).json({ message: `Post ID ${req.params.id} not found` });
+    }
+    const result = await post.deleteOne({ _id: req.params.id });
+    res.json({ success: `Post ${req.params.id} deleted` });
+}
+
 module.exports = {
     addNewPost,
     getAllPosts,
     getPostsByUserId,
-    addReaction
+    addReaction,
+    deletePost
 }

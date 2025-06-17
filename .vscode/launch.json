@@ -16,31 +16,46 @@
             "type": "chrome",
             "request": "launch",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}/frontend",
-            
+            "webRoot": "${workspaceFolder}/frontend/src",
+            "sourceMapPathOverrides": {
+                "webpack:///./src/*": "${webRoot}/*",
+                "webpack:///src/*": "${webRoot}/src/*"
+            },
+            "sourceMaps": true,
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "trace": true,
+            "userDataDir": "${workspaceFolder}/.vscode/chrome-debug-user-data"
         },
         {
             "name": "Launch Frontend",
             "type": "node",
             "request": "launch",
+            "cwd": "${workspaceFolder}/frontend",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
+                "run",
                 "start"
             ],
-            "cwd": "${workspaceFolder}/frontend",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "skipFiles": ["<node_internals>/**"],
+            "env": {
+                "BROWSER": "none",
+                "PORT": "3000",
+                "NODE_OPTIONS": ""
+            }
         },
         {
             "name": "Launch Backend",
             "type": "node",
             "request": "launch",
-            "runtimeExecutable": "npm",
-            "runtimeArgs": [
-                "run",
-                "dev"
-            ], // Adjust based on your backend entry file
             "cwd": "${workspaceFolder}/backend",
-            "console": "integratedTerminal"
+            "runtimeExecutable": "node",
+            "runtimeArgs": ["--inspect", "server.mjs"],
+            "console": "integratedTerminal",
+            "skipFiles": ["<node_internals>/**"],
+            "sourceMaps": true
         }
     ]
 }

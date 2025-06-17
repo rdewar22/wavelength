@@ -1,14 +1,13 @@
 import PostAuthor from "../posts/PostAuthor";
 import TimeAgoCreated from "./TimeAgoCreated";
 import ReactionButtons from "../posts/ReactionButtons";
-import "./AudioExcerpt.css";
-
 import { useSelector } from "react-redux";
 import { useDeleteAudioMutation, makeSelectAudioById, useGetAudiosByUserIdQuery } from "./audioApiSlice";
 import { selectCurrentUserId } from "../auth/authSlice";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useMemo } from "react";
+import "./AudioExcerpt.css";
 
 
 const formatLikeS3Url = (str) => {
@@ -54,7 +53,6 @@ const AudioExcerpt = ({ audioId, userId: propUserId }) => {
             toast.success('Audio deleted successfully!');
             await deleteAudio({ audioId }).unwrap();
             return true;
-            // Your delete logic here
         } else {
             // User clicked "No" or closed the dialog
             return false;

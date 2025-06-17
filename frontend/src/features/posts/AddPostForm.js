@@ -64,7 +64,7 @@ const AddPostForm = () => {
                             className="form-input"
                             value={title}
                             onChange={onTitleChanged}
-                            placeholder="Enter a compelling title for your post..."
+                            placeholder="Enter a title for your post..."
                             maxLength={100}
                         />
                         <div className={getCharacterCountClass(title.length, 100)}>
