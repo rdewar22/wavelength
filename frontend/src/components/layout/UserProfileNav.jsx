@@ -4,15 +4,10 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import './UserProfileNav.css';
 
 const UserProfileNav = ({ userName, userId }) => {
-    const [imageError, setImageError] = useState(false);
 
     // Construct profile picture URL
-    const baseProfilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`;
-    const profilePicUri = baseProfilePicUri;
+    const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg`;
 
-    const handleImageError = () => {
-        setImageError(true);
-    };
 
     const linkDestination = userName ? `/${userName}` : "/login";
 
@@ -20,12 +15,11 @@ const UserProfileNav = ({ userName, userId }) => {
     return (
         <Link to={linkDestination} state={{ pageUserId: userId }} className="user-profile-nav">
             <div className="profile-avatar">
-                {!imageError ? (
+                {userName ? (
                     <img
                         src={profilePicUri}
                         alt={`${userName} avatar`}
                         className="avatar-image"
-                        onError={handleImageError}
                     />
                 ) : (
                     <IoPersonCircleOutline className="avatar-icon" />

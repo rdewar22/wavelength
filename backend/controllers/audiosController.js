@@ -1,14 +1,14 @@
 const Audio = require('../model/Audio');
 
 const getAllAudios = async (req, res) => {
-    const audios = await Audio.find();
+    const audios = await Audio.find().populate("user", "username profilePicUri");
     if (!audios) return res.status(204).json({ 'message': 'No audios found' });
     res.json(audios);
 }
 
 const getAudiosByUserId = async (req, res) => {
     const { userId } = req.params;
-    const audios = await Audio.find({ userId });
+    const audios = await Audio.find({ user: userId }).populate("user", "username profilePicUri");
     res.json(audios);
 }
 
@@ -17,7 +17,7 @@ const saveAudioToMongo = async (req, res) => {
     const { title } = req.body;
     try {
         const audio = await Audio.create({
-            userId: userId,
+            user: userId,
             title: title
         });
         res.status(201).json({ 

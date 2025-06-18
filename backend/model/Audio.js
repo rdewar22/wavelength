@@ -6,7 +6,7 @@ const audioSchema = new Schema({
         type: String,
         trim: true
     },
-    userId: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true

@@ -14,6 +14,26 @@ const initialState = audiosAdapter.getInitialState()
 
 export const audiosApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
+        getAllAudios: builder.query({
+            query: () => ({
+                url: `/publicAudios`,
+                method: 'GET'
+            }),
+            transformResponse: responseData => {
+                let min = 1;
+                const loadedAudios = responseData.map(audio => ({
+                    ...audio,
+                    id: audio._id || audio.id,  // Ensure an id exists
+                    date: audio?.date || audio?.createdAt || sub(new Date(), { minutes: min++ }).toISOString(),
+                    reactions: audio?.reactions || { thumbsUp: 0, thumbsDown: 0 }
+                }));
+                return audiosAdapter.setAll(initialState, loadedAudios)
+            },
+            providesTags: (result, error, arg) => [
+                { type: 'Audio', id: "LIST" },
+                ...(result?.ids?.map(id => ({ type: 'Audio', id })) || [])
+            ]
+        }),
         getAudiosByUserId: builder.query({
             query: userId => ({
                 url: `/publicAudios/${userId}`,
@@ -81,6 +101,7 @@ export const {
     useGetAudiosByUserIdQuery,
     useUploadAudioMutation,
     useDeleteAudioMutation,
+    useGetAllAudiosQuery,
 } = audiosApiSlice
 
 export const selectAudioResult = (userId) => audiosApiSlice.endpoints.getAudiosByUserId.select(userId)

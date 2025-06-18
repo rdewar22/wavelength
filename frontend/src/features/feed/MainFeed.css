@@ -1,0 +1,230 @@
+/* Main Feed Container */
+.main-feed {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Feed Header */
+.feed-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+  position: relative;
+  overflow: hidden;
+}
+
+.feed-page-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+}
+
+/* Feed Title */
+.feed-title {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.feed-title h1 {
+  font-size: 2.5em;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  margin: 0 0 10px 0;
+  letter-spacing: -1px;
+}
+
+.feed-title p {
+  font-size: 1.2em;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Section Headers */
+.main-feed h2 {
+  font-size: 2.2em;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  text-align: center;
+  position: relative;
+}
+
+.main-feed h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 2px;
+}
+
+/* Content Sections Container */
+.content-sections {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.posts-section {
+  flex: 1;
+}
+
+.posts-section .body {
+  background: white;
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.posts-section .body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+  background-size: 200% 100%;
+  animation: gradientMove 3s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.posts-list {
+  margin-top: 20px;
+}
+
+/* Audio Section */
+.audio-section {
+  margin: 0;
+  padding: 30px;
+  background: white;
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+}
+
+.audio-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+  background-size: 200% 100%;
+  animation: gradientMove 3s ease infinite;
+}
+
+.audio-list {
+  margin-top: 20px;
+}
+
+/* Empty State Styling */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-size: 1.1em;
+  font-weight: 500;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 15px;
+  border: 2px dashed #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.empty-state:hover {
+  background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+  border-color: #adb5bd;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-feed {
+    padding: 20px 15px;
+  }
+
+  .content-sections {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .feed-page-header {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  .feed-title h1 {
+    font-size: 2em;
+  }
+
+  .feed-title p {
+    font-size: 1em;
+  }
+
+  .audio-section, .posts-section .body {
+    padding: 20px;
+  }
+
+  .main-feed h2 {
+    font-size: 1.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-sections {
+    gap: 15px;
+  }
+
+  .feed-title h1 {
+    font-size: 1.8em;
+  }
+
+  .feed-title p {
+    font-size: 0.9em;
+  }
+
+  .audio-section, .posts-section .body {
+    padding: 15px;
+  }
+
+  .main-feed h2 {
+    font-size: 1.6em;
+  }
+} 

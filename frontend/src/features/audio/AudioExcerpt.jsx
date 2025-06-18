@@ -1,4 +1,5 @@
 import TimeAgoCreated from "./TimeAgoCreated";
+import UserProfileNav from "../../components/layout/UserProfileNav";
 import { useSelector } from "react-redux";
 import { useDeleteAudioMutation, makeSelectAudioById, useGetAudiosByUserIdQuery } from "./audioApiSlice";
 import { selectCurrentUserId } from "../auth/authSlice";
@@ -21,18 +22,18 @@ const formatLikeS3Url = (str) => {
     return encoded;
 };
 
-const AudioExcerpt = ({ audioId, userId: propUserId }) => {
+const AudioExcerpt = ({ audio }) => {
     const currentUserId = useSelector(selectCurrentUserId);
-    const userId = propUserId || currentUserId; // Use passed userId or fall back to current user
+    const userId = audio?.userId || currentUserId; // Use passed userId or fall back to current user
     const [deleteAudio, { isLoading: isDeleting }] = useDeleteAudioMutation();
 
-    useGetAudiosByUserIdQuery(userId, {
-        skip: !userId // Skip the query if we don't have a userId
-    });
+    // useGetAudiosByUserIdQuery(userId, {
+    //     skip: !userId // Skip the query if we don't have a userId
+    // });
 
-    // Create memoized selector instance
-    const selectAudioById = useMemo(() => makeSelectAudioById(), []);
-    const audio = useSelector(state => selectAudioById(state, audioId, userId));
+    // // Create memoized selector instance
+    // const selectAudioById = useMemo(() => makeSelectAudioById(), []);
+    // const audio = useSelector(state => selectAudioById(state, audioId, userId));
 
     const handleDelete = async () => {
         const result = await Swal.fire({
@@ -49,7 +50,7 @@ const AudioExcerpt = ({ audioId, userId: propUserId }) => {
             // User clicked "Yes", proceed with deletion
             // Show success toast
             toast.success('Audio deleted successfully!');
-            await deleteAudio({ audioId }).unwrap();
+            await deleteAudio({ audioId: audio?._id }).unwrap();
             return true;
         } else {
             // User clicked "No" or closed the dialog
@@ -89,6 +90,10 @@ const AudioExcerpt = ({ audioId, userId: propUserId }) => {
             </div>
 
             <div className="audio-meta">
+                <div className="audio-author">
+                    <span>by</span>
+                    <UserProfileNav userName={audio?.user?.username} userId={userId} />
+                </div>
                 <div className="audio-timestamp">
                     <TimeAgoCreated created={audio?.createdAt} />
                 </div>

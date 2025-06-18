@@ -3,7 +3,7 @@ import Layout from "./components/layout/Layout";
 import Register from "./features/registration/Register";
 import Login from "./features/auth/Login";
 import RequireAuth from "./features/auth/RequireAuth";
-import PostsList from "./features/posts/PostsList";
+import MainFeed from "./features/feed/MainFeed";
 import NotFound from "./components/common/404";
 import AddPostForm from "./features/posts/AddPostForm";
 import Profile from "./features/profiles/Profile";
@@ -45,12 +45,12 @@ function App() {
           {/* <Route index element={<Public />} /> */}
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="/:pageUserName" element={<Profile />} />
           
 
           {/* protected routes */}
           <Route element={<PersistLogin />}>
-            <Route index element={<PostsList />} />
+            <Route path="/:pageUserName" element={<Profile />} />
+            <Route index element={<MainFeed />} />
             <Route path="singlepost/:postId" element={<SinglePostPage />} />
             <Route element={<RequireAuth />}>
               <Route path="addpostform" element={<AddPostForm />} />
