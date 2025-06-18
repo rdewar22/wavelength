@@ -2,7 +2,6 @@ import { useLocation, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import Register from "./features/registration/Register";
 import Login from "./features/auth/Login";
-import Welcome from "./features/auth/Welcome";
 import RequireAuth from "./features/auth/RequireAuth";
 import PostsList from "./features/posts/PostsList";
 import NotFound from "./components/common/404";
@@ -19,9 +18,6 @@ function App() {
   const location = useLocation();
 
   // Define the paths where the navigation bar should be displayed
-  const showNavBarPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile'];
-  const showMessageTabPaths = ['/', '/welcome', '/userslist', '/postslist', '/addpostform', '/profile'];
-  
   const hideNavAndMsgsPaths = ['/login', '/register'];
   
  const showNavAndMsgs = !hideNavAndMsgsPaths.includes(location.pathname);
@@ -57,7 +53,6 @@ function App() {
             <Route index element={<PostsList />} />
             <Route path="singlepost/:postId" element={<SinglePostPage />} />
             <Route element={<RequireAuth />}>
-              <Route path="welcome" element={<Welcome />} />
               <Route path="addpostform" element={<AddPostForm />} />
               {/* <Route path="profile" element={<Profile />} /> */}
             </Route>

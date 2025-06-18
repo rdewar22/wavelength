@@ -1,6 +1,6 @@
 import "./Navbar.css"
 import { useRef } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { logOut, selectCurrentUserName, selectCurrentUserId } from "../../features/auth/authSlice"
 import { useLogoutMutation } from "../../features/auth/authApiSlice"
@@ -10,7 +10,6 @@ import UserProfileNav from "./UserProfileNav"
 
 export default function Navbar() {
 
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     
     const [logout] = useLogoutMutation();

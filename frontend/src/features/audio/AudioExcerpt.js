@@ -1,6 +1,4 @@
-import PostAuthor from "../posts/PostAuthor";
 import TimeAgoCreated from "./TimeAgoCreated";
-import ReactionButtons from "../posts/ReactionButtons";
 import { useSelector } from "react-redux";
 import { useDeleteAudioMutation, makeSelectAudioById, useGetAudiosByUserIdQuery } from "./audioApiSlice";
 import { selectCurrentUserId } from "../auth/authSlice";
@@ -28,7 +26,7 @@ const AudioExcerpt = ({ audioId, userId: propUserId }) => {
     const userId = propUserId || currentUserId; // Use passed userId or fall back to current user
     const [deleteAudio, { isLoading: isDeleting }] = useDeleteAudioMutation();
 
-    const { data: audioData } = useGetAudiosByUserIdQuery(userId, {
+    useGetAudiosByUserIdQuery(userId, {
         skip: !userId // Skip the query if we don't have a userId
     });
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAddNewPostMutation } from "./postsApiSlice";
 import { useSelector } from "react-redux";
-import { selectCurrentUserName, selectCurrentUserId } from "../auth/authSlice";
+import { selectCurrentUserId } from "../auth/authSlice";
 import "./AddPostForm.css";
 
 const AddPostForm = () => {
@@ -13,7 +13,6 @@ const AddPostForm = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     
-    const currentUserName = useSelector(selectCurrentUserName)
     const currentUserId = useSelector(selectCurrentUserId)
     
 

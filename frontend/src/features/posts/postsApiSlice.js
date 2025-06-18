@@ -18,7 +18,6 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             query: () => '/publicPosts',
             keepUnusedDataFor: 3600,
             transformResponse: responseData => {
-                let min = 1;
                 const loadedPosts = responseData.map(post => {
                     if (!post?.reactions) post.reactions = {
                         thumbsUp: 0,
@@ -37,9 +36,8 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             query: userId => `/publicPosts/${userId}`,
             keepUnusedDataFor: 3600,
             transformResponse: responseData => {
-                let min = 1;
                 const loadedPosts = responseData.map(post => {
-                    if (!post?.date) post.date = sub(new Date(), { minutes: min++ }).toISOString();
+                    if (!post?.date) post.date = sub(new Date(), { minutes: 1 }).toISOString();
                     if (!post?.reactions) post.reactions = {
                         thumbsUp: 0,
                         thumbsDown: 0,

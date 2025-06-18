@@ -1,5 +1,5 @@
 import './Profile.css'
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { Link, useParams, useLocation } from "react-router-dom";
 import UploadAvatar from "./UploadAvatar";
@@ -7,7 +7,7 @@ import UploadAudio from "./UploadAudio";
 import { selectCurrentUserName, selectCurrentUserId } from "../auth/authSlice";
 import { useSelector } from "react-redux";
 import { useGetPostsByUserIdQuery } from '../posts/postsApiSlice';
-import { selectAudiosByUser, useGetAudiosByUserIdQuery } from '../audio/audioApiSlice';
+import { useGetAudiosByUserIdQuery } from '../audio/audioApiSlice';
 import PostExcerpt from '../posts/PostExcerpt';
 import { Spinner } from 'reactstrap';
 import AudioExcerpt from '../audio/AudioExcerpt';
@@ -24,7 +24,7 @@ const Profile = () => {
 
 
   const userId = useSelector(selectCurrentUserId);
-  const user = useSelector(state => state.auth.user);
+  // const user = useSelector(state => state.auth.user);
 
 
   const [isProfPic, setProfPic] = useState(true);
