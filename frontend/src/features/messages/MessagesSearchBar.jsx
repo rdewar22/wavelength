@@ -4,7 +4,7 @@ import { FaSearch } from "react-icons/fa";
 import { useFindUserQuery } from "../users/usersApiSlice";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
-import UserBadgeItem from "../../components/ui/UserBadgeItem.js"
+import UserBadgeItem from "../../components/ui/UserBadgeItem.jsx"
 import "../../features/search/SearchBar.css";
 
 

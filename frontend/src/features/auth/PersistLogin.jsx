@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { setCredentials, selectCurrentToken, logOut, selectCurrentUser } from './authSlice';
+import { setCredentials, selectCurrentToken, logOut } from './authSlice';
 import { useRefreshMutation } from './authApiSlice';
 import { Spinner } from 'reactstrap';
 import { Link } from 'react-router-dom';

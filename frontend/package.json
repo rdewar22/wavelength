@@ -27,10 +27,8 @@
     "web-vitals": "^4.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "dev": "react-scripts start",
-    "eject": "react-scripts eject",
+    "start": "vite",
+    "build": "vite build",
     "test": "vitest",
     "test:ui": "vitest --ui"
   },
