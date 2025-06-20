@@ -24,7 +24,7 @@ const formatLikeS3Url = (str) => {
 
 const AudioExcerpt = ({ audio }) => {
     const currentUserId = useSelector(selectCurrentUserId);
-    const userId = audio?.userId || currentUserId; // Use passed userId or fall back to current user
+    const userId = audio?.user._id; // Use passed userId or fall back to current user
     const [deleteAudio, { isLoading: isDeleting }] = useDeleteAudioMutation();
 
     // useGetAudiosByUserIdQuery(userId, {

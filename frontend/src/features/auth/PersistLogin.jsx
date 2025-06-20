@@ -109,23 +109,6 @@ const PersistLogin = () => {
           Session expired. Please try logging in again.
         </p>
       );
-    } else if (currentPath === '/profile' || currentPath.startsWith('/profile')) {
-      // On profile pages, show profile-specific message
-      errorContent = (
-        <p className='errmsg'>
-          You are not logged in. Please <Link to="/login">login</Link> to access your profile.
-        </p>
-      );
-    } else if (currentPath.startsWith('/publicprofile')) {
-      // On public profile pages, allow viewing but suggest login
-      errorContent = (
-        <>
-          <p className='errmsg'>
-            You are not logged in. <Link to="/login">Login</Link> to access all features, or continue browsing.
-          </p>
-          <Outlet />
-        </>
-      );
     } else if (currentPath === '/' || currentPath === '/posts') {
       // On home/posts pages, allow viewing but suggest login
       errorContent = (
@@ -137,7 +120,17 @@ const PersistLogin = () => {
         </>
       );
     } else if (currentPath.startsWith('/singlepost')) {
-      // On public profile pages, allow viewing but suggest login
+      // On single post pages, allow viewing but suggest login
+      errorContent = (
+        <>
+          <p className='errmsg'>
+            You are not logged in. <Link to="/login">Login</Link> to access all features, or continue browsing.
+          </p>
+          <Outlet />
+        </>
+      );
+    } else if (currentPath.match(/^\/[^\/]+$/)) {
+      // Profile pages (/:pageUserName) - allow viewing but suggest login
       errorContent = (
         <>
           <p className='errmsg'>

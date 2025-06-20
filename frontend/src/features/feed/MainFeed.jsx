@@ -73,15 +73,13 @@ const MainFeed = () => {
 
         <div className="content-sections">
           <div className="posts-section">
-            <div className="body">
               <h2>All Posts</h2>
               <div className="posts-list">
                 {postsContent}
               </div>
-            </div>
           </div>
           
-          <div className="audio-section">
+          <div className="main-feed-audio-section">
             <h2>All Audio Files</h2>
             <div className="audio-list">
               {audiosContent}
