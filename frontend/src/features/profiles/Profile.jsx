@@ -22,10 +22,8 @@ const Profile = () => {
 
   const canEdit = loggedInUserName === pageUserName;
 
-
   const userId = useSelector(selectCurrentUserId);
   // const user = useSelector(state => state.auth.user);
-
 
   const [isProfPic, setProfPic] = useState(true);
   const [isProfPicLoading, setIsProfPicLoading] = useState(true);
@@ -134,7 +132,6 @@ const Profile = () => {
           <div className="content-sections">
 
             <div className="posts-section">
-              <div className="body">
                 <h2>Posts</h2>
                 <div className="post-controls">
                   {canEdit && <Link to="/addpostform" className="add-post-button">
@@ -142,7 +139,6 @@ const Profile = () => {
                   </Link>}
                 </div>
                 {postsContent}
-              </div>
             </div>
             <div className="audio-section">
               <h2>Audio Files</h2>

@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 
-const ENDPOINT = "https://wavelength-backend-eq3t.onrender.com";
+const ENDPOINT = "http://localhost:3500";
 
 // Singleton socket manager to prevent multiple connections
 class SocketManager {
