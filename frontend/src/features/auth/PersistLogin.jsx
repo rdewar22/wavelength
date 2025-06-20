@@ -147,13 +147,14 @@ const PersistLogin = () => {
         </>
       );
     } else {
-      // Default message for other pages
-      errorContent = (
-        <p className='errmsg'>
-          {`${error?.data?.message} - `}
-          <Link to="/login">Please login again</Link>.
-        </p>
-      );
+      // Default message for other pages - navigate to login with error
+      // This will display the error message on the login page
+      navigate('/login', { 
+        state: { 
+          error: error?.data?.message || 'Session expired. Please login again.' 
+        } 
+      });
+      return null;
     }
 
     content = errorContent;

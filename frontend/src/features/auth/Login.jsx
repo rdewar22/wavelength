@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 
 import { useDispatch } from "react-redux"
 import { setCredentials } from "./authSlice"
@@ -15,6 +15,7 @@ const Login = () => {
     const [pwd, setPwd] = useState('')
     const [errMsg, setErrMsg] = useState('')
     const navigate = useNavigate()
+    const location = useLocation()
     const [persist, setPersist] = usePersist()
 
     const [login, { isLoading }] = useLoginMutation()
@@ -24,9 +25,18 @@ const Login = () => {
         userRef.current.focus()
     }, [])
 
+    // useEffect(() => {
+    //     setErrMsg('')
+    // }, [user, pwd])
+
+    // Check for error message from navigation state (from PersistLogin)
     useEffect(() => {
-        setErrMsg('')
-    }, [user, pwd])
+        if (location.state?.error) {
+            setErrMsg(location.state.error);
+            // Clear the state to prevent showing the error again on refresh
+            location.state.error = null;
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -67,9 +77,15 @@ const Login = () => {
 
         I understand that many people fear a future dominated by technology, worrying that it may cause us to lose our connections to each other and to nature. I believe that computers can actually bring people closer to the world and to those around them. :)</h1> : (
         <section className="login">
-            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-
             <Link to='/' className="logo">Wavelength</Link>
+            <p 
+                ref={errRef} 
+                className={`${errMsg ? "errmsg" : "offscreen"} ${errMsg ? "navigation-error" : ""}`} 
+                aria-live="assertive"
+            >
+                {errMsg}
+            </p>
+
 
             <h1 className="login-header">Login</h1>
 

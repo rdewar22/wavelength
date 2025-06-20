@@ -54,7 +54,6 @@ function App() {
             <Route path="singlepost/:postId" element={<SinglePostPage />} />
             <Route element={<RequireAuth />}>
               <Route path="addpostform" element={<AddPostForm />} />
-              {/* <Route path="profile" element={<Profile />} /> */}
             </Route>
           </Route>
 
