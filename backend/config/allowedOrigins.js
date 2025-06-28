@@ -1,5 +1,5 @@
 const allowedOrigins = [
-    'wavelength-72dv.onrender.com',
+    'https://wavelength-72dv.onrender.com',
     
     
 ];
