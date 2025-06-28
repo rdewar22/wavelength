@@ -6,6 +6,7 @@ import { selectCurrentUserId } from "../auth/authSlice";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useMemo } from "react";
+import React from "react";
 import "./AudioExcerpt.css";
 
 
@@ -22,7 +23,7 @@ const formatLikeS3Url = (str) => {
     return encoded;
 };
 
-const AudioExcerpt = ({ audio }) => {
+const AudioExcerpt = React.memo(({ audio }) => {
     const currentUserId = useSelector(selectCurrentUserId);
     const userId = audio?.user._id; // Use passed userId or fall back to current user
     const [deleteAudio, { isLoading: isDeleting }] = useDeleteAudioMutation();
@@ -100,6 +101,8 @@ const AudioExcerpt = ({ audio }) => {
             </div>
         </article>
     )
-}
+});
+
+AudioExcerpt.displayName = 'AudioExcerpt';
 
 export default AudioExcerpt

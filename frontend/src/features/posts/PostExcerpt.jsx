@@ -7,9 +7,10 @@ import { selectPostByIdFromAnyCache, useDeletePostMutation } from "./postsApiSli
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import UserProfileNav from "../../components/layout/UserProfileNav";
+import React from "react";
 import "./PostExcerpt.css"
 
-const PostExcerpt = ({ postId, userId }) => {
+const PostExcerpt = React.memo(({ postId, userId }) => {
     const currentUserId = useSelector(selectCurrentUserId);
     const post = useSelector(state => selectPostByIdFromAnyCache(state, postId, userId))
     const postAuthorId = post?.author?._id;
@@ -70,7 +71,8 @@ const PostExcerpt = ({ postId, userId }) => {
             <ReactionButtons post={post} />
         </article>
     )
-}
+})
 
+PostExcerpt.displayName = 'PostExcerpt';
 
 export default PostExcerpt

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useGetPostsQuery } from '../posts/postsApiSlice';
 import { useGetAllAudiosQuery } from '../audio/audioApiSlice';
@@ -8,6 +8,47 @@ import { selectCurrentUserId } from '../auth/authSlice';
 import { Link } from "react-router-dom";
 import UploadAudio from "../profiles/UploadAudio";
 import './MainFeed.css';
+
+// Lazy loading wrapper component
+const LazyComponent = ({ children, threshold = 0.1 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef();
+
+  const observerCallback = useCallback((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        // Disconnect observer once component is visible
+        if (ref.current) {
+          ref.current.disconnect();
+        }
+      }
+    });
+  }, []);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold,
+      rootMargin: '50px' // Start loading 50px before component comes into view
+    });
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.disconnect();
+      }
+    };
+  }, [observerCallback, threshold]);
+
+  return (
+    <div ref={ref}>
+      {isVisible ? children : <div style={{ height: '200px', background: 'rgba(255,255,255,0.1)', borderRadius: '16px' }} />}
+    </div>
+  );
+};
 
 const MainFeed = () => {
   const userId = useSelector(selectCurrentUserId);
@@ -36,7 +77,9 @@ const MainFeed = () => {
   } else if (isPostsSuccess) {
     if (posts?.ids && posts.ids.length > 0) {
       postsContent = [...(posts?.ids || [])].reverse().map(postId => (
-        <PostExcerpt key={postId} postId={postId} userId={userId} />
+        <LazyComponent key={postId}>
+          <PostExcerpt postId={postId} userId={userId} />
+        </LazyComponent>
       ));
     } else {
       postsContent = <p className="empty-state">No posts yet. Be the first to share!</p>;
@@ -53,7 +96,9 @@ const MainFeed = () => {
       audiosContent = (audiosData?.ids || []).slice().reverse().map(audioId => {
         const audio = audiosData.entities[audioId];
         return (
-          <AudioExcerpt key={audioId} audio={audio} />
+          <LazyComponent key={audioId}>
+            <AudioExcerpt audio={audio} />
+          </LazyComponent>
         );
       });
     } else {
