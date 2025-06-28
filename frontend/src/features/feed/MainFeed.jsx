@@ -5,6 +5,8 @@ import { useGetAllAudiosQuery } from '../audio/audioApiSlice';
 import PostExcerpt from '../posts/PostExcerpt';
 import AudioExcerpt from '../audio/AudioExcerpt';
 import { selectCurrentUserId } from '../auth/authSlice';
+import { Link } from "react-router-dom";
+import UploadAudio from "../profiles/UploadAudio";
 import './MainFeed.css';
 
 const MainFeed = () => {
@@ -64,23 +66,34 @@ const MainFeed = () => {
   return (
     <>
       <div className="main-feed">
-        {/* <div className='feed-page-header'>
-          <div className='feed-title'>
-            <h1>Main Feed</h1>
-            <p>Discover posts and audio from the community</p>
-          </div>
-        </div> */}
+
 
         <div className="content-sections">
           <div className="posts-section">
-              <h2>All Posts</h2>
-              <div className="posts-list">
-                {postsContent}
-              </div>
+            <h2>All Posts</h2>
+            <div className="post-controls">
+              <Link to={userId ? "/addpostform" : "/login"} className="add-post-button">
+                {userId ? "Create New Post" : "Login"}
+              </Link>
+            </div>
+            <div className="posts-list">
+              {postsContent}
+            </div>
           </div>
-          
+
           <div className="main-feed-audio-section">
             <h2>All Audio Files</h2>
+            <div className="audio-controls">
+              {userId ? (
+                <UploadAudio
+                  buttonLabel="Upload New Audio"
+                />
+              ) : (
+                <Link to="/login" className="add-post-button">
+                  Login
+                </Link>
+              )}
+            </div>
             <div className="audio-list">
               {audiosContent}
             </div>

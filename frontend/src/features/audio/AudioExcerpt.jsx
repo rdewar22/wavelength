@@ -84,7 +84,7 @@ const AudioExcerpt = ({ audio }) => {
 
             <div className="audio-player-container">
                 <audio controls preload="metadata" className="audio-player">
-                    <source src={formatLikeS3Url(audio?.title)} type="audio/webm" />
+                    <source src={formatLikeS3Url(audio?.title)} type="audio/mp4" />
                     Your browser does not support the audio element.
                 </audio>
             </div>
