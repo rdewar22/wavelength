@@ -27,8 +27,8 @@ footer a {
 
 .button {
     padding: 5%;
-    background-color: #b7f8f8; /* Button color */
-    color: black; /* Text color */
+    background-color: #ff4444; /* Button color */
+    color: white; /* Text color */
     text-align: center;
     text-decoration: none; /* Remove underline */
     border: none;
@@ -39,5 +39,5 @@ footer a {
 }
 
 .button:hover {
-    background-color: #a63a84; /* Darker shade on hover */
+    background-color: #ff69b4; /* Darker shade on hover */
 }

@@ -4,7 +4,7 @@
     border: none;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     overflow: hidden;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ff4444, #ff69b4);
     color: white;
     min-width: 500px;
     max-width: 600px;
@@ -181,26 +181,26 @@
 }
 
 .record-btn.start {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #ff4444 0%, #ff69b4 100%);
     color: white;
-    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 4px 6px -1px rgba(255, 68, 68, 0.3);
 }
 
 .record-btn.start:hover:not(:disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 8px 12px -1px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 8px 12px -1px rgba(255, 68, 68, 0.4);
 }
 
 .record-btn.stop {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    background: linear-gradient(135deg, #ff69b4 0%, #ff4444 100%);
     color: white;
-    box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
+    box-shadow: 0 4px 6px -1px rgba(255, 105, 180, 0.3);
     animation: pulse 2s infinite;
 }
 
 .record-btn.stop:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 12px -1px rgba(239, 68, 68, 0.4);
+    box-shadow: 0 8px 12px -1px rgba(255, 105, 180, 0.4);
 }
 
 .record-btn:disabled {
@@ -211,10 +211,10 @@
 
 @keyframes pulse {
     0%, 100% {
-        box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
+        box-shadow: 0 4px 6px -1px rgba(255, 105, 180, 0.3);
     }
     50% {
-        box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.6);
+        box-shadow: 0 4px 6px -1px rgba(255, 105, 180, 0.6);
     }
 }
 
@@ -222,7 +222,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #ef4444;
+    color: #ff4444;
     font-weight: 600;
     font-size: 0.875rem;
 }
@@ -230,7 +230,7 @@
 .recording-dot {
     width: 8px;
     height: 8px;
-    background: #ef4444;
+    background: #ff4444;
     border-radius: 50%;
     animation: blink 1s infinite;
 }
@@ -242,7 +242,7 @@
 
 .selected-file-preview {
     background: #f0f9ff;
-    border: 1px solid #0ea5e9;
+    border: 1px solid #ff69b4;
     border-radius: 12px;
     padding: 1.5rem;
     margin-top: 1rem;
@@ -259,7 +259,7 @@
 .file-icon {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    background: linear-gradient(135deg, #ff4444 0%, #ff69b4 100%);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -274,7 +274,7 @@
 
 .file-name {
     font-weight: 600;
-    color: #0c4a6e;
+    color: #ff4444;
     margin-bottom: 0.25rem;
 }
 
@@ -384,7 +384,7 @@
 }
 
 .upload-audio-trigger-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ff4444, #ff69b4);
     color: white;
     border: none;
     border-radius: 8px;

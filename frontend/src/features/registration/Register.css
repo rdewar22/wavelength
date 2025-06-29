@@ -77,18 +77,18 @@ button {
 }
 
 .valid {
-    color: limegreen;
+    color: #ff69b4;
     margin-left: 0.25rem;
 }
 
 .invalid {
-    color: red;
+    color: #ff4444;
     margin-left: 0.25rem;
 }
 
 .errmsg {
-    background-color: lightpink;
-    color: firebrick;
+    background-color: #ff69b4;
+    color: #ff4444;
     font-weight: bold;
     padding: 0.5rem;
     margin-bottom: 0.5rem;

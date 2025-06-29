@@ -1,11 +1,11 @@
 .audio-excerpt {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+    background: linear-gradient(135deg, #ff4444 0%, #ff69b4 100%);
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 24px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(255, 68, 68, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 105, 180, 0.1);
     position: relative;
     overflow: hidden;
     will-change: transform;
@@ -18,13 +18,13 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 105, 180, 0.05);
     pointer-events: none;
 }
 
 .audio-excerpt:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 40px rgba(255, 68, 68, 0.15);
 }
 
 .audio-header {
@@ -36,13 +36,17 @@
     z-index: 1;
 }
 
+.audio-author {
+    display: flex;
+}
+
 .audio-excerpt .audio-title {
     color: #ffffff !important;
     font-size: 1.3rem;
     font-weight: 700;
     margin: 0;
     line-height: 1.3;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 4px rgba(255, 68, 68, 0.1);
     flex: 1;
     margin-right: 12px;
     text-align: left !important;
@@ -50,9 +54,9 @@
 }
 
 .delete-audio-button {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 105, 180, 0.15);
     color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 105, 180, 0.2);
     border-radius: 50%;
     width: 32px;
     height: 32px;
@@ -68,9 +72,9 @@
 }
 
 .delete-audio-button:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 105, 180, 0.25);
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(255, 68, 68, 0.15);
 }
 
 .delete-audio-button:disabled {
@@ -80,12 +84,10 @@
 }
 
 .audio-player-container {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 105, 180, 0.1);
     border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 16px;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 105, 180, 0.15);
     position: relative;
     z-index: 1;
 }
@@ -97,25 +99,25 @@
 }
 
 .audio-player::-webkit-media-controls-panel {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 105, 180, 0.1);
     border-radius: 8px;
 }
 
 .audio-player::-webkit-media-controls-play-button,
 .audio-player::-webkit-media-controls-pause-button {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 105, 180, 0.8);
     border-radius: 50%;
 }
 
 .audio-player::-webkit-media-controls-timeline {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 105, 180, 0.3);
     border-radius: 4px;
 }
 
 .audio-player::-webkit-media-controls-current-time-display,
 .audio-player::-webkit-media-controls-time-remaining-display {
     color: #ffffff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 1px 2px rgba(255, 68, 68, 0.5);
 }
 
 .audio-meta {
@@ -123,7 +125,7 @@
     align-items: center;
     justify-content: space-between;
     padding-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 105, 180, 0.1);
     position: relative;
     z-index: 1;
 }
@@ -143,7 +145,7 @@
 }
 
 .audio-not-found {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    background: linear-gradient(135deg, #ff4444 0%, #ff69b4 100%);
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 16px;

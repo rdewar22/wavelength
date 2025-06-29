@@ -21,7 +21,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 105, 180, 0.1);
     border-radius: 12px;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -34,8 +34,8 @@
 
 .user-profile-nav:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.2);
+    background: rgba(255, 105, 180, 0.15);
     color: white;
     text-decoration: none;
 }
@@ -46,19 +46,19 @@
     height: 2rem;
     border-radius: 50%;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 105, 180, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 105, 180, 0.3);
     transition: all 0.3s ease;
     flex-shrink: 0;
 }
 
 .user-profile-nav:hover .profile-avatar {
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 105, 180, 0.5);
     transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 15px rgba(255, 68, 68, 0.15);
 }
 
 .avatar-image {
@@ -70,7 +70,7 @@
 
 .avatar-icon {
     font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 105, 180, 0.8);
 }
 
 .profile-username {

@@ -9,7 +9,7 @@
 
 /* || UTILITY CLASSES */
 .errmsg {
-  color: firebrick;
+  color: #ff4444;
 }
 
 /* || GENERAL STYLES */
@@ -17,8 +17,8 @@
 body {
   font: 1.5rem ;
   min-height: 100vh;
-  background-color: #68ce24;
-  color: #fff;
+  background-color: #000000;
+  color: #ffffff;
 }
 
 input, button {
@@ -53,8 +53,8 @@ a:hover, a:focus {
 
 .public main {
   flex-grow: 1;
-  border-top: 2px solid #fff;
-  border-bottom: 2px solid #fff;
+  border-top: 2px solid #ff69b4;
+  border-bottom: 2px solid #ff69b4;
   padding: 1rem;
 }
 

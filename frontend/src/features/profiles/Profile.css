@@ -3,7 +3,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #000000 0%, #ff4444 100%);
   min-height: 100vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -14,10 +14,10 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff4444 0%, #ff69b4 100%);
   padding: 20px;
   border-radius: 25px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(255, 68, 68, 0.3);
   margin-bottom: 25px;
   position: relative;
   overflow: hidden;
@@ -30,7 +30,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255,105,180,0.1) 0%, transparent 70%);
   animation: shimmer 3s ease-in-out infinite;
 }
 
@@ -52,14 +52,14 @@
   width: 100%;
   height: 100px;
   border-radius: 50%;
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  border: 4px solid rgba(255, 105, 180, 0.3);
+  box-shadow: 0 15px 35px rgba(255, 68, 68, 0.2);
   transition: all 0.3s ease;
 }
 
 .profile .avatar img:hover {
   transform: scale(1.05);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 40px rgba(255, 68, 68, 0.3);
 }
 
 .profile .avatar .avatar-wrapper {
@@ -72,7 +72,7 @@
 .profile .avatar .avatar-wrapper button {
   position: absolute;
   bottom: -10px;
-  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  background: linear-gradient(135deg, #ff4444, #ff69b4);
   border: none;
   border-radius: 25px;
   padding: 8px 16px;
@@ -81,7 +81,7 @@
   font-size: 0.9em;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(238, 90, 82, 0.4);
+  box-shadow: 0 5px 15px rgba(255, 68, 68, 0.4);
   opacity: 0;
   transform: translateY(10px);
 }
@@ -92,15 +92,15 @@
 }
 
 .profile .avatar .avatar-wrapper button:hover {
-  background: linear-gradient(135deg, #ee5a52, #ff6b6b);
+  background: linear-gradient(135deg, #ff69b4, #ff4444);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(238, 90, 82, 0.5);
+  box-shadow: 0 8px 20px rgba(255, 68, 68, 0.5);
 }
 
 .profile .avatar svg {
   font-size: 100px;
-  color: rgba(255, 255, 255, 0.8);
-  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+  color: rgba(255, 105, 180, 0.8);
+  filter: drop-shadow(0 5px 15px rgba(255, 68, 68, 0.2));
 }
 
 /* Profile Name */
@@ -108,7 +108,7 @@
   font-size: 2.2em;
   font-weight: 700;
   color: white;
-  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 5px 15px rgba(255, 68, 68, 0.3);
   margin: 0;
   text-align: center;
   letter-spacing: -1px;
@@ -120,7 +120,7 @@
 .profile h2 {
   font-size: 2.2em;
   font-weight: 700;
-  color: #2c3e50;
+  color: #ffffff;
   margin-bottom: 25px;
   text-align: center;
   position: relative;
@@ -134,7 +134,7 @@
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #ff4444, #ff69b4);
   border-radius: 2px;
 }
 
@@ -156,7 +156,7 @@
   padding: 10px;
   background: white;
   border-radius: 25px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(255, 68, 68, 0.1);
   position: relative;
   overflow: hidden;
   flex: 1;
@@ -169,7 +169,7 @@
   left: 0;
   right: 0;
   height: 5px;
-  background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+  background: linear-gradient(90deg, #ff4444, #ff69b4, #ff4444);
   background-size: 200% 100%;
   animation: gradientMove 3s ease infinite;
 }
@@ -205,7 +205,7 @@
   align-items: center;
   justify-content: center;
   padding: 12px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff4444 0%, #ff69b4 100%);
   color: #ffffff;
   text-decoration: none;
   border-radius: 25px;

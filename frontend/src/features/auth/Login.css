@@ -23,22 +23,22 @@
 
 /* Enhanced error message styling */
 .errmsg {
-    background-color: rgba(220, 53, 69, 0.1);
-    color: #dc3545;
+    background-color: rgba(255, 68, 68, 0.1);
+    color: #ff4444;
     font-weight: 600;
     margin-bottom: 1rem;
     padding: 0.75rem;
     border-radius: 8px;
-    border: 1px solid rgba(220, 53, 69, 0.3);
+    border: 1px solid rgba(255, 68, 68, 0.3);
     text-align: center;
     font-size: 0.9rem;
 }
 
 /* Special styling for navigation errors (from PersistLogin) */
 .navigation-error {
-    background-color: rgba(255, 193, 7, 0.15);
-    color: #856404;
-    border: 1px solid rgba(255, 193, 7, 0.4);
+    background-color: rgba(255, 105, 180, 0.15);
+    color: #ff69b4;
+    border: 1px solid rgba(255, 105, 180, 0.4);
     font-weight: 700;
     animation: fadeIn 0.5s ease-in;
 }

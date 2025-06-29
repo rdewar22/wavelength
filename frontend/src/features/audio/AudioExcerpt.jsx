@@ -92,7 +92,7 @@ const AudioExcerpt = React.memo(({ audio }) => {
 
             <div className="audio-meta">
                 <div className="audio-author">
-                    <span>by</span>
+                    <span style={{ marginTop: '13.2%' }}>by</span>
                     <UserProfileNav userName={audio?.user?.username} userId={userId} />
                 </div>
                 <div className="audio-timestamp">
