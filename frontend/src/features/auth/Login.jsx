@@ -13,6 +13,7 @@ const Login = () => {
     const errRef = useRef()
     const [user, setUser] = useState('')
     const [pwd, setPwd] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
     const [errMsg, setErrMsg] = useState('')
     const navigate = useNavigate()
     const location = useLocation()
@@ -70,6 +71,7 @@ const Login = () => {
     const handleUserInput = (e) => setUser(e.target.value)
     const handlePwdInput = (e) => setPwd(e.target.value)
     const handlePersistClick = () => setPersist(prev => !prev)
+    const togglePasswordVisibility = () => setShowPassword(prev => !prev)
 
     const content = isLoading ? <h1 className="loading-message">This page may take up to 50 seconds to load because I am using the free plan of my hosting service. Welcome to the site! My name is Robby Dewar, and I am primarily using this site to showcase my abilities as a web designer. Thank you for visiting! Please let me know if you encounter any bugs. You can contact me at dewarrob@msu.edu.
 
@@ -103,14 +105,24 @@ const Login = () => {
                 />
 
                 <label htmlFor="password">Password:</label>
-                <input
-                    type="password"
-                    id="password"
-                    onChange={handlePwdInput}
-                    value={pwd}
-                    autoComplete="current-password"
-                    required
-                />
+                <div className="password-input-container">
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        id="password"
+                        onChange={handlePwdInput}
+                        value={pwd}
+                        autoComplete="current-password"
+                        required
+                    />
+                    <button
+                        type="button"
+                        className="password-toggle-btn"
+                        onClick={togglePasswordVisibility}
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                        {showPassword ? "🙈" : "👁️"}
+                    </button>
+                </div>
                 <label htmlFor="persist" className="form__persist">
                     <input
                         type="checkbox"
