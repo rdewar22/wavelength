@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { Link, useParams, useLocation } from "react-router-dom";
 import UploadAvatar from "./UploadAvatar";
-import UploadAudio from "./UploadAudio";
 import { selectCurrentUserName, selectCurrentUserId } from "../auth/authSlice";
 import { useSelector } from "react-redux";
 import { useGetPostsByUserIdQuery } from '../posts/postsApiSlice';
@@ -143,9 +142,9 @@ const Profile = () => {
             <div className="audio-section">
               <h2>Audio Files</h2>
               <div className="audio-controls">
-                {canEdit && <UploadAudio
-                  buttonLabel="Upload New Audio"
-                />}
+                {canEdit && <Link to="/uploadaudio" className="add-post-button">
+                  Upload Audio
+                </Link>}
               </div>
               <div className="audio-list">
                 {audiosContent || <p style={{ fontSize: '1.2em', fontWeight: 'bold', color: '#666' }}>No audio files uploaded yet</p>}

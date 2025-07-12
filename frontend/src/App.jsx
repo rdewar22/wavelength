@@ -13,6 +13,7 @@ import { MessagesTab } from "./features/messages/MessagesTab";
 import { ToastContainer } from 'react-toastify';
 import SinglePostPage from "./features/posts/SinglePostPage";
 import 'react-toastify/dist/ReactToastify.css';
+import UploadAudio from "./features/profiles/UploadAudio";
 
 function App() {
   const location = useLocation();
@@ -54,6 +55,7 @@ function App() {
             <Route path="singlepost/:postId" element={<SinglePostPage />} />
             <Route element={<RequireAuth />}>
               <Route path="addpostform" element={<AddPostForm />} />
+              <Route path="uploadaudio" element={<UploadAudio />} />
             </Route>
           </Route>
 

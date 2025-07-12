@@ -11,6 +11,10 @@ const audioSchema = new Schema({
         ref: "User",
         required: true
     },
+    coverArtUrl: {
+        type: String,
+        trim: true
+    },    
   }, {timestamps: true });
 
 module.exports = mongoose.model('Audio', audioSchema);

@@ -130,9 +130,9 @@ const MainFeed = () => {
             <h2>All Audio Files</h2>
             <div className="audio-controls">
               {userId ? (
-                <UploadAudio
-                  buttonLabel="Upload New Audio"
-                />
+                <Link to="/uploadaudio" className="add-post-button">
+                  Upload Audio
+                </Link>
               ) : (
                 <Link to="/login" className="add-post-button">
                   Login

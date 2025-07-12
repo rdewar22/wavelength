@@ -2,38 +2,18 @@ import './UploadAudio.css'
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { selectCurrentUserId } from "../auth/authSlice";
-import {
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader,
-} from "reactstrap";
 import { useUploadAudioMutation } from "../audio/audioApiSlice";
 
-const UploadAudio = ({
-    onAudioUploaded,
-    buttonLabel = "Upload Audio"
-}) => {
-    const [modal, setModal] = useState(false);
+const UploadAudio = () => {
     const [file, setFile] = useState(null);
     const [title, setTitle] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const [mediaRecorder, setMediaRecorder] = useState(null);
     const [uploadAudio] = useUploadAudioMutation();
     const userId = useSelector(selectCurrentUserId);
-
-    const toggle = () => {
-        setModal(!modal);
-        if (!modal) {
-            setFile(null);
-            setTitle('');
-            setIsRecording(false);
-            if (mediaRecorder && mediaRecorder.state === "recording") {
-                mediaRecorder.stop();
-            }
-        }
-    };
+    const navigate = useNavigate();
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -154,12 +134,10 @@ const UploadAudio = ({
 
             if (result.success) {
                 toast.success("Audio uploaded successfully!");
-                if (onAudioUploaded) {
-                    onAudioUploaded(result.audioUrl);
-                }
                 setFile(null);
                 setTitle('');
-                setModal(false);
+                // Navigate back to the profile page
+                navigate(-1);
             } else {
                 toast.error(result.error || "Failed to upload audio");
             }
@@ -170,143 +148,144 @@ const UploadAudio = ({
     };
 
     return (
-        <div>
-            <button className="upload-audio-trigger-btn" onClick={toggle}>
-                Upload Audio
-            </button>
-            
-            <Modal 
-                isOpen={modal} 
-                toggle={toggle} 
-                className="upload-audio-modal"
-                size="lg"
-                centered
-            >
-                <ModalHeader toggle={toggle} className="modal-title">
-                    Upload Audio
-                </ModalHeader>
-                
-                <ModalBody>
-                    {/* Title Input */}
-                    <div className="upload-audio-form-group">
-                        <label className="upload-audio-label" htmlFor="audioTitle">
-                            Audio Title
-                        </label>
-                        <input
-                            type="text"
-                            id="audioTitle"
-                            className="upload-audio-input"
-                            placeholder="Enter a title for your audio..."
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
-                        />
-                    </div>
+        <div className="upload-audio-page">
+            <div className="upload-audio-container">
+                <div className="upload-audio-header">
+                    <h1>Upload Audio</h1>
+                </div>
 
-                    {/* File Upload Section */}
-                    <div className="upload-audio-form-group">
-                        <label className="upload-audio-label">
-                            Select Audio File
-                        </label>
-                        <div className="file-input-wrapper">
-                            <input
-                                type="file"
-                                id="audioFile"
-                                className="file-input-custom"
-                                accept="audio/*"
-                                onChange={handleFileChange}
-                                disabled={isRecording}
-                            />
-                            <label 
-                                htmlFor="audioFile" 
-                                className={`file-input-button ${file ? 'has-file' : ''}`}
-                            >
-                                <span>📁</span>
-                                {file ? `Selected: ${file.name}` : 'Choose Audio File'}
-                            </label>
-                        </div>
-                    </div>
+                <div className="upload-audio-content">
+                    <div className="upload-audio-grid">
+                        {/* Left Column - Form */}
+                        <div className="upload-audio-form-column">
+                            {/* Title Input */}
+                            <div className="upload-audio-form-group">
+                                <label className="upload-audio-label" htmlFor="audioTitle">
+                                    Audio Title
+                                </label>
+                                <input
+                                    type="text"
+                                    id="audioTitle"
+                                    className="upload-audio-input"
+                                    placeholder="Enter a title for your audio..."
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                    required
+                                />
+                            </div>
 
-                    {/* Section Divider */}
-                    <div className="section-divider">OR</div>
-
-                    {/* Recording Section */}
-                    <div className="recording-section">
-                        <label className="upload-audio-label">
-                            Record Audio Live
-                        </label>
-                        <div className="recording-controls">
-                            {!isRecording ? (
-                                <button
-                                    className="record-btn start"
-                                    onClick={startRecording}
-                                    disabled={!!file}
-                                >
-                                    <span>🎤</span>
-                                    Start Recording
-                                </button>
-                            ) : (
-                                <>
-                                    <button
-                                        className="record-btn stop"
-                                        onClick={stopRecording}
+                            {/* File Upload Section */}
+                            <div className="upload-audio-form-group">
+                                <label className="upload-audio-label">
+                                    Select Audio File
+                                </label>
+                                <div className="file-input-wrapper">
+                                    <input
+                                        type="file"
+                                        id="audioFile"
+                                        className="file-input-custom"
+                                        accept="audio/*"
+                                        onChange={handleFileChange}
+                                        disabled={isRecording}
+                                    />
+                                    <label
+                                        htmlFor="audioFile"
+                                        className={`file-input-button ${file ? 'has-file' : ''}`}
                                     >
-                                        <span>⏹️</span>
-                                        Stop Recording
+                                        <span>📁</span>
+                                        {file ? `Selected: ${file.name}` : 'Choose Audio File'}
+                                    </label>
+                                </div>
+                            </div>
+
+                            {/* Section Divider */}
+                            <div className="section-divider">OR</div>
+
+                            {/* Recording Section */}
+                            <div className="recording-section">
+                                <label className="upload-audio-label">
+                                    Record Audio Live
+                                </label>
+                                <div className="recording-controls">
+                                    {!isRecording ? (
+                                        <button
+                                            className="record-btn start"
+                                            onClick={startRecording}
+                                            disabled={!!file}
+                                        >
+                                            <span>🎤</span>
+                                            Start Recording
+                                        </button>
+                                    ) : (
+                                        <>
+                                            <button
+                                                className="record-btn stop"
+                                                onClick={stopRecording}
+                                            >
+                                                <span>⏹️</span>
+                                                Stop Recording
+                                            </button>
+                                            <div className="recording-indicator">
+                                                <div className="recording-dot"></div>
+                                                Recording...
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        {/* Right Column - Preview */}
+                        <div className="upload-audio-preview-column">
+                            {file ? (
+                                <div className="selected-file-preview">
+                                    <button
+                                        className="remove-file-btn"
+                                        onClick={removeFile}
+                                        title="Remove file"
+                                        type="button"
+                                    >
+                                        ×
                                     </button>
-                                    <div className="recording-indicator">
-                                        <div className="recording-dot"></div>
-                                        Recording...
+                                    <div className="selected-file-info">
+                                        <div className="file-icon">
+                                            🎵
+                                        </div>
+                                        <div className="file-details">
+                                            <div className="file-name">{file.name}</div>
+                                            <div className="file-size">{formatFileSize(file.size)}</div>
+                                        </div>
                                     </div>
-                                </>
+                                    <div className="audio-preview">
+                                        <audio controls>
+                                            <source src={URL.createObjectURL(file)} type={file.type} />
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="no-file-placeholder">
+                                    <div className="placeholder-icon">🎵</div>
+                                    <p>Select or record an audio file to preview</p>
+                                </div>
                             )}
+                            {/* Action Button */}
+                            <div className="upload-audio-actions">
+                                <button
+                                    className="upload-btn"
+                                    onClick={handleSubmit}
+                                    disabled={!file || !title.trim()}
+                                >
+                                    <span>⬆️</span>
+                                    Upload Audio
+                                </button>
+                            </div>
                         </div>
                     </div>
-
-                    {/* File Preview */}
-                    {file && (
-                        <div className="selected-file-preview">
-                            <button 
-                                className="remove-file-btn" 
-                                onClick={removeFile}
-                                title="Remove file"
-                                type="button"
-                            >
-                                ×
-                            </button>
-                            <div className="selected-file-info">
-                                <div className="file-icon">
-                                    🎵
-                                </div>
-                                <div className="file-details">
-                                    <div className="file-name">{file.name}</div>
-                                    <div className="file-size">{formatFileSize(file.size)}</div>
-                                </div>
-                            </div>
-                            <div className="audio-preview">
-                                <audio controls>
-                                    <source src={URL.createObjectURL(file)} type={file.type} />
-                                    Your browser does not support the audio element.
-                                </audio>
-                            </div>
-                        </div>
-                    )}
-                </ModalBody>
-                
-                <ModalFooter>
-                    <button 
-                        className="upload-btn" 
-                        onClick={handleSubmit} 
-                        disabled={!file || !title.trim()}
-                    >
-                        <span>⬆️</span>
-                        Upload Audio
-                    </button>
-                    <button className="cancel-btn" onClick={toggle}>
-                        Cancel
-                    </button>
-                </ModalFooter>
-            </Modal>
+                </div>
+            </div>
         </div>
     );
 };
