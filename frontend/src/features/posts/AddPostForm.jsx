@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAddNewPostMutation } from "./postsApiSlice";
 import { useSelector } from "react-redux";
 import { selectCurrentUserId } from "../auth/authSlice";
+import UploadAudio from "../profiles/AudioModal";
 import "./AddPostForm.css";
 
 const AddPostForm = () => {
@@ -12,6 +13,8 @@ const AddPostForm = () => {
 
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const [showAudioModal, setShowAudioModal] = useState(false)
+    const [audioTitle, setAudioTitle] = useState('')
     
     const currentUserId = useSelector(selectCurrentUserId)
     
@@ -28,12 +31,25 @@ const AddPostForm = () => {
 
                 setTitle('')
                 setContent('')
+                setUploadedAudioTitle('')
                 navigate('/')
                 // console.log('New post added!')
             } catch (err) {
                 console.error('Failed to save the post', err)
             }
         }
+    }
+
+    const openAudioModal = () => {
+        setShowAudioModal(true)
+    }
+
+    const closeAudioModal = () => {
+        setShowAudioModal(false)
+    }
+
+    const handleAudioTitle = (audioTitle, audioFile) => {
+        setAudioTitle(audioTitle)
     }
 
     const getCharacterCountClass = (count, max) => {
@@ -90,6 +106,13 @@ const AddPostForm = () => {
                     <div className="form-actions">
                         <button
                             type="button"
+                            className="upload-audio-btn"
+                            onClick={openAudioModal}
+                        >
+                            {audioTitle ? `🎵 ${audioTitle}` : '🎵 Upload Audio'}
+                        </button>
+                        <button
+                            type="button"
                             className="save-post-btn"
                             onClick={onSavePostClicked}
                             disabled={!canSave}
@@ -102,6 +125,31 @@ const AddPostForm = () => {
                     </div>
                 </form>
             </div>
+
+            {/* Audio Upload Modal */}
+            {showAudioModal && (
+                <div className="modal-overlay" onClick={closeAudioModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2>Upload Audio</h2>
+                            <button 
+                                className="modal-close-btn" 
+                                onClick={closeAudioModal}
+                                aria-label="Close modal"
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <UploadAudio 
+                                isModal={true} 
+                                onClose={closeAudioModal} 
+                                onAudioAdded={handleAudioTitle}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

@@ -26,10 +26,6 @@ const Login = () => {
         userRef.current.focus()
     }, [])
 
-    // useEffect(() => {
-    //     setErrMsg('')
-    // }, [user, pwd])
-
     // Check for error message from navigation state (from PersistLogin)
     useEffect(() => {
         if (location.state?.error) {

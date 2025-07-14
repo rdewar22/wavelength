@@ -4,11 +4,16 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema({
     title: {
         type: String,
-        required: true
     },
-    content: {
+    message: {
         type: String,
-        required: true
+    },
+    audioTitle: {
+        type: String,
+    },    
+    hasImage: {
+        type: Boolean,
+        default: false
     },
     author: {
         type: mongoose.Schema.Types.ObjectId,

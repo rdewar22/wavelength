@@ -6,7 +6,7 @@ import PostExcerpt from '../posts/PostExcerpt';
 import AudioExcerpt from '../audio/AudioExcerpt';
 import { selectCurrentUserId } from '../auth/authSlice';
 import { Link } from "react-router-dom";
-import UploadAudio from "../profiles/UploadAudio";
+import AudioModal from "../profiles/AudioModal";
 import './MainFeed.css';
 
 // Lazy loading wrapper component
@@ -130,7 +130,7 @@ const MainFeed = () => {
             <h2>All Audio Files</h2>
             <div className="audio-controls">
               {userId ? (
-                <Link to="/uploadaudio" className="add-post-button">
+                <Link to="/" className="add-post-button">
                   Upload Audio
                 </Link>
               ) : (
