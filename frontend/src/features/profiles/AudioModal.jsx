@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { selectCurrentUserId } from "../auth/authSlice";
 import { useUploadAudioMutation } from "../audio/audioApiSlice";
 
-const AudioModal = ({ onClose, onAudioAdded }) => {
+const AudioModal = ({ onClose, handleAudio }) => {
     const [file, setFile] = useState(null);
     const [title, setTitle] = useState('');
     const [isRecording, setIsRecording] = useState(false);
@@ -130,8 +130,8 @@ const AudioModal = ({ onClose, onAudioAdded }) => {
         }
 
         if (onClose) {
-            if (onAudioAdded) {
-                onAudioAdded(title.trim(), file);
+            if (handleAudio) {
+                handleAudio(title.trim(), file);
             }
             onClose();
         } else {

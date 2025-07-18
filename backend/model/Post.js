@@ -2,18 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
-    title: {
-        type: String,
-    },
     message: {
         type: String,
     },
     audioTitle: {
         type: String,
     },    
-    hasImage: {
-        type: Boolean,
-        default: false
+    imageTitle: {
+        type: String,
     },
     author: {
         type: mongoose.Schema.Types.ObjectId,
