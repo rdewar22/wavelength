@@ -1,4 +1,3 @@
-import PostAuthor from "./PostAuthor";
 import ReactionButtons from "./ReactionButtons";
 import TimeAgo from "./TimeAgo";
 import { useParams } from 'react-router-dom';

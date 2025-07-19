@@ -50,7 +50,7 @@
             "type": "node",
             "request": "launch",
             "cwd": "${workspaceFolder}/backend",
-            "runtimeExecutable": "node",
+            "runtimeExecutable": "nodemon",
             "runtimeArgs": ["--inspect", "server.mjs"],
             "console": "integratedTerminal",
             "skipFiles": ["<node_internals>/**"],
