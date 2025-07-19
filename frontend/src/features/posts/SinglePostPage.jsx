@@ -1,5 +1,5 @@
 import ReactionButtons from "./ReactionButtons";
-import TimeAgo from "./TimeAgo";
+import TimeAgo from "../../components/ui/TimeAgo";
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";

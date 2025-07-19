@@ -1,4 +1,4 @@
-import TimeAgoCreated from "./TimeAgoCreated";
+import TimeAgo from "../../components/ui/TimeAgo";
 import UserProfileNav from "../../components/layout/UserProfileNav";
 import { useSelector } from "react-redux";
 import { useDeleteAudioMutation, makeSelectAudioById, useGetAudiosByUserIdQuery } from "./audioApiSlice";
@@ -96,7 +96,7 @@ const AudioExcerpt = React.memo(({ audio }) => {
                     <UserProfileNav userName={audio?.user?.username} userId={userId} />
                 </div>
                 <div className="audio-timestamp">
-                    <TimeAgoCreated created={audio?.createdAt} />
+                    <TimeAgo created={audio?.createdAt} />
                 </div>
             </div>
         </article>
