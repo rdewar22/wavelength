@@ -41,7 +41,7 @@ const uploadAudioAWS = multer({
             const folderPath = 'audio-files';
             
             // Replace any forward slashes in the title with dashes to prevent folder creation
-            const sanitizedTitle = (req?.body?.title || '').replace(/\//g, '-');
+            const sanitizedTitle = (req?.body?.audioTitle || '').replace(/\//g, '-');
             const title = folderPath + "/" + sanitizedTitle + "." + fileExtension;
             
             cb(null, title);

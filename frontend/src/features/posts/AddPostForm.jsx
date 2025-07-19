@@ -11,29 +11,33 @@ const AddPostForm = () => {
 
     const navigate = useNavigate()
 
-    const [title, setTitle] = useState('')
-    const [content, setContent] = useState('')
+    const [description, setDescription] = useState('')
     const [showAudioModal, setShowAudioModal] = useState(false)
     const [audioTitle, setAudioTitle] = useState('')
+    const [imageTitle, setImageTitle] = useState('')
     const [audioFile, setAudioFile] = useState(null);
 
     const currentUserId = useSelector(selectCurrentUserId)
 
+    const onDescriptionChanged = e => setDescription(e.target.value)
 
-    const onTitleChanged = e => setTitle(e.target.value)
-    const onContentChanged = e => setContent(e.target.value)
+    const canSave = (description || audioFile) && !isLoading;
 
-    const canSave = [title, content].every(Boolean) && !isLoading;
-
-    const onSavePostClicked = async () => {
+        const onSavePostClicked = async () => {
         if (canSave) {
             try {
-                await addNewPost({ content, currentUserId }).unwrap()
+                await addNewPost({ 
+                    description, 
+                    currentUserId, 
+                    imageTitle, 
+                    audioTitle, 
+                    audioFile 
+                }).unwrap()
 
-                setTitle('')
-                setContent('')
+                setDescription('')
                 setAudioTitle('')
                 setAudioFile(null)
+                setImageTitle('')
                 navigate('/')
                 // console.log('New post added!')
             } catch (err) {
@@ -83,39 +87,23 @@ const AddPostForm = () => {
                     </div>
                 )}
 
-                <h1 className="add-post-title">Create new Post</h1>
+                <h1 className="add-post-title">new Post</h1>
 
                 <form className="add-post-form" onSubmit={(e) => e.preventDefault()}>
-                    <div className="form-group">
-                        <label htmlFor="postTitle" className="form-label">Post Title</label>
-                        <input
-                            type="text"
-                            id="postTitle"
-                            name="postTitle"
-                            className="form-input"
-                            value={title}
-                            onChange={onTitleChanged}
-                            placeholder="Enter a title for your post..."
-                            maxLength={100}
-                        />
-                        <div className={getCharacterCountClass(title.length, 100)}>
-                            {title.length}/100 characters
-                        </div>
-                    </div>
 
                     <div className="form-group">
-                        <label htmlFor="postContent" className="form-label">Message</label>
+                        <label htmlFor="postDescription" className="form-label">description</label>
                         <textarea
-                            id="postContent"
-                            name="postContent"
+                            id="postDescription"
+                            name="postDescription"
                             className="form-textarea"
-                            value={content}
-                            onChange={onContentChanged}
-                            placeholder="Write your message here."
+                            value={description}
+                            onChange={onDescriptionChanged}
+                            placeholder="description"
                             maxLength={5000}
                         />
-                        <div className={getCharacterCountClass(content.length, 5000)}>
-                            {content.length}/5000 characters
+                        <div className={getCharacterCountClass(description.length, 5000)}>
+                            {description.length}/5000 characters
                         </div>
                     </div>
 
@@ -152,7 +140,7 @@ const AddPostForm = () => {
                                 className="upload-audio-btn"
                                 onClick={openAudioModal}
                             >
-                                {audioTitle ? `🎵 ${audioTitle}` : '🎵 Upload Audio'}
+                                🎵 Upload Audio
                             </button>
                         )}
                     </div>

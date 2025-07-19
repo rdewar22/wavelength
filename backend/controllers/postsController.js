@@ -1,13 +1,13 @@
 const Post = require('../model/Post');
 
 const addNewPost = async (req, res) => {
-    const { message, currentUserId, imageTitle, audioTitle } = req.body;
+    const { description, currentUserId, imageTitle, audioTitle } = req.body;
     if (!currentUserId) return res.status(400).json({ 'message': 'User must be logged in' });
 
     try {
         //create and store the new post
         const result = await Post.create({
-            "message": message,
+            "description": description,
             "author": currentUserId,
             "imageTitle": imageTitle,
             "audioTitle": audioTitle

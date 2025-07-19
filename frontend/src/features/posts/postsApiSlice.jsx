@@ -55,18 +55,26 @@ export const postsApiSlice = apiSlice.injectEndpoints({
             }
         }),
         addNewPost: builder.mutation({
-            query: initialPost => ({
-                url: '/posts',
-                method: 'POST',
-                body: {
-                    ...initialPost,
-                    date: new Date().toISOString(),
-                    reactions: {
-                        thumbsUp: 0,
-                        thumbsDown: 0,
-                    }
+            query: initialPost => {
+                const formData = new FormData();
+                
+                // Add text fields
+                formData.append('description', initialPost.description || '');
+                formData.append('currentUserId', initialPost.currentUserId);
+                formData.append('audioTitle', initialPost.audioTitle || '');
+                formData.append('imageTitle', initialPost.imageTitle || '');
+                
+                // Add audio file if it exists
+                if (initialPost.audioFile) {
+                    formData.append('file', initialPost.audioFile);
                 }
-            }),
+                
+                return {
+                    url: '/posts',
+                    method: 'POST',
+                    body: formData,
+                };
+            },
             invalidatesTags: [
                 { type: 'Post', id: "LIST" }
             ]
