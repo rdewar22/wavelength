@@ -114,7 +114,7 @@ const MainFeed = () => {
 
         <div className="content-sections">
           <div className="posts-section">
-            <h2>All Posts</h2>
+            <h2>Posts</h2>
             <div className="post-controls">
               <Link to={userId ? "/addpostform" : "/login"} className="add-post-button">
                 {userId ? "Create New Post" : "Login"}
@@ -122,24 +122,6 @@ const MainFeed = () => {
             </div>
             <div className="posts-list">
               {postsContent}
-            </div>
-          </div>
-
-          <div className="main-feed-audio-section">
-            <h2>All Audio Files</h2>
-            <div className="audio-controls">
-              {userId ? (
-                <Link to="/" className="add-post-button">
-                  Upload Audio
-                </Link>
-              ) : (
-                <Link to="/login" className="add-post-button">
-                  Login
-                </Link>
-              )}
-            </div>
-            <div className="audio-list">
-              {audiosContent}
             </div>
           </div>
         </div>

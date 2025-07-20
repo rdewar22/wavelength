@@ -50,8 +50,8 @@ const PostExcerpt = React.memo(({ postId, userId }) => {
                     {isDeleting ? '...' : '×'}
                 </button>
             )}
-            <AudioFilePlayer audioTitle={post?.audioTitle} audioAuthorId={post?.author?._id} />
-            <p className="excerpt">{post?.content?.substring(0, 75)}{post?.content?.length > 75 ? '...' : ''}</p>
+            {post?.audioTitle && <AudioFilePlayer audioTitle={post?.audioTitle} audioAuthorId={post?.author?._id} />}
+            <p className="excerpt">{post?.description?.substring(0, 75)}{post?.content?.length > 75 ? '...' : ''}</p>
 
             <div className="postCredit">
                 <div className="post-meta-row">
