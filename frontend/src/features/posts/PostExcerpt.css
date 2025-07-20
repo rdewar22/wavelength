@@ -9,6 +9,7 @@
     position: relative;
     overflow: hidden;
     will-change: transform;
+    margin-bottom: 1rem;
 }
 
 .post-excerpt::before {

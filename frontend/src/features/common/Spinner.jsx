@@ -5,3 +5,5 @@ const Spinner = () => (
         <div className="spinner-inner"></div>
     </div>
 );
+
+export default Spinner;

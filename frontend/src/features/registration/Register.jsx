@@ -87,9 +87,9 @@ const Register = () => {
             setPwd('');
             setMatchPwd('');
         } catch (err) {
-            if (!err?.response) {
+            if (!err?.status) {
                 setErrMsg('No Server Response');
-            } else if (err.response?.status === 409) {
+            } else if (err.status === 409) {
                 setErrMsg('Username Taken');
             } else {
                 setErrMsg('Registration Failed')

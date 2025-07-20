@@ -1,11 +1,10 @@
 import React, { useState, useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useGetPostsQuery } from "../../components/postsApiSlice";
-import { useGetAllAudiosQuery } from '../../components/audioApiSlice';
 import PostExcerpt from '../posts/PostExcerpt';
 import { selectCurrentUserId } from '../../components/authSlice';
 import { Link } from "react-router-dom";
-import AudioModal from "../audio/AudioModal";
+import Spinner from '../common/Spinner';
 import './MainFeed.css';
 
 // Lazy loading wrapper component
@@ -61,18 +60,9 @@ const MainFeed = () => {
     error: postsError
   } = useGetPostsQuery();
 
-  // Fetch all audios
-  const {
-    data: audiosData,
-    isLoading: isAudiosLoading,
-    isSuccess: isAudiosSuccess,
-    isError: isAudiosError,
-    error: audiosError
-  } = useGetAllAudiosQuery();
-
   let postsContent;
   if (isPostsLoading) {
-    postsContent = <p>"Loading posts..."</p>;
+    postsContent = <Spinner />;
   } else if (isPostsSuccess) {
     if (posts?.ids && posts.ids.length > 0) {
       postsContent = [...(posts?.ids || [])].reverse().map(postId => (
@@ -87,31 +77,9 @@ const MainFeed = () => {
     postsContent = <p>Error loading posts: {postsError?.originalStatus} {postsError?.status}</p>
   }
 
-  let audiosContent;
-  if (isAudiosLoading) {
-    audiosContent = <p>"Loading audio files..."</p>;
-  } else if (isAudiosSuccess) {
-    if (audiosData?.ids && audiosData.ids.length > 0) {
-      audiosContent = (audiosData?.ids || []).slice().reverse().map(audioId => {
-        const audio = audiosData.entities[audioId];
-        return (
-          <LazyComponent key={audioId}>
-            {/* <AudioExcerpt audio={audio} /> */}
-          </LazyComponent>
-        );
-      });
-    } else {
-      audiosContent = <p className="empty-state">No audio files uploaded yet. Be the first to share audio!</p>;
-    }
-  } else if (isAudiosError) {
-    audiosContent = <p>Error loading audio files: {audiosError?.originalStatus} {audiosError?.status}</p>
-  }
-
   return (
     <>
       <div className="main-feed">
-
-
         <div className="content-sections">
           <div className="posts-section">
             <h2>Posts</h2>

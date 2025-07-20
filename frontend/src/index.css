@@ -17,8 +17,12 @@
 body {
   font: 1.5rem ;
   min-height: 100vh;
-  background-color: #211e1e;
+  background-color: #0c0208;
   color: #ffffff;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 input, button {

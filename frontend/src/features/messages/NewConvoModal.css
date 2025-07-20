@@ -1,26 +1,41 @@
-.modal-header {
+.new-convo-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 100%;
+    justify-content: space-between;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+}
+
+.new-convo-header h2 {
+    text-align: center; /* Centers the text inside the h2 */
+    flex: 1; /* Makes h2 take remaining space, pushing button to the far right */
+    margin: 0; /* Removes default margins to ensure proper alignment */
 }
 
 .close-button-x {
     margin-top: 0;
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1rem;
     cursor: pointer;
     padding: 0.25rem 0.5rem;
-    color: #ff4444;
+    color: #000000;
     border-radius: 4px;
     transition: background-color 0.2s;
-    margin-left: auto;
+    margin-left: 90%;
+    margin-bottom: 0.5rem;
 }
 
 .close-button-x:hover {
     background-color: #ff69b4;
     color: #000;
+}
+
+.create-chat-button {
+    margin-top: 1rem;
 }
 
 .create-chat-button:not(:disabled) {

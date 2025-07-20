@@ -10,7 +10,7 @@ const NewConvoModal = ({
     onCreateChat, // New prop for handling submission
     defaultChatName = "",
     overlayTitle = "New Conversation",
-    overlayDescription = "Start a new conversation here."
+    overlayDescription = "search for users to start a new conversation"
 }) => {
     const [groupChatName, setGroupChatName] = useState(defaultChatName);
     const [selectedUsers, setSelectedUsers] = useState([]);
@@ -67,15 +67,15 @@ const NewConvoModal = ({
     return (
         <div className="overlay">
             <div className="overlay-content">
-                <div className="modal-header">
+                <button
+                    className="close-button-x"
+                    onClick={toggleOverlay}
+                    aria-label="Close modal"
+                >
+                    ×
+                </button>
+                <div className="new-convo-header">
                     <h2>{overlayTitle}</h2>
-                    <button
-                        className="close-button-x"
-                        onClick={toggleOverlay}
-                        aria-label="Close modal"
-                    >
-                        ×
-                    </button>
                 </div>
                 <p>{overlayDescription}</p>
 

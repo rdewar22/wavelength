@@ -48,7 +48,7 @@ const Profile = () => {
 
   let postsContent;
   if (isPostsLoading) {
-    postsContent = <p>"Loading..."</p>;
+    postsContent = <Spinner />;
   } else if (isPostsSuccess) {
     if (posts?.ids && posts.ids.length > 0) {
       postsContent = [...(posts?.ids || [])].reverse().map(postId => <PostExcerpt key={postId} postId={postId} userId={userId} />);

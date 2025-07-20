@@ -73,8 +73,8 @@ export const UserSearchBar = () => {
                         memoizedData.map((user) => (
                             <Link 
                                 key={user._id}
-                                to={`/publicprofile/${user.username}`} 
-                                state={{ publicUserId: user._id }} 
+                                to={`/${user.username}`} 
+                                state={{ pageUserId: user._id }} 
                                 onClick={handleLinkClick}
                                 className="dropdown-row"
                             >
