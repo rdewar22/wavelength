@@ -3,7 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAddNewPostMutation } from "../../components/postsApiSlice";
 import { useSelector } from "react-redux";
 import { selectCurrentUserId } from "../../components/authSlice";
-import AudioModal from "../profiles/AudioModal";
+import AudioModal from "../audio/AudioModal";
+import AudioFilePlayer from "../audio/AudioFilePlayer";
 import { toast } from "react-toastify";
 import "./AddPostForm.css";
 
@@ -118,31 +119,11 @@ const AddPostForm = () => {
 
                     <div>
                         {audioFile ? (
-                            <div className="selected-file-preview">
-                                <button
-                                    className="remove-file-btn"
-                                    onClick={removeAudio}
-                                    title="Remove audio"
-                                    type="button"
-                                >
-                                    ×
-                                </button>
-                                <div className="selected-file-info">
-                                    <div className="file-icon">
-                                        🎵
-                                    </div>
-                                    <div className="file-details">
-                                        <div className="file-name">{audioFile.name}</div>
-                                        <div className="file-size">{formatFileSize(audioFile.size)}</div>
-                                    </div>
-                                </div>
-                                <div className="audio-preview">
-                                    <audio controls>
-                                        <source src={URL.createObjectURL(audioFile)} type={audioFile.type} />
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                </div>
-                            </div>
+                            <AudioFilePlayer 
+                                audioFile={audioFile}
+                                onRemove={removeAudio}
+                                formatFileSize={formatFileSize}
+                            />
                         ) : (
                             <button
                                 type="button"

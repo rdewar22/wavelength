@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { selectCurrentUserId } from "../../components/authSlice";
 import { useUploadAudioMutation } from "../../components/audioApiSlice";
+import AudioFilePlayer from "./AudioFilePlayer";
 
 const AudioModal = ({ onClose, handleAudio }) => {
     const [file, setFile] = useState(null);
@@ -226,31 +227,11 @@ const AudioModal = ({ onClose, handleAudio }) => {
                 {/* Right Column - Preview */}
                 <div className="upload-audio-preview-column">
                     {file ? (
-                        <div className="selected-file-preview">
-                            <button
-                                className="remove-file-btn"
-                                onClick={removeFile}
-                                title="Remove file"
-                                type="button"
-                            >
-                                ×
-                            </button>
-                            <div className="selected-file-info">
-                                <div className="file-icon">
-                                    🎵
-                                </div>
-                                <div className="file-details">
-                                    <div className="file-name">{file.name}</div>
-                                    <div className="file-size">{formatFileSize(file.size)}</div>
-                                </div>
-                            </div>
-                            <div className="audio-preview">
-                                <audio controls>
-                                    <source src={URL.createObjectURL(file)} type={file.type} />
-                                    Your browser does not support the audio element.
-                                </audio>
-                            </div>
-                        </div>
+                        <AudioFilePlayer 
+                            audioFile={file}
+                            onRemove={removeFile}
+                            formatFileSize={formatFileSize}
+                        />
                     ) : (
                         <div className="no-file-placeholder">
                             <div className="placeholder-icon">🎵</div>
