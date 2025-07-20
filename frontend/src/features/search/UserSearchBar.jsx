@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { useFindUserQuery } from "../users/usersApiSlice";
 import { IoPersonCircleOutline } from "react-icons/io5";
-import "./SearchBar.css";
+import "./UserSearchBar.css";
 
 
-export const SearchBar = () => {
+export const UserSearchBar = () => {
     const [input, setInput] = useState("")
     const [debouncedInput, setDebouncedInput] = useState("");
     const [isFocused, setIsFocused] = useState(false);

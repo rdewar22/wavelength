@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useGetPostsQuery } from '../posts/postsApiSlice';
 import { useGetAllAudiosQuery } from '../audio/audioApiSlice';
 import PostExcerpt from '../posts/PostExcerpt';
-import AudioExcerpt from '../audio/AudioExcerpt';
 import { selectCurrentUserId } from '../auth/authSlice';
 import { Link } from "react-router-dom";
 import AudioModal from "../profiles/AudioModal";
@@ -97,7 +96,7 @@ const MainFeed = () => {
         const audio = audiosData.entities[audioId];
         return (
           <LazyComponent key={audioId}>
-            <AudioExcerpt audio={audio} />
+            {/* <AudioExcerpt audio={audio} /> */}
           </LazyComponent>
         );
       });

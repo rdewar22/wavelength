@@ -5,6 +5,29 @@ const addNewPost = async (req, res) => {
     if (!currentUserId) return res.status(400).json({ 'message': 'User must be logged in' });
 
     try {
+        // Check for existing posts with the same audioTitle or imageTitle by the same author
+        const existingAudio = await Post.findOne({
+            author: currentUserId,
+            audioTitle: audioTitle
+        });
+
+        const existingImage = await Post.findOne({
+            author: currentUserId,
+            imageTitle: imageTitle
+        });
+
+        if (existingAudio) {
+            return res.status(409).json({ 
+                'message': 'You can\'t have two audios with the same title.' 
+            });
+        }
+
+        if (existingImage) {
+            return res.status(409).json({ 
+                'message': 'You can\'t have two images with the same title.' 
+            });
+        }
+
         //create and store the new post
         const result = await Post.create({
             "description": description,

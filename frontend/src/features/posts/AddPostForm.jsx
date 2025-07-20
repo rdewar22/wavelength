@@ -4,6 +4,7 @@ import { useAddNewPostMutation } from "./postsApiSlice";
 import { useSelector } from "react-redux";
 import { selectCurrentUserId } from "../auth/authSlice";
 import AudioModal from "../profiles/AudioModal";
+import { toast } from "react-toastify";
 import "./AddPostForm.css";
 
 const AddPostForm = () => {
@@ -42,6 +43,14 @@ const AddPostForm = () => {
                 // console.log('New post added!')
             } catch (err) {
                 console.error('Failed to save the post', err)
+                toast.error(err.data?.message || 'Failed to save the post', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
             }
         }
     }

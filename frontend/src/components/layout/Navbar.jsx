@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { logOut, selectCurrentUserName, selectCurrentUserId } from "../../features/auth/authSlice"
 import { useLogoutMutation } from "../../features/auth/authApiSlice"
-import { SearchBar } from "../../features/search/SearchBar"
+import { UserSearchBar } from "../../features/search/UserSearchBar"
 import UserProfileNav from "./UserProfileNav"
 
 
@@ -39,7 +39,7 @@ export default function Navbar() {
         <>
             <nav className="nav">
                 <Link to="/" className="site-title">Wavelength</Link>
-                <SearchBar />
+                <UserSearchBar />
                 <div className="nav-links">
                     <ul>
                         <li>

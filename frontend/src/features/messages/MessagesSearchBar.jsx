@@ -5,7 +5,7 @@ import { useFindUserQuery } from "../users/usersApiSlice";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import UserBadgeItem from "../../components/ui/UserBadgeItem.jsx"
-import "../../features/search/SearchBar.css";
+import "../../features/search/UserSearchBar.css";
 
 
 export const MessagesSearchBar = ({ selectedUsers, setSelectedUsers }) => {

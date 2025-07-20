@@ -9,7 +9,6 @@ import { useGetPostsByUserIdQuery } from '../posts/postsApiSlice';
 import { useGetAudiosByUserIdQuery } from '../audio/audioApiSlice';
 import PostExcerpt from '../posts/PostExcerpt';
 import { Spinner } from 'reactstrap';
-import AudioExcerpt from '../audio/AudioExcerpt';
 
 const Profile = () => {
   const location = useLocation();
@@ -81,7 +80,8 @@ const Profile = () => {
       audiosContent = (audiosData?.ids || []).slice().reverse().map(audioId => {
         const audio = audiosData.entities[audioId];
         return (
-          <AudioExcerpt key={audioId} audio={audio} />
+          <div>olo</div>
+          // <AudioExcerpt key={audioId} audio={audio} /> 
         );
       });
       } else {
