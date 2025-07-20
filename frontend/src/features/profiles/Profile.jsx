@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { Link, useParams, useLocation } from "react-router-dom";
 import UploadAvatar from "./UploadAvatar";
-import { selectCurrentUserName, selectCurrentUserId } from "../auth/authSlice";
+import { selectCurrentUserName, selectCurrentUserId } from "../../components/authSlice";
 import { useSelector } from "react-redux";
-import { useGetPostsByUserIdQuery } from '../posts/postsApiSlice';
-import { useGetAudiosByUserIdQuery } from '../audio/audioApiSlice';
+import { useGetPostsByUserIdQuery } from '../../components/postsApiSlice';
+import { useGetAudiosByUserIdQuery } from '../../components/audioApiSlice';
 import PostExcerpt from '../posts/PostExcerpt';
 import { Spinner } from 'reactstrap';
 

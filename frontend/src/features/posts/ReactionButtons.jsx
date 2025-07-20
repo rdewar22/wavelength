@@ -1,4 +1,4 @@
-import { useAddReactionMutation } from './postsApiSlice'
+import { useAddReactionMutation } from '../../components/postsApiSlice'
 
 const reactionEmoji = {
     thumbsUp: '👍',

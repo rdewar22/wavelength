@@ -1,12 +1,12 @@
 import { useLocation, Routes, Route } from "react-router-dom";
 import Register from "./features/registration/Register";
 import Login from "./features/auth/Login";
-import RequireAuth from "./features/auth/RequireAuth";
+import RequireAuth from "./components/RequireAuth";
 import MainFeed from "./features/feed/MainFeed";
 import NotFound from "./features/common/404";
 import AddPostForm from "./features/posts/AddPostForm";
 import Profile from "./features/profiles/Profile";
-import PersistLogin from "./features/auth/PersistLogin";
+import PersistLogin from "./components/PersistLogin";
 import Navbar from "./features/navbar/Navbar";
 import { MessagesTab } from "./features/messages/MessagesTab";
 import { ToastContainer } from 'react-toastify';

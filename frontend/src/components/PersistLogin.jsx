@@ -6,7 +6,7 @@ import { useRefreshMutation } from './authApiSlice';
 import { Spinner } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-import usePersist from '../../hooks/usePersist';
+import usePersist from '../hooks/usePersist';
 
 const PersistLogin = () => {
   const dispatch = useDispatch();

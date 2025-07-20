@@ -2,8 +2,8 @@ import './UploadAvatar.css'
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { selectCurrentUserName } from "../auth/authSlice";
-import { updateProfilePic } from "../auth/authSlice";
+import { selectCurrentUserName } from "../../components/authSlice";
+import { updateProfilePic } from "../../components/authSlice";
 import {
   Form,
   Button,

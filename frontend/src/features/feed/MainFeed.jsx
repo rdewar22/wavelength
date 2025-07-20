@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useGetPostsQuery } from "../../components/postsApiSlice";
-import { useGetAllAudiosQuery } from '../audio/audioApiSlice';
+import { useGetAllAudiosQuery } from '../../components/audioApiSlice';
 import PostExcerpt from '../posts/PostExcerpt';
-import { selectCurrentUserId } from '../auth/authSlice';
+import { selectCurrentUserId } from '../../components/authSlice';
 import { Link } from "react-router-dom";
 import AudioModal from "../profiles/AudioModal";
 import './MainFeed.css';

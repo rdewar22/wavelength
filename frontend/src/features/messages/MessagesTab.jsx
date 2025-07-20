@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from 'react-router-dom';
-import { selectCurrentUserName, selectCurrentUserId } from '../auth/authSlice';
+import { selectCurrentUserName, selectCurrentUserId } from '../../components/authSlice';
 import { useFetchChatsForUserQuery, useAccessChatMutation, useSendMessageMutation, messagesApiSlice } from '../../components/messages/messagesApiSlice';
 import './MessagesTab.css'
 import ChatPreview from './ChatPreview';

@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { selectCurrentUserId } from "../auth/authSlice";
-import { useUploadAudioMutation } from "../audio/audioApiSlice";
+import { selectCurrentUserId } from "../../components/authSlice";
+import { useUploadAudioMutation } from "../../components/audioApiSlice";
 
 const AudioModal = ({ onClose, handleAudio }) => {
     const [file, setFile] = useState(null);

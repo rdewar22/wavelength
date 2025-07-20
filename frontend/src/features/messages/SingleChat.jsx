@@ -5,7 +5,7 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import animationData from "../../assets/animations/typing.json"
 import { useGetMessagesInChatQuery, useSendMessageMutation, messagesApiSlice } from '../../components/messages/messagesApiSlice';
 import "./SingleChat.css"
-import { selectCurrentUserName, selectCurrentUserId } from '../auth/authSlice';
+import { selectCurrentUserName, selectCurrentUserId } from '../../components/authSlice';
 import socketManager from '../../components/messages/SocketManager';
 
 const SingleChat = ({ chatId }) => {

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAddNewPostMutation } from "./postsApiSlice";
+import { useAddNewPostMutation } from "../../components/postsApiSlice";
 import { useSelector } from "react-redux";
-import { selectCurrentUserId } from "../auth/authSlice";
+import { selectCurrentUserId } from "../../components/authSlice";
 import AudioModal from "../profiles/AudioModal";
 import { toast } from "react-toastify";
 import "./AddPostForm.css";

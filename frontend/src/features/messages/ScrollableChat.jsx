@@ -7,7 +7,7 @@ import {
   isSameUser,
 } from "../../config/ChatLogics";
 import { useSelector } from "react-redux";
-import { selectCurrentUserId } from "../../features/auth/authSlice";
+import { selectCurrentUserId } from "../../components/authSlice";
 import "./ScrollableChat.css"
 
 const ScrollableChat = React.memo(({ messages }) => {

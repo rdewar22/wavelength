@@ -3,7 +3,7 @@ import TimeAgo from "../common/TimeAgo";
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import { selectPostById } from "./postsApiSlice";
+import { selectPostById } from "../../components/postsApiSlice";
 
 const SinglePostPage = () => {
     const { postId } = useParams()

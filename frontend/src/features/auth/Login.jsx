@@ -2,8 +2,8 @@ import { useRef, useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 
 import { useDispatch } from "react-redux"
-import { setCredentials } from "./authSlice"
-import { useLoginMutation } from "./authApiSlice"
+import { setCredentials } from "../../components/authSlice"
+import { useLoginMutation } from "../../components/authApiSlice"
 import usePersist from "../../hooks/usePersist"
 import './Login.css'
 
