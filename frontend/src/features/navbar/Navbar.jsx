@@ -2,10 +2,10 @@ import "./Navbar.css"
 import { useRef } from "react"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { logOut, selectCurrentUserName, selectCurrentUserId } from "../../features/auth/authSlice"
-import { useLogoutMutation } from "../../features/auth/authApiSlice"
-import { UserSearchBar } from "../../features/search/UserSearchBar"
-import UserProfileNav from "./UserProfileNav"
+import { logOut, selectCurrentUserName, selectCurrentUserId } from "../auth/authSlice"
+import { useLogoutMutation } from "../auth/authApiSlice"
+import { UserSearchBar } from "../search/UserSearchBar"
+import UserProfileNav from "../profiles/UserProfileNav"
 
 
 export default function Navbar() {

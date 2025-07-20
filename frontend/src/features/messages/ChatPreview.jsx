@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { selectCurrentUserId } from "../../features/auth/authSlice"
-import { useDeleteChatMutation } from "./messagesApiSlice"
+import { useDeleteChatMutation } from "../../components/messages/messagesApiSlice"
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { useState } from "react";
 import "./ChatPreview.css"

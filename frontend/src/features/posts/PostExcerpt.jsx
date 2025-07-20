@@ -1,4 +1,4 @@
-import TimeAgo from "../../components/ui/TimeAgo";
+import TimeAgo from "../common/TimeAgo";
 import ReactionButtons from "./ReactionButtons";
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
@@ -6,7 +6,7 @@ import { selectCurrentUserId } from "../auth/authSlice";
 import { selectPostByIdFromAnyCache, useDeletePostMutation } from "./postsApiSlice";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import UserProfileNav from "../../components/layout/UserProfileNav";
+import UserProfileNav from "../profiles/UserProfileNav";
 import React from "react";
 import "./PostExcerpt.css"
 

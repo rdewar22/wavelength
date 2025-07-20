@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
-import { useGetPostsQuery } from '../posts/postsApiSlice';
+import { useGetPostsQuery } from "../../components/postsApiSlice";
 import { useGetAllAudiosQuery } from '../audio/audioApiSlice';
 import PostExcerpt from '../posts/PostExcerpt';
 import { selectCurrentUserId } from '../auth/authSlice';

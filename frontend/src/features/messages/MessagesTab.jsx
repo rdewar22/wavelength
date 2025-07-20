@@ -2,13 +2,13 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from 'react-router-dom';
 import { selectCurrentUserName, selectCurrentUserId } from '../auth/authSlice';
-import { useFetchChatsForUserQuery, useAccessChatMutation, useSendMessageMutation, messagesApiSlice } from './messagesApiSlice';
+import { useFetchChatsForUserQuery, useAccessChatMutation, useSendMessageMutation, messagesApiSlice } from '../../components/messages/messagesApiSlice';
 import './MessagesTab.css'
 import ChatPreview from './ChatPreview';
-import ProfileModal from '../../components/ui/ProfileModal';
+import ProfileModal from '../profiles/ProfileModal';
 import NewConvoModal from './NewConvoModal';
 import SingleChat from './SingleChat';
-import socketManager from './SocketManager';
+import socketManager from '../../components/messages/SocketManager';
 
 export const MessagesTab = () => {
     const dispatch = useDispatch();

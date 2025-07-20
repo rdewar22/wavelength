@@ -3,7 +3,7 @@ import {
     createEntityAdapter
 } from "@reduxjs/toolkit";
 import { sub } from 'date-fns';
-import { apiSlice } from "../../app/api/apiSlice";
+import { apiSlice } from "../app/api/apiSlice";
 
 const postsAdapter = createEntityAdapter({
     // sortComparer: (a, b) => b.date.localeCompare(a.date),

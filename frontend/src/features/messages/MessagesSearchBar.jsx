@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { useFindUserQuery } from "../users/usersApiSlice";
+import { useFindUserQuery } from "../../components/usersApiSlice.jsx";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
-import UserBadgeItem from "../../components/ui/UserBadgeItem.jsx"
+import UserBadgeItem from "./UserBadgeItem.jsx"
 import "../../features/search/UserSearchBar.css";
 
 

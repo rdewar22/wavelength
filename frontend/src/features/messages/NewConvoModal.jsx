@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MessagesSearchBar } from './MessagesSearchBar'; // Updated import path
-import { useAccessChatMutation } from './messagesApiSlice';
+import { useAccessChatMutation } from '../../components/messages/messagesApiSlice';
 import { toast } from 'react-toastify';
 import './NewConvoModal.css';
 

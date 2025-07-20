@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRegisterMutation } from "./registrationApiSlice";
+import { useRegisterMutation } from "../../components/registrationApiSlice";
 import { Link } from "react-router-dom";
 import "./Register.css";
 

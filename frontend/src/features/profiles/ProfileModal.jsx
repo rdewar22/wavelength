@@ -1,5 +1,5 @@
 import { useState } from "react"; // Add this import
-import { useFindUserQuery } from "../../features/users/usersApiSlice";
+import { useFindUserQuery } from "../../components/usersApiSlice";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import "./ProfileModal.css"
 

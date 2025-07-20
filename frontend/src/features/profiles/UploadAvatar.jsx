@@ -15,7 +15,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "reactstrap";
-import { useNewProfPicMutation } from "../users/usersApiSlice";
+import { useNewProfPicMutation } from "../../components/usersApiSlice";
 
 const UploadAvatar = ({
   avatarUrl,

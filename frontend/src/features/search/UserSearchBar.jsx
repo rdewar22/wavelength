@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { useFindUserQuery } from "../users/usersApiSlice";
+import { useFindUserQuery } from "../../components/usersApiSlice";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import "./UserSearchBar.css";
 

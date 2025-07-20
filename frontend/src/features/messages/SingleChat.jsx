@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import ScrollableChat from './ScrollableChat';
 import { Player } from '@lottiefiles/react-lottie-player';
 import animationData from "../../assets/animations/typing.json"
-import { useGetMessagesInChatQuery, useSendMessageMutation, messagesApiSlice } from './messagesApiSlice';
+import { useGetMessagesInChatQuery, useSendMessageMutation, messagesApiSlice } from '../../components/messages/messagesApiSlice';
 import "./SingleChat.css"
 import { selectCurrentUserName, selectCurrentUserId } from '../auth/authSlice';
-import socketManager from './SocketManager';
+import socketManager from '../../components/messages/SocketManager';
 
 const SingleChat = ({ chatId }) => {
     const dispatch = useDispatch();
