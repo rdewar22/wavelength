@@ -1,13 +1,14 @@
-import TimeAgo from "../common/TimeAgo";
-import ReactionButtons from "./ReactionButtons";
+import React from "react";
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import { selectCurrentUserId } from "../../components/authSlice";
-import { selectPostByIdFromAnyCache, useDeletePostMutation } from "../../components/postsApiSlice";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { selectCurrentUserId } from "../../components/authSlice";
+import { selectPostByIdFromAnyCache, useDeletePostMutation } from "../../components/postsApiSlice";
+import AudioFilePlayer from "../audio/AudioFilePlayer";
 import UserProfileNav from "../profiles/UserProfileNav";
-import React from "react";
+import ReactionButtons from "./ReactionButtons";
+import TimeAgo from "../common/TimeAgo";
 import "./PostExcerpt.css"
 
 const PostExcerpt = React.memo(({ postId, userId }) => {
@@ -40,20 +41,21 @@ const PostExcerpt = React.memo(({ postId, userId }) => {
         <article className="post-excerpt">
             <h3 className="post-title">{post?.title}</h3>
             {postAuthorId === currentUserId && (
-                    <button
-                        onClick={handleDelete}
-                        disabled={isDeleting}
-                        className="delete-post-button"
-                        title="Delete post"
-                    >
-                        {isDeleting ? '...' : '×'}
-                    </button>
-                )}
+                <button
+                    onClick={handleDelete}
+                    disabled={isDeleting}
+                    className="delete-post-button"
+                    title="Delete post"
+                >
+                    {isDeleting ? '...' : '×'}
+                </button>
+            )}
+            <AudioFilePlayer audioTitle={post?.audioTitle} audioAuthorId={post?.author?._id} />
             <p className="excerpt">{post?.content?.substring(0, 75)}{post?.content?.length > 75 ? '...' : ''}</p>
-            
+
             <div className="postCredit">
                 <div className="post-meta-row">
-                    {post?.content?.length > 75 && (
+                    {post?.description?.length > 75 && (
                         <Link to={`/singlepost/${post?._id}`} className="view-post-link">
                             View Post
                         </Link>
@@ -61,13 +63,14 @@ const PostExcerpt = React.memo(({ postId, userId }) => {
                     <div className="author-info">
                         <span>by</span>
                         <UserProfileNav userName={post?.author?.username} userId={post?.author?._id} />
+                        <div className="time-ago">
+                            <TimeAgo created={post?.createdAt} lastEdited={post?.updatedAt} />
+                        </div>
                     </div>
                 </div>
-                <div className="time-ago">
-                    <TimeAgo created={post?.createdAt} lastEdited={post?.updatedAt} />
-                </div>
+
             </div>
-            
+
             <ReactionButtons post={post} />
         </article>
     )

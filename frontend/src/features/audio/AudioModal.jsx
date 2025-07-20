@@ -1,10 +1,7 @@
 import './AudioModal.css'
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { selectCurrentUserId } from "../../components/authSlice";
-import { useUploadAudioMutation } from "../../components/audioApiSlice";
 import AudioFilePlayer from "./AudioFilePlayer";
 
 const AudioModal = ({ onClose, handleAudio }) => {
@@ -12,8 +9,6 @@ const AudioModal = ({ onClose, handleAudio }) => {
     const [title, setTitle] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const [mediaRecorder, setMediaRecorder] = useState(null);
-    const [uploadAudio] = useUploadAudioMutation();
-    const userId = useSelector(selectCurrentUserId);
     const navigate = useNavigate();
 
     const handleFileChange = (event) => {
@@ -123,16 +118,28 @@ const AudioModal = ({ onClose, handleAudio }) => {
             return;
         }
 
+        // Check if the title is empty
         if (!title.trim()) {
             toast.error("Please enter a title for your audio", {
                 hideProgressBar: true,
             });
             return;
         }
+        
+        // Check if the file is an allowed audio format
+        const extension = file.name.split('.').pop();
+        if (extension !== 'mp3' && extension !== 'wav' && extension !== 'ogg' && extension !== 'm4a' && extension !== 'webm') {
+            toast.error("Only MP3, WAV, OGG, M4A, and WebM audio formats are allowed", {
+                hideProgressBar: true,
+            });
+            return;
+        }
+
+        const fullTitle = title.trim() + '.' + extension;
 
         if (onClose) {
             if (handleAudio) {
-                handleAudio(title.trim(), file);
+                handleAudio(fullTitle, file);
             }
             onClose();
         } else {

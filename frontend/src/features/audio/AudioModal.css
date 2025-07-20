@@ -300,7 +300,6 @@
     position: relative;
     background: #f8fafc;
     border-radius: 12px;
-    padding: 1.5rem;
     border: 1px solid #e2e8f0;
     width: 100%;
     max-width: 400px;
@@ -310,7 +309,6 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1rem;
 }
 
 .file-icon {

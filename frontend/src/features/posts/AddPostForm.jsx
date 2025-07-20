@@ -118,9 +118,10 @@ const AddPostForm = () => {
                     </div>
 
                     <div>
-                        {audioFile ? (
+                        {audioFile || audioTitle ? (
                             <AudioFilePlayer 
                                 audioFile={audioFile}
+                                audioTitle={audioTitle}
                                 onRemove={removeAudio}
                                 formatFileSize={formatFileSize}
                             />
