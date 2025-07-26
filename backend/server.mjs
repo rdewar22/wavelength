@@ -27,6 +27,7 @@ import apiPublicPostsRoute from './routes/api/publicPosts.js';
 import apiPublicAudiosRoute from './routes/api/publicAudios.js';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
+import allowedOrigins from './config/allowedOriginsFrontend.js';
 
 dotenv.config({ path: '.env' }) //uncomment to use production db and .env
 
@@ -42,7 +43,7 @@ const httpServer = createServer(app);
 // Create Socket.IO instance
 const io = new Server(httpServer, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: allowedOrigins,
         methods: ["GET", "POST"],
         credentials: true
     },

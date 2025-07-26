@@ -5,8 +5,8 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha --exit",
     "start": "node server.mjs",
-    "dev": "nodemon --inspect server.mjs",
-    "build": "node server.mjs"
+    "dev": "NODE_ENV=development nodemon --inspect server.mjs",
+    "build": "NODE_ENV=production node server.mjs"
   },
   "author": "",
   "license": "ISC",

@@ -1,6 +1,7 @@
 import io from "socket.io-client";
+import allowedOriginsBackend from "../../app/allowedOriginsBackend";
 
-const ENDPOINT = "http://localhost:3500";
+const ENDPOINT = allowedOriginsBackend;
 
 // Singleton socket manager to prevent multiple connections
 class SocketManager {
