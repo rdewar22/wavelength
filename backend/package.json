@@ -4,9 +4,9 @@
   "main": "server.mjs",
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha --exit",
-    "start": "echo 'No build step needed for this project'",
+    "start": "node server.mjs",
     "dev": "NODE_ENV=development nodemon --inspect server.mjs",
-    "build": "node server.mjs"
+    "build": "echo 'No build step needed for this project'"
   },
   "author": "",
   "license": "ISC",
