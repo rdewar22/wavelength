@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
+    const dbUri = process.env.NODE_ENV === 'test' ? process.env.TEST_DATABASE_URI : process.env.DATABASE_URI;
+
     try {
-        await mongoose.connect(process.env.DATABASE_URI);
+        await mongoose.connect(dbUri);
     } catch (err) {
         console.error(err);
     }

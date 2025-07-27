@@ -29,7 +29,9 @@ import { Server } from 'socket.io';
 import { createServer } from 'http';
 import allowedOrigins from './config/allowedOriginsFrontend.js';
 
-dotenv.config({ path: '.env' }) //uncomment to use production db and .env
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development') {
+    dotenv.config({ path: '.env' }) //uncomment to use production db and .env
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -83,7 +85,7 @@ io.on("connection", (socket) => {
                     // console.log("Skipping sender:", user._id);
                     return;
                 }
-                
+
                 // console.log("Emitting message to user:", user._id);
                 // Broadcast to all sockets in the room
                 io.in(user._id).emit("message received", newMessageReceived);

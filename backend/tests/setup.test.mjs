@@ -1,7 +1,6 @@
 import * as dotenv from 'dotenv';
 import User from '../model/User.js';
 
-dotenv.config({ path: './.env.test'}); 
 
 before(async () => {
     try {
