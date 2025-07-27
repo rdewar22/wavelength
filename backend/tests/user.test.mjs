@@ -7,11 +7,12 @@ use(chaiHttp);
 
 // const req = request.execute(server);
 
-describe('/First Test Collection', () => {
+describe('User Authentication Tests', () => {
   
   it('test default API welcome route...', (done) => {
     request.execute(server).get('/test')
       .end((err, res) => {
+        if (err) return done(err);
         should().exist(res);  // Make sure res exists
         res.should.have.status(200);
         res.body.should.be.a('object');
@@ -30,6 +31,7 @@ describe('/First Test Collection', () => {
     request.execute(server).post('/register')
       .send(newUser)
       .end((err, res) => {
+        if (err) return done(err);
         res.should.have.status(201);
         done();
       });
@@ -44,6 +46,7 @@ describe('/First Test Collection', () => {
     request.execute(server).post('/auth')
       .send(user)
       .end((err, res) => {
+        if (err) return done(err);
         res.should.have.status(200);
         done();
       });
