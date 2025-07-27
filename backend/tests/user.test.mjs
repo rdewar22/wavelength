@@ -2,10 +2,7 @@ import { should, expect, use } from 'chai';
 import { default as chaiHttp, request } from 'chai-http';
 import server from '../server.mjs'
 
-
 use(chaiHttp);
-
-// const req = request.execute(server);
 
 describe('User Authentication Tests', () => {
   
@@ -31,7 +28,11 @@ describe('User Authentication Tests', () => {
     request.execute(server).post('/register')
       .send(newUser)
       .end((err, res) => {
-        if (err) return done(err);
+        if (err) {
+          console.log('Registration error:', err);
+          return done(err);
+        }
+        console.log('Registration response:', res.status, res.body);
         res.should.have.status(201);
         done();
       });
@@ -45,8 +46,13 @@ describe('User Authentication Tests', () => {
 
     request.execute(server).post('/auth')
       .send(user)
+      .timeout(10000)
       .end((err, res) => {
-        if (err) return done(err);
+        if (err) {
+          console.log('Login error:', err);
+          return done(err);
+        }
+        console.log('Login response:', res.status, res.body);
         res.should.have.status(200);
         done();
       });
