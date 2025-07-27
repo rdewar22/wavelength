@@ -22,6 +22,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Build Backend
+      working-directory: ./backend
+      run: npm run build    
+
     # - name: Install Frontend Dependencies
     #   working-directory: ./frontend
     #   run: npm install
