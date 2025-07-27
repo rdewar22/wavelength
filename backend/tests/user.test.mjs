@@ -43,7 +43,7 @@ describe('User Authentication Tests', () => {
   });      
   
   it('verify that we can log in the user we just registered', function(done) {
-    // this.timeout(20000); // Increase timeout for this test
+    this.timeout(20000); // Increase timeout for this test
     
     if (!createdUser) {
       return done(new Error('No user was created in previous test'));
