@@ -39,23 +39,25 @@ describe('User Authentication Tests', () => {
   });      
   
   it('verify that we can log in the user we just registered', (done) => {
-    const user = {
-      user: "Robby",
-      pwd: "Newyorkmets1!" 
-    }
+    // Add a small delay to ensure registration is complete
+    setTimeout(() => {
+      const user = {
+        user: "Robby",
+        pwd: "Newyorkmets1!" 
+      }
 
-    request.execute(server).post('/auth')
-      .send(user)
-      .timeout(10000)
-      .end((err, res) => {
-        if (err) {
-          console.log('Login error:', err);
-          return done(err);
-        }
-        console.log('Login response:', res.status, res.body);
-        res.should.have.status(200);
-        done();
-      });
+      request.execute(server).post('/auth')
+        .send(user)
+        .end((err, res) => {
+          if (err) {
+            console.log('Login error:', err);
+            return done(err);
+          }
+          console.log('Login response:', res.status, res.body);
+          res.should.have.status(200);
+          done();
+        });
+    }, 100);
   });      
   
   it('should test two values....', () => {
