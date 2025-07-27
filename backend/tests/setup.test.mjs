@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv';
 import User from '../model/User.js';
 import mongoose from 'mongoose';
 
