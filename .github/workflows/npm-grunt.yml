@@ -1,4 +1,4 @@
-name: NodeJS with Grunt
+name: NodeJS Build and Test
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [18.x, 20.x]
 
     steps:
     - uses: actions/checkout@v4
@@ -22,7 +22,22 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Build
-      run: |
-        npm install
-        grunt
+    - name: Install Frontend Dependencies
+      working-directory: ./frontend
+      run: npm install
+
+    - name: Run Frontend Tests
+      working-directory: ./frontend
+      run: npm test
+
+    - name: Build Frontend
+      working-directory: ./frontend
+      run: npm run build
+
+    - name: Install Backend Dependencies
+      working-directory: ./backend
+      run: npm install
+
+    - name: Run Backend Tests
+      working-directory: ./backend
+      run: npm test
