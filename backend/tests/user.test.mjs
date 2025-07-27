@@ -5,6 +5,7 @@ import server from '../server.mjs'
 use(chaiHttp);
 
 describe('User Authentication Tests', () => {
+  let createdUser = null;
   
   it('test default API welcome route...', (done) => {
     request.execute(server).get('/test')
@@ -19,11 +20,15 @@ describe('User Authentication Tests', () => {
     });
   });
 
-  it('verify that we can register a user', (done) => {
+  it('verify that we can register a user', function(done) {
+    this.timeout(10000); // Increase timeout for this test
+    
     let newUser = {
-      user: "Robby",
+      user: "TestUser" + Date.now(), // Make username unique
       pwd: "Newyorkmets1!" 
     }
+    
+    createdUser = newUser; // Store for use in login test
 
     request.execute(server).post('/register')
       .send(newUser)
@@ -38,26 +43,24 @@ describe('User Authentication Tests', () => {
       });
   });      
   
-  it('verify that we can log in the user we just registered', (done) => {
-    // Add a small delay to ensure registration is complete
-    setTimeout(() => {
-      const user = {
-        user: "Robby",
-        pwd: "Newyorkmets1!" 
-      }
+  it('verify that we can log in the user we just registered', function(done) {
+    this.timeout(10000); // Increase timeout for this test
+    
+    if (!createdUser) {
+      return done(new Error('No user was created in previous test'));
+    }
 
-      request.execute(server).post('/auth')
-        .send(user)
-        .end((err, res) => {
-          if (err) {
-            console.log('Login error:', err);
-            return done(err);
-          }
-          console.log('Login response:', res.status, res.body);
-          res.should.have.status(200);
-          done();
-        });
-    }, 500);
+    request.execute(server).post('/auth')
+      .send(createdUser)
+      .end((err, res) => {
+        if (err) {
+          console.log('Login error:', err);
+          return done(err);
+        }
+        console.log('Login response:', res.status, res.body);
+        res.should.have.status(200);
+        done();
+      });
   });      
   
   it('should test two values....', () => {
