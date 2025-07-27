@@ -28,6 +28,9 @@ jobs:
 
     - name: Build Backend
       working-directory: ./backend
+      env:
+        NODE_ENV: test
+        TEST_DATABASE_URI: mongodb://localhost:27017/wavelength_test
       run: npm run build    
 
     - name: Start MongoDB
@@ -43,7 +46,7 @@ jobs:
       run: |
         npm run test
 
-        
+
     # - name: Install Frontend Dependencies
     #   working-directory: ./frontend
     #   run: npm install
