@@ -21,10 +21,16 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.10.0
+      with:
+        mongodb-version: '6.0'    
     
     - name: Install Backend Dependencies
       working-directory: ./backend
       run: npm install
+
 
     - name: Build Backend
       working-directory: ./backend
@@ -33,10 +39,6 @@ jobs:
         TEST_DATABASE_URI: mongodb://localhost:27017/wavelength_test
       run: npm run build    
 
-    - name: Start MongoDB
-      uses: supercharge/mongodb-github-action@1.10.0
-      with:
-        mongodb-version: '6.0'
   
     - name: Run Backend Tests
       working-directory: ./backend
