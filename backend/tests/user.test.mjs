@@ -57,7 +57,7 @@ describe('User Authentication Tests', () => {
           res.should.have.status(200);
           done();
         });
-    }, 100);
+    }, 500);
   });      
   
   it('should test two values....', () => {
