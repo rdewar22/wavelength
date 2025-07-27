@@ -1,5 +1,6 @@
 import { should, expect, use } from 'chai';
 import { default as chaiHttp, request } from 'chai-http';
+import mongoose from 'mongoose';
 import server from '../server.mjs'
 
 use(chaiHttp);
@@ -11,6 +12,27 @@ describe('User Authentication Tests', () => {
     console.log('=== Starting User Authentication Tests ===');
     console.log('Environment:', process.env.NODE_ENV);
     console.log('Database URI available:', !!process.env.TEST_DATABASE_URI || !!process.env.DATABASE_URI);
+  });
+
+  // Make sure your test waits for MongoDB to be ready
+  beforeEach(async function() {
+    // Wait for MongoDB connection
+    if (mongoose.connection.readyState !== 1) {
+      console.log('Waiting for MongoDB connection...');
+      await new Promise((resolve) => {
+        if (mongoose.connection.readyState === 1) {
+          resolve();
+        } else {
+          mongoose.connection.once('open', resolve);
+        }
+      });
+    }
+    
+    // Ping to ensure connection is working
+    if (mongoose.connection.db) {
+      await mongoose.connection.db.admin().ping();
+    }
+    console.log('MongoDB connection ready');
   });
   
   it('test default API welcome route...', (done) => {
@@ -80,6 +102,8 @@ describe('User Authentication Tests', () => {
       console.error('No user was created in previous test');
       return done(new Error('No user was created in previous test'));
     }
+
+    this.timeout(10000);
 
     console.log('Attempting to login user:', createdUser.user);
     
