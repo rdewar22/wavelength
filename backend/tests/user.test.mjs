@@ -103,8 +103,6 @@ describe('User Authentication Tests', () => {
       return done(new Error('No user was created in previous test'));
     }
 
-    this.timeout(5000);
-
     console.log('Attempting to login user:', createdUser.user);
     
     request.execute(server).post('/auth')
