@@ -36,7 +36,7 @@ jobs:
       working-directory: ./backend
       env:
         NODE_ENV: test
-        TEST_DATABASE_URI: mongodb+srv://dewarrob:8OmuW76lfXKFoBbk@cluster0.2t5g0.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0
+        TEST_DATABASE_URI: mongodb://localhost:27017/wavelength_test
       run: npm run build    
 
   
@@ -44,7 +44,7 @@ jobs:
       working-directory: ./backend
       env:
         NODE_ENV: test
-        TEST_DATABASE_URI: mongodb+srv://dewarrob:8OmuW76lfXKFoBbk@cluster0.2t5g0.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0
+        TEST_DATABASE_URI: mongodb://localhost:27017/wavelength_test
       run: |
         npm run test
 
