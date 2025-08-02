@@ -169,7 +169,7 @@ app.use(errorHandler);
 httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 mongoose.connection.once('open', () => {
-    // console.log('Connected to MongoDB');
+    console.log('Connected to MongoDB');
 });
 
 // Make io available to other modules
