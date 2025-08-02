@@ -29,15 +29,7 @@ jobs:
     
     - name: Install Backend Dependencies
       working-directory: ./backend
-      run: npm install
-
-
-    - name: Build Backend
-      working-directory: ./backend
-      env:
-        NODE_ENV: test
-        TEST_DATABASE_URI: mongodb://localhost:27017/wavelength_test
-      run: npm run build    
+      run: npm install 
 
   
     - name: Run Backend Tests
