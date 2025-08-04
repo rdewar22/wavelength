@@ -108,8 +108,10 @@ io.on("connection", (socket) => {
 // Connect to MongoDB
 connectDB();
 
-// custom middleware logger
-app.use(logger);
+if (process.env.NODE_ENV === 'development') {
+    app.use(logger);
+}
+
 
 // Handle options credentials check - before CORS
 // and fetch cookies credentials requirement
