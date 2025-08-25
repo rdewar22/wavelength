@@ -3,7 +3,7 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import { Link, useParams, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Spinner } from 'reactstrap';
-import { selectCurrentUserName, selectCurrentUserId } from "../../components/authSlice";
+import { selectCurrentUserName, selectCurrentUserId, selectProfilePicUri, selectisProfPicInDb } from "../../components/authSlice";
 import { useGetPostsByUserIdQuery } from '../../components/postsApiSlice';
 import UploadAvatar from "./UploadAvatar";
 import PostExcerpt from '../posts/PostExcerpt';
@@ -16,23 +16,30 @@ const Profile = () => {
   const { pageUserName } = useParams();
 
   const loggedInUserName = useSelector(selectCurrentUserName);
+  const userId = useSelector(selectCurrentUserId);
+  const reduxProfilePicUri = useSelector(selectProfilePicUri);
+  const reduxIsProfPicInDb = useSelector(selectisProfPicInDb);
 
   const canEdit = loggedInUserName === pageUserName;
 
-  const userId = useSelector(selectCurrentUserId);
-  // const user = useSelector(state => state.auth.user);
-
   const [isProfPic, setProfPic] = useState(true);
   const [isProfPicLoading, setIsProfPicLoading] = useState(true);
-
-  // Use profile picture URL from Redux store (user object now has profilePicUri)
-  const profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${pageUserName}_profPic.jpeg`;
-
   const [counter, setCounter] = useState(0);
 
-  // Use the profilePicUri from Redux (which now includes cache busting) or add counter for manual refresh
+  // Determine if this is the logged-in user's profile
+  const isOwnProfile = loggedInUserName === pageUserName;
+
+  // Use Redux state for own profile, fallback for other users' profiles
+  const profilePicUri = isOwnProfile && reduxProfilePicUri ? 
+    reduxProfilePicUri : 
+    `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${pageUserName}_profPic.jpeg`;
+
+  // Use Redux state for own profile, or default logic for other users
+  const hasProfilePic = isOwnProfile ? reduxIsProfPicInDb : isProfPic;
+
+  // Add counter-based cache busting for manual refresh
   const imageSrc = counter > 0
-    ? `${profilePicUri}?v=${counter}`
+    ? `${profilePicUri}${profilePicUri.includes('?') ? '&' : '?'}manual=${counter}`
     : profilePicUri;
 
   // Fetch posts
@@ -71,7 +78,7 @@ const Profile = () => {
         <div className='profile-page-header'>
           <div className="avatar">
             <div className="avatar-wrapper">
-              {isProfPic ? (
+              {hasProfilePic ? (
                 <>
                   {isProfPicLoading && <Spinner />}
                   <img
@@ -79,10 +86,13 @@ const Profile = () => {
                     alt={`${pageUserName} avatar`}
                     onLoad={() => setIsProfPicLoading(false)}
                     onError={() => {
-                      setProfPic(false);
+                      // Only update local state for non-own profiles
+                      if (!isOwnProfile) {
+                        setProfPic(false);
+                      }
                       setIsProfPicLoading(false);
                     }}
-                    style={{ display: isPostsLoading ? 'none' : 'block' }}
+                    style={{ display: isProfPicLoading ? 'none' : 'block' }}
                   />
                 </>
               ) : (

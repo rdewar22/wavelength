@@ -76,16 +76,19 @@ const handleLogin = async (req, res) => {
         res.cookie('jwt', newRefreshToken, cookieOptions);
 
         // Send authorization roles, access token, and user data to user
-        res.json({ 
+        const responseData = { 
             roles, 
             accessToken, 
             userId,
+            isProfPicInDb: foundUser.isProfPicInDb || false,
             user: {
                 _id: foundUser._id,
                 username: foundUser.username,
-                profilePicUri: foundUser.profilePicUri
+                isProfPicInDb: foundUser.isProfPicInDb || false
             }
-        });
+        };
+        console.log('Login response:', { isProfPicInDb: foundUser.isProfPicInDb, username: foundUser.username });
+        res.json(responseData);
 
     } else {
         res.sendStatus(401);

@@ -4,16 +4,15 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { selectCurrentUserId } from "../../components/authSlice";
-import { selectPostByIdFromAnyCache, useDeletePostMutation } from "../../components/postsApiSlice";
+import { useDeletePostMutation } from "../../components/postsApiSlice";
 import AudioFilePlayer from "../audio/AudioFilePlayer";
 import UserProfileNav from "../profiles/UserProfileNav";
 import ReactionButtons from "./ReactionButtons";
 import TimeAgo from "../common/TimeAgo";
 import "./PostExcerpt.css"
 
-const PostExcerpt = React.memo(({ postId, userId }) => {
-    const currentUserId = useSelector(selectCurrentUserId);
-    const post = useSelector(state => selectPostByIdFromAnyCache(state, postId, userId))
+const PostExcerpt = React.memo(({ postId, post }) => {
+    const currentUserId = useSelector(selectCurrentUserId); 
     const postAuthorId = post?.author?._id;
     const [deletePost, { isLoading: isDeleting }] = useDeletePostMutation();
 

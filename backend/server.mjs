@@ -144,13 +144,13 @@ app.use('/refresh', refreshRoute);
 app.use('/publicUsers', apiPublicUsersRoute);
 app.use('/publicPosts', apiPublicPostsRoute);
 app.use('/publicAudios', apiPublicAudiosRoute);
-app.use(verifyJWT);
 app.use('/posts', apiPostsRoute);
+app.use('/audios', apiAudiosRoute);
+app.use(verifyJWT);
 app.use('/logout', logoutRoute);
 app.use('/employees', apiEmployeesRoute);
 app.use('/users', apiUsersRoute);
 app.use('/messages', apiMessagesRoute);
-app.use('/audios', apiAudiosRoute);
 
 // catch-all 404
 app.all('*', (req, res) => {

@@ -33,8 +33,9 @@ const newProfilePic = async (req, res) => {
     const username = req?.params?.username;
     if (!username) return res.status(400).json({ "message": 'User name required' });
     const user = await User.findOne({ username: username});
-    user.profilePicUri = `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${username}_profPic.jpeg`;
-    user.save();
+    if (!user) return res.status(404).json({ "message": 'User not found' });
+    user.isProfPicInDb = true;
+    await user.save();
     
     try {
         const { username } = req.params;

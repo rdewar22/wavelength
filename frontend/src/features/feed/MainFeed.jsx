@@ -16,10 +16,7 @@ const LazyComponent = ({ children, threshold = 0.1 }) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         setIsVisible(true);
-        // Disconnect observer once component is visible
-        if (ref.current) {
-          ref.current.disconnect();
-        }
+      
       }
     });
   }, []);
@@ -49,7 +46,7 @@ const LazyComponent = ({ children, threshold = 0.1 }) => {
 };
 
 const MainFeed = () => {
-  const userId = useSelector(selectCurrentUserId);
+  const currentUserId = useSelector(selectCurrentUserId);
 
   // Fetch all posts
   const {
@@ -65,9 +62,9 @@ const MainFeed = () => {
     postsContent = <Spinner />;
   } else if (isPostsSuccess) {
     if (posts?.ids && posts.ids.length > 0) {
-      postsContent = [...(posts?.ids || [])].reverse().map(postId => (
+      postsContent = posts.ids.slice().reverse().map(postId => (
         <LazyComponent key={postId}>
-          <PostExcerpt postId={postId} userId={userId} />
+          <PostExcerpt postId={postId} post={posts.entities[postId]} />
         </LazyComponent>
       ));
     } else {
@@ -84,8 +81,8 @@ const MainFeed = () => {
           <div className="posts-section">
             <h2>Posts</h2>
             <div className="post-controls">
-              <Link to={userId ? "/addpostform" : "/login"} className="add-post-button">
-                {userId ? "Create New Post" : "Login"}
+              <Link to={currentUserId ? "/addpostform" : "/login"} className="add-post-button">
+                {currentUserId ? "Create New Post" : "Login"}
               </Link>
             </div>
             <div className="posts-list">

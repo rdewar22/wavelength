@@ -6,6 +6,7 @@ const verifyRoles = require('../../middleware/verifyRoles');
 const { uploadAudioAWS } = require('../../middleware/uploadAudio');
 
 router.route('/')
+    .get(postsController.getAllPosts)
     .post(verifyRoles(ROLES_LIST.User),
         uploadAudioAWS.single('file'),
         async (req, res, next) => {

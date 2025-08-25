@@ -50,14 +50,14 @@ const addNewPost = async (req, res) => {
 }
 
 const getAllPosts = async (req, res) => {
-    const posts = await Post.find().populate("author", "username userId");
+    const posts = await Post.find().populate("author");
     if (!posts) return res.status(204).json({ 'message': 'No posts found' });
     res.json(posts);
 }
 
 const getPostsByUserId = async (req, res) => {
     if (!req?.params?.userId) return res.status(400).json({ "message": 'username required' });
-    const posts = await Post.find({ author: req.params.userId }).populate("author", "username userId");
+    const posts = await Post.find({ author: req.params.userId }).populate("author", "username _id");
     if (!posts) {
         return res.status(404).json({ message: `Username: ${req.params.userId} posts not found` });
     }

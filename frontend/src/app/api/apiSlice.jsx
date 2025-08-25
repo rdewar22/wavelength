@@ -30,7 +30,8 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
             api.dispatch(setCredentials({ 
                 user: refreshResult.data.user,
                 accessToken: refreshResult.data.accessToken,
-                userId: refreshResult.data.userId
+                userId: refreshResult.data.userId,
+                isProfPicInDb: refreshResult.data.isProfPicInDb
             }))
             // retry the original query with new access token
             result = await baseQuery(args, api, extraOptions)

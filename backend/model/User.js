@@ -18,8 +18,9 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    profilePicUri: {
-        type: String,
+    isProfPicInDb: {
+        type: Boolean,
+        default: false
     },
     refreshToken: [String]
 });

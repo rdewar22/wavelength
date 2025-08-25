@@ -178,25 +178,3 @@ export const getUserPostSelectors = (userId) => {
     });
 };
 
-// Combined selector that can find posts from either global or user-specific cache
-export const selectPostByIdFromAnyCache = createSelector(
-    [
-        // Input selector 1: Try global cache
-        (state, postId) => selectPostById(state, postId),
-        // Input selector 2: Try user-specific cache
-        (state, postId, userId) => {
-            if (!userId) return null;
-            const userPostsResult = postsApiSlice.endpoints.getPostsByUserId.select(userId)(state);
-            const userPostsData = userPostsResult?.data;
-            return userPostsData?.entities?.[postId] || null;
-        },
-        // Input selector 3: Pass through the postId for validation
-        (state, postId) => postId
-    ],
-    // Result function: Choose the first available post and ensure it has an id
-    (globalPost, userPost, postId) => {
-        const post = globalPost || userPost;
-        // Add minimal transformation to avoid the identity function warning
-        return post && post._id === postId ? post : null;
-    }
-);

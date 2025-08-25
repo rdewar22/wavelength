@@ -43,7 +43,8 @@ const Login = () => {
             dispatch(setCredentials({ 
                 user: userData.user,
                 accessToken: userData.accessToken,
-                userId: userData.userId
+                userId: userData.userId,
+                isProfPicInDb: userData.isProfPicInDb
             }))
             setUser('')
             setPwd('')

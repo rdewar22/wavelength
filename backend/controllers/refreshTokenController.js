@@ -131,16 +131,19 @@ const handleRefreshToken = async (req, res) => {
         });
 
         // Send response
-        return res.json({
+        const responseData = {
             accessToken,
             userName: decoded.username,
             userId: foundUser._id,
+            isProfPicInDb: foundUser.isProfPicInDb || false,
             user: {
                 _id: foundUser._id,
                 username: foundUser.username,
-                profilePicUri: foundUser.profilePicUri
+                isProfPicInDb: foundUser.isProfPicInDb || false
             }
-        });
+        };
+        console.log('Refresh response:', { isProfPicInDb: foundUser.isProfPicInDb, username: foundUser.username });
+        return res.json(responseData);
 
     } catch (err) {
         // Handle JWT verification errors
