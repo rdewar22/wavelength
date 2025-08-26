@@ -146,10 +146,6 @@
   margin-top: 20px;
 }
 
-.posts-section {
-  flex: 1;
-}
-
 /* Audio Section */
 .audio-section {
   margin: 0;
@@ -168,7 +164,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 5px;
+  height: 4.6rem;
   background: linear-gradient(90deg, #ff4444, #ff69b4, #ff4444);
   background-size: 200% 100%;
   animation: gradientMove 3s ease infinite;
