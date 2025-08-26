@@ -1,9 +1,11 @@
+@import '../../styles/variables.css';
+
 /* Profile Container */
 .profile {
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
-  background: rgba(41, 159, 123, 0.9);
+  background: var(--primary-color);
   min-height: 100vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -14,7 +16,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background: rgba(41, 159, 123, 0.9);
+  background: var(--primary-color);
   padding: 20px;
   border-radius: 25px;
   box-shadow: 0 20px 40px rgba(255, 68, 68, 0.3);
@@ -72,7 +74,7 @@
 .profile .avatar .avatar-wrapper button {
   position: absolute;
   bottom: -10px;
-  background: linear-gradient(135deg, #ff4444, #ff69b4);
+  background: var(--secondary-color);
   border: none;
   border-radius: 25px;
   padding: 8px 16px;
@@ -92,7 +94,7 @@
 }
 
 .profile .avatar .avatar-wrapper button:hover {
-  background: linear-gradient(135deg, #ff69b4, #ff4444);
+  background: var(--secondary-color);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(255, 68, 68, 0.5);
 }
@@ -134,7 +136,7 @@
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: linear-gradient(135deg, #ff4444, #ff69b4);
+  background: var(--secondary-color);
   border-radius: 2px;
 }
 
@@ -165,7 +167,7 @@
   left: 0;
   right: 0;
   height: 4.6rem;
-  background: linear-gradient(90deg, #ff4444, #ff69b4, #ff4444);
+  background: var(--secondary-color);
   background-size: 200% 100%;
   animation: gradientMove 3s ease infinite;
 }
@@ -201,7 +203,7 @@
   align-items: center;
   justify-content: center;
   padding: 12px 24px;
-  background: rgba(41, 159, 123, 0.9);
+  background: var(--primary-color);
   color: #ffffff;
   text-decoration: none;
   border-radius: 25px;
@@ -235,7 +237,7 @@
   text-decoration: none;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-  background: rgb(68, 156, 191);
+  background: var(--secondary-color);
 }
 
 .audio-list {

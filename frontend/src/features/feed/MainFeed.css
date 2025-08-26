@@ -1,9 +1,11 @@
+@import '../../styles/variables.css';
+
 /* Main Feed Container */
 .main-feed {
   max-width: 80%;
   margin: 0 auto;
   padding: 10px 20px;
-  background: rgba(41, 159, 123, 0.9);
+  background: var(--primary-color);
   min-height: 100vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

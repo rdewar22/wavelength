@@ -1,5 +1,7 @@
+@import '../../styles/variables.css';
+
 .nav {
-    background: rgba(41, 159, 123, 0.9);
+    background: var(--primary-color);
     color: white;
     display: flex;
     justify-content: space-between;
@@ -31,7 +33,7 @@
 .nav .site-title {
     font-size: 2.2rem;
     font-weight: 700;
-    background: black;
+    background: var(--tertiary-color);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -149,7 +151,7 @@
 
 /* Search bar integration styling */
 .search-container {
-    background: black;
+    background: var(--tertiary-color);
     border-radius: 25px;
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 105, 180, 0.2);
