@@ -1,4 +1,4 @@
-
+@import '../../styles/variables.css';
 
 .logo {
     color: white;
@@ -15,8 +15,17 @@
 }
 
 .login-header {
+    margin-top: 5rem;
     text-align: center;
     font-size: 4em;
+}
+
+.username-label {
+    margin-top: 1rem;
+}
+
+.password-label {
+    margin-top: 1rem;
 }
 
 .loading-message {
@@ -64,6 +73,7 @@
 }
 
 .login input, .login button {
+    margin-top: 0.5rem;
     padding: 0.5em;
     border-radius: 15px;
 }
@@ -83,7 +93,7 @@
 }
 
 /* Password toggle button styling */
-.password-toggle-btn {
+.password-visible-btn {
     position: absolute;
     right: 0.5rem;
     top: 50%;
@@ -94,7 +104,6 @@
     font-size: 1.2rem;
     padding: 0.25rem;
     border-radius: 4px;
-    transition: background-color 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -102,31 +111,123 @@
     height: 2rem;
 }
 
-.password-toggle-btn:hover {
+.password-visible-btn:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.password-toggle-btn:focus {
+.password-visible-btn:focus {
     outline: 2px solid #007bff;
     outline-offset: 2px;
 }
 
-.form__persist {
+.form-persist {
+    margin-top: 1rem;
     display: flex;
     align-items: center;
     transform: translateX(-27%);
     gap: 0.5rem;
 }
 
-.form__checkbox {
+.form-checkbox {
     width: 1.3rem;
     height: 1.3rem;
 }
 
+.login-links-container {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 13rem;
+    margin-top: 0.5rem;
+}
+
 .no_account {
-    transform: translateX(-18%);
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
 }
 
 .forgot_password {
-    transform: translateX(-43%);
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.no_account:hover,
+.forgot_password:hover {
+    text-decoration: underline;
+}
+
+.sign-in-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 8px 25px rgba(255, 105, 180, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 1.5rem;
+    min-width: 180px;
+    backdrop-filter: blur(10px);
+}
+
+.sign-in-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--secondary-color);
+    transition: left 0.6s ease;
+}
+
+.sign-in-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 35px rgba(255, 105, 180, 0.4),
+        0 8px 20px rgba(0, 0, 0, 0.15);
+    background: var(--secondary-color);
+    filter: brightness(1.1);
+}
+
+.sign-in-btn:hover::before {
+    left: 100%;
+}
+
+.sign-in-btn:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 6px 20px rgba(255, 105, 180, 0.3),
+        0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sign-in-btn:focus {
+    outline: none;
+    box-shadow: 
+        0 8px 25px rgba(255, 105, 180, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        0 0 0 3px rgba(255, 105, 180, 0.2);
+}
+
+.sign-in-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sign-in-btn:disabled:hover {
+    transform: none;
+    filter: none;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #ff4444 100%);
 }

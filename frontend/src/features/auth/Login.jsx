@@ -90,7 +90,7 @@ const Login = () => {
 
 
             <form className="login-form" onSubmit={handleSubmit}>
-                <label htmlFor="username">Username:</label>
+                <label className="username-label" htmlFor="username">Username:</label>
                 <input
                     type="text"
                     id="username"
@@ -101,7 +101,7 @@ const Login = () => {
                     required
                 />
 
-                <label htmlFor="password">Password:</label>
+                <label className="password-label" htmlFor="password">Password:</label>
                 <div className="password-input-container">
                     <input
                         type={showPassword ? "text" : "password"}
@@ -113,26 +113,28 @@ const Login = () => {
                     />
                     <button
                         type="button"
-                        className="password-toggle-btn"
+                        className="password-visible-btn"
                         onClick={togglePasswordVisibility}
                         aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                         {showPassword ? "🙈" : "👁️"}
                     </button>
                 </div>
-                <label htmlFor="persist" className="form__persist">
+                <label htmlFor="persist" className="form-persist">
                     <input
                         type="checkbox"
-                        className="form__checkbox"
+                        className="form-checkbox"
                         id="persist"
                         onChange={handlePersistClick}
                         checked={persist}
                     />
                     Trust This Device
                 </label>
-                <Link className="no_account" to='/register'>Don't have an account?</Link>
-                <Link className="forgot_password" to='/register'>Forgot Password?</Link>
-                <button>Sign In</button>
+                <div className="login-links-container">
+                    <Link className="no_account" to='/register'>Don't have an account?</Link>
+                    <Link className="forgot_password" to='/register'>Forgot Password?</Link>
+                </div>
+                <button className="sign-in-btn">Sign In</button>
             </form>
         </section>
     )

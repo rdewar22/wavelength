@@ -2,7 +2,7 @@
 
 /* Main Feed Container */
 .main-feed {
-  max-width: 80%;
+  max-width: 40%;
   margin: 0 auto;
   padding: 10px 20px;
   background: var(--primary-color);
