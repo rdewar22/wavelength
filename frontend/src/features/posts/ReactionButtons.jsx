@@ -1,34 +1,56 @@
 import { useAddReactionMutation } from '../../components/postsApiSlice'
+import './ReactionButtons.css'
 
-const reactionEmoji = {
-    thumbsUp: '👍',
-    thumbsDown: '👎'
+const reactionConfig = {
+    thumbsUp: {
+        icon: '♥',
+        activeIcon: '♥',
+        color: '#f91880',
+        hoverColor: 'rgba(249, 24, 128, 0.1)',
+        label: 'Like'
+    },
+    thumbsDown: {
+        icon: 'ｘ',
+        activeIcon: 'ｘ',
+        color: '#00ba7c',
+        hoverColor: 'rgba(0, 186, 124, 0.1)',
+        label: 'Repost'
+    }
 }
-
 
 const ReactionButtons = ({ post }) => {
     const [addReaction] = useAddReactionMutation()
 
-    const ReactionButtons = Object.entries(reactionEmoji).map(([name, emoji]) => {
-        return (
-            <button
-                key={name}
-                type="button"
-                className="reaction-button"
-                onClick={() => {
-                    const newValue = post.reactions[name] + 1;
-                    addReaction({ postId: post._id, reactions: { ...post.reactions, [name]: newValue } })
-                }
+    const handleReaction = (reactionType) => {
+        const newValue = post.reactions[reactionType] + 1;
+        addReaction({ 
+            postId: post._id, 
+            reactions: { ...post.reactions, [reactionType]: newValue } 
+        })
+    }
 
-                }
-            >
-                {emoji} {post?.reactions[name]}
-            </button>
-        )
-    })
-
-    return <div>{ReactionButtons}</div>
-
+    return (
+        <div className="reaction-buttons-container">
+            {Object.entries(reactionConfig).map(([name, config]) => (
+                <button
+                    key={name}
+                    type="button"
+                    className="twitter-reaction-button"
+                    style={{
+                        '--reaction-color': config.color,
+                        '--reaction-hover-bg': config.hoverColor
+                    }}
+                    onClick={() => handleReaction(name)}
+                    aria-label={`${config.label} (${post?.reactions[name]})`}
+                >
+                    <div className="reaction-icon-wrapper">
+                        <span className="reaction-icon">{config.icon}</span>
+                    </div>
+                    <span className="reaction-count">{post?.reactions[name] || 0}</span>
+                </button>
+            ))}
+        </div>
+    )
 }
 
 export default ReactionButtons

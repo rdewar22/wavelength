@@ -1,0 +1,145 @@
+/* Twitter-style Reaction Buttons */
+.reaction-buttons-container {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    margin-top: 12px;
+}
+
+.twitter-reaction-button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    padding: 8px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #536471;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    min-width: 0;
+    outline: none;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.twitter-reaction-button:hover {
+    background-color: var(--reaction-hover-bg);
+}
+
+.twitter-reaction-button:hover .reaction-icon-wrapper {
+    background-color: var(--reaction-hover-bg);
+}
+
+.twitter-reaction-button:hover .reaction-icon {
+    color: var(--reaction-color);
+}
+
+.twitter-reaction-button:hover .reaction-count {
+    color: var(--reaction-color);
+}
+
+.reaction-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34.75px;
+    height: 34.75px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.reaction-icon {
+    font-size: 18px;
+    line-height: 1;
+    transition: all 0.2s ease;
+    color: #536471;
+    font-weight: normal;
+}
+
+.reaction-count {
+    font-size: 13px;
+    color: #536471;
+    transition: all 0.2s ease;
+    margin-left: 4px;
+    min-width: 16px;
+    text-align: left;
+}
+
+/* Active state (when reaction count > 0) */
+.twitter-reaction-button.active .reaction-icon {
+    color: var(--reaction-color);
+}
+
+.twitter-reaction-button.active .reaction-count {
+    color: var(--reaction-color);
+}
+
+/* Animation on click */
+@keyframes reaction-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.twitter-reaction-button:active .reaction-icon-wrapper {
+    animation: reaction-pulse 0.3s ease;
+}
+
+/* Heart animation specifically */
+.twitter-reaction-button:active .reaction-icon {
+    animation: reaction-pulse 0.3s ease;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .reaction-buttons-container {
+        gap: 32px;
+    }
+    
+    .twitter-reaction-button {
+        padding: 6px;
+    }
+    
+    .reaction-icon-wrapper {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .reaction-icon {
+        font-size: 16px;
+    }
+    
+    .reaction-count {
+        font-size: 12px;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .twitter-reaction-button {
+        border: 1px solid transparent;
+    }
+    
+    .twitter-reaction-button:hover {
+        border-color: var(--reaction-color);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .twitter-reaction-button,
+    .reaction-icon-wrapper,
+    .reaction-icon,
+    .reaction-count {
+        transition: none;
+    }
+    
+    @keyframes reaction-pulse {
+        0%, 100% { transform: scale(1); }
+    }
+}
