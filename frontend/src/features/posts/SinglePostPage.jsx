@@ -1,5 +1,5 @@
 import ReactionButtons from "./ReactionButtons";
-import postTimeStamps from "../common/postTimeStamps";
+import PostTimeStamps from "../common/PostTimeStamps";
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
