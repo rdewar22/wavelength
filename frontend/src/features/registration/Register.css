@@ -23,6 +23,23 @@
     
 }
 
+.register-title {
+  font-size: 3rem;
+}
+
+.username-label {
+  font-size: 1.5rem;
+}
+
+.password-label {
+  font-size: 1.5rem;
+}
+
+.confirm-password-label {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -44,7 +61,8 @@ textarea {
   border-radius: 0.5rem;
 }
 
-button {
+.register-btn {
+  margin-top: 1rem;
   padding: 0.5rem;
   color: white;
   border: none;
@@ -57,24 +75,29 @@ button {
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
-button:active {
+.register-btn:active {
   transform: translateY(0);
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
-button:disabled {
+.register-btn:disabled {
   background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
   cursor: not-allowed;
   transform: none;
   box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
 }
 
-button:disabled:hover {
+.register-btn:disabled:hover {
   transform: none;
   box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
   background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-}
+} 
 
+.sign-in-link {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-size: 1.2rem;
+}
 
 .instructions {
     font-size: 0.75rem;

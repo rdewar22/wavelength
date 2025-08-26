@@ -112,9 +112,9 @@ const Register = () => {
             ) : (
                 <section className="registerSection">
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1>Register</h1>
+                    <h1 className="register-title">Register</h1>
                     <form onSubmit={handleSubmit} autoComplete="off">
-                        <label htmlFor="username">
+                        <label className="username-label" htmlFor="username">
                             Username:
                             <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
@@ -148,7 +148,7 @@ const Register = () => {
                         </p>
 
 
-                        <label htmlFor="password">
+                        <label className="password-label" htmlFor="password">
                             Password:
                             <FontAwesomeIcon icon={faCheck} className={pwdIsValid ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={pwdIsValid || !pwd ? "hide" : "invalid"} />
@@ -188,7 +188,7 @@ const Register = () => {
                         </p>
 
 
-                        <label htmlFor="confirm_pwd">
+                        <label className="confirm-password-label" htmlFor="confirm_pwd">
                             Confirm Password:
                             <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
@@ -210,13 +210,13 @@ const Register = () => {
                             Must match the first password input field.
                         </p>
 
-                        <button disabled={!validName || !pwdIsValid || !validMatch ? true : false}>Sign Up</button>
+                        <button className="register-btn" disabled={!validName || !pwdIsValid || !validMatch ? true : false}>Sign Up</button>
                     </form>
                     <p>
                         Already registered?<br />
                         <span className="line">
                             {/*put router link here*/}
-                            <Link to='/login'>Sign In</Link>
+                            <Link className="sign-in-link" to='/login'>Sign In</Link>
                         </span>
                     </p>
                 </section>
