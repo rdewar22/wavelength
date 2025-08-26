@@ -20,7 +20,7 @@ const PostTimeStamps = ({ created, lastEdited }) => {
     
 
          return (
-         <span style={{ color: 'black' }}>
+         <span style={{ color: 'white' }}>
              <i>{createdDate}</i>
              <br />
              <i>{editedDate}</i>

@@ -1,5 +1,5 @@
 .nav {
-    background: linear-gradient(135deg, #000000 0%, #ff4444 100%);
+    background: rgba(41, 159, 123, 0.9);
     color: white;
     display: flex;
     justify-content: space-between;
@@ -31,7 +31,7 @@
 .nav .site-title {
     font-size: 2.2rem;
     font-weight: 700;
-    background: linear-gradient(45deg, #ffffff, #ff69b4);
+    background: black;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -149,7 +149,7 @@
 
 /* Search bar integration styling */
 .search-container {
-    background: rgba(255, 105, 180, 0.15);
+    background: black;
     border-radius: 25px;
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 105, 180, 0.2);

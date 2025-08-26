@@ -3,7 +3,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
-  background: linear-gradient(135deg, #000000 0%, #ff4444 100%);
+  background: rgba(41, 159, 123, 0.9);
   min-height: 100vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background: linear-gradient(135deg, #ff4444 0%, #ff69b4 100%);
+  background: rgba(41, 159, 123, 0.9);
   padding: 20px;
   border-radius: 25px;
   box-shadow: 0 20px 40px rgba(255, 68, 68, 0.3);
@@ -201,7 +201,7 @@
   align-items: center;
   justify-content: center;
   padding: 12px 24px;
-  background: linear-gradient(135deg, #ff4444 0%, #ff69b4 100%);
+  background: rgba(41, 159, 123, 0.9);
   color: #ffffff;
   text-decoration: none;
   border-radius: 25px;
@@ -212,6 +212,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
+  margin-top: 1rem;
 }
 
 .add-post-button::before {
@@ -234,7 +235,7 @@
   text-decoration: none;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  background: rgb(68, 156, 191);
 }
 
 .audio-list {

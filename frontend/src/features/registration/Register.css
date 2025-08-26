@@ -46,7 +46,6 @@ textarea {
 
 button {
   padding: 0.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
   border-radius: 0.5rem;
@@ -61,7 +60,6 @@ button {
 button:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
 }
 
 button:active {

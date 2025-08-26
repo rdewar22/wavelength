@@ -3,7 +3,7 @@
   max-width: 80%;
   margin: 0 auto;
   padding: 10px 20px;
-  background: linear-gradient(135deg, #000000 0%, #ff4444 100%);
+  background: rgba(41, 159, 123, 0.9);
   min-height: 100vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -92,10 +92,7 @@
 }
 
 .posts-section{
-  background: white;
   border-radius: 25px;
-  box-shadow: 0 20px 40px rgba(255, 68, 68, 0.1);
-  padding: 20px;
   position: relative;
   overflow: hidden;
   flex: 1;
@@ -109,7 +106,7 @@
   left: 0;
   right: 0;
   height: 4.6rem;
-  background: linear-gradient(90deg, #ff4444, #ff69b4, #ff4444);
+  background: black;
   background-size: 200% 100%;
   animation: gradientMove 3s ease infinite;
 }
