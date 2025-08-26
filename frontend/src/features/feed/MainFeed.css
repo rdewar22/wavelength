@@ -1,6 +1,6 @@
 /* Main Feed Container */
 .main-feed {
-  max-width: 1200px;
+  max-width: 80%;
   margin: 0 auto;
   padding: 10px 20px;
   background: linear-gradient(135deg, #000000 0%, #ff4444 100%);

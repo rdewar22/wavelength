@@ -79,7 +79,6 @@ const MainFeed = () => {
       <div className="main-feed">
         <div className="content-sections">
           <div className="posts-section">
-            <h2>Posts</h2>
             <div className="post-controls">
               <Link to={currentUserId ? "/addpostform" : "/login"} className="add-post-button">
                 {currentUserId ? "Create New Post" : "Login"}

@@ -8,7 +8,7 @@ import { useDeletePostMutation } from "../../components/postsApiSlice";
 import AudioFilePlayer from "../audio/AudioFilePlayer";
 import UserProfileNav from "../profiles/UserProfileNav";
 import ReactionButtons from "./ReactionButtons";
-import TimeAgo from "../common/TimeAgo";
+import PostTimeStamps from "../common/PostTimeStamps";
 import "./PostExcerpt.css"
 
 const PostExcerpt = React.memo(({ postId, post }) => {
@@ -63,7 +63,7 @@ const PostExcerpt = React.memo(({ postId, post }) => {
                         <span>by</span>
                         <UserProfileNav userName={post?.author?.username} userId={post?.author?._id} />
                         <div className="time-ago">
-                            <TimeAgo created={post?.createdAt} lastEdited={post?.updatedAt} />
+                            <PostTimeStamps created={post?.createdAt} lastEdited={post?.updatedAt} />
                         </div>
                     </div>
                 </div>

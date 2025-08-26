@@ -1,5 +1,5 @@
 import ReactionButtons from "./ReactionButtons";
-import TimeAgo from "../common/TimeAgo";
+import postTimeStamps from "../common/postTimeStamps";
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
@@ -23,7 +23,7 @@ const SinglePostPage = () => {
             <p>{post.content}</p>
             <p className="postCredit">
                 <Link to={`/publicprofile/${post?.author?.username}`} state={{ publicUserId: post?.author?._id }}>{post?.author?.username}</Link>
-                <TimeAgo created={post.createdAt} lastEdited={post.updatedAt} />
+                <postTimeStamps created={post.createdAt} lastEdited={post.updatedAt} />
             </p>
             <ReactionButtons post={post} />
         </article>

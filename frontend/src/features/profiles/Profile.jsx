@@ -30,8 +30,8 @@ const Profile = () => {
   const isOwnProfile = loggedInUserName === pageUserName;
 
   // Use Redux state for own profile, fallback for other users' profiles
-  const profilePicUri = isOwnProfile && reduxProfilePicUri ? 
-    reduxProfilePicUri : 
+  const profilePicUri = isOwnProfile && reduxProfilePicUri ?
+    reduxProfilePicUri :
     `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${pageUserName}_profPic.jpeg`;
 
   // Use Redux state for own profile, or default logic for other users
@@ -58,9 +58,11 @@ const Profile = () => {
     postsContent = <Spinner />;
   } else if (isPostsSuccess) {
     if (posts?.ids && posts.ids.length > 0) {
-      postsContent = [...(posts?.ids || [])].reverse().map(postId => <PostExcerpt key={postId} postId={postId} userId={userId} />);
+      postsContent = posts.ids.slice().reverse().map(postId => (
+        <PostExcerpt postId={postId} post={posts.entities[postId]} />
+      ));
     } else {
-      postsContent = <p className="empty-state">No posts yet. Share your first post!</p>;
+      postsContent = <p className="empty-state">No posts yet. Be the first to share!</p>;
     }
   } else if (isPostsError) {
     postsContent = <p>Error: {postsError?.originalStatus} {postsError?.status}</p>
