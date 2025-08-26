@@ -12,7 +12,7 @@ router.route('/')
     //.get(verifyRoles(ROLES_LIST.Admin), usersController.getAllUsers)
     .delete(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser);
 
-router.route('/:username')
+router.route('/:username')  // Upload profile picture
     .put(
         verifyRoles(ROLES_LIST.User), // Role verification middleware
         uploadImage.single('file'), // Handle file upload to memory
@@ -46,6 +46,7 @@ router.route('/:username')
         },
         usersController.newProfilePic // Final controller to handle response
     );
+
 
 
 

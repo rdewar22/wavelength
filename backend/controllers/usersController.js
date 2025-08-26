@@ -29,6 +29,14 @@ const findUser = async (req, res) => {
     res.json(users);
 }
 
+const isProfPicInDb = async (req, res) => {
+    const username = req?.params?.username;
+    if (!username) return res.status(400).json({ "message": 'User name required' });
+    const user = await User.findOne({ username: username});
+    if (!user) return res.status(404).json({ "message": 'User not found' });
+    res.json(user.isProfPicInDb);
+}
+
 const newProfilePic = async (req, res) => {
     const username = req?.params?.username;
     if (!username) return res.status(400).json({ "message": 'User name required' });
@@ -58,5 +66,6 @@ module.exports = {
     getAllUsers,
     deleteUser,
     newProfilePic,
-    findUser
+    findUser,
+    isProfPicInDb
 }

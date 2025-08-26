@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { IoPersonCircleOutline } from "react-icons/io5";
-import { selectProfilePicUri, selectisProfPicInDb } from '../../components/authSlice';
+import { useIsProfPicInDbQuery } from '../../components/usersApiSlice';
 import './UserProfileNav.css';
 
 const UserProfileNav = ({ userName, userId }) => {
     // Get profile picture info from Redux state
-    const profilePicUri = useSelector(selectProfilePicUri);
-    const isProfPicInDb = useSelector(selectisProfPicInDb);
+    const { data: isProfPicInDb } = useIsProfPicInDbQuery(userName);
 
     // Fallback profile picture URL (without cache-busting for consistency)
-    const fallbackProfilePicUri = userName ? 
+    const fallbackProfilePicUri = userName ?
         `https://robby-wavelength-test.s3.us-east-2.amazonaws.com/profile-pictures/${userName}_profPic.jpeg` : null;
-    
+
     const linkDestination = userName ? `/${userName}` : "/login";
 
 
@@ -22,7 +20,7 @@ const UserProfileNav = ({ userName, userId }) => {
             <div className="profile-avatar">
                 {userName && isProfPicInDb ? (
                     <img
-                        src={profilePicUri || fallbackProfilePicUri}
+                        src={fallbackProfilePicUri}
                         alt={`${userName} avatar`}
                         className="avatar-image"
                         onError={(e) => {
@@ -31,10 +29,7 @@ const UserProfileNav = ({ userName, userId }) => {
                             e.target.nextSibling.style.display = 'block';
                         }}
                     />
-                ) : null}
-                {(!userName || !isProfPicInDb) && (
-                    <IoPersonCircleOutline className="avatar-icon" />
-                )}
+                ) : <IoPersonCircleOutline className="avatar-icon" />}
             </div>
             {userName ? (
                 <span className="profile-username">{userName}</span>

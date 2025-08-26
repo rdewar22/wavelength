@@ -42,6 +42,10 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 };
             }
         }),
+        isProfPicInDb: builder.query({
+            query: (userName) => `/publicUsers/${userName}/isProfPicInDb`,
+            keepUnusedDataFor: 5,
+        }),
     })
 })
 
@@ -49,4 +53,5 @@ export const {
     useFindUserQuery,
     useGetUserQuery,
     useNewProfPicMutation,
+    useIsProfPicInDbQuery,
 } = usersApiSlice 
